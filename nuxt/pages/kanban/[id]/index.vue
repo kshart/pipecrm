@@ -1,5 +1,8 @@
 <template>
   <v-main>
+    <v-btn :to="`/kanban/${funnel?.id}/edit`">
+      edit
+    </v-btn>
     {{ funnel }}
   </v-main>
 </template>

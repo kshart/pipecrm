@@ -58,22 +58,22 @@ export default NuxtAuthHandler({
   },
   events: {
     async signIn (message: unknown) {
-      console.log('signIn', message)
+      // console.log('signIn', message)
     },
     async signOut (message: unknown) {
-      console.log('signOut', message)
+      // console.log('signOut', message)
     },
     async createUser (message: unknown) {
-      console.log('createUser', message)
+      // console.log('createUser', message)
     },
     async updateUser (message: unknown) {
-      console.log('updateUser', message)
+      // console.log('updateUser', message)
     },
     async linkAccount (message: unknown) {
-      console.log('linkAccount', message)
+      // console.log('linkAccount', message)
     },
     async session (message: unknown) {
-      console.log('session', message)
+      // console.log('session', message)
     },
   }
 })

@@ -1,24 +1,9 @@
 <template>
-  <v-main>
-    {{ funnel }}
-  </v-main>
+  <FlaKanban
+    :id="String(route.params.id)"
+  />
 </template>
 
 <script lang="ts" setup>
 const route = useRoute()
-
-const { data: funnel, error } = await useFetch('/api/funnel/get', {
-  query: {
-    id: route.params.id
-  }
-})
-if (error.value) {
-  throw new Error(String(error.value))
-}
-if (funnel.value) {
-  useHead({
-    title: funnel.value.title,
-  })
-}
-
 </script>
