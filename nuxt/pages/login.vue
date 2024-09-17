@@ -1,25 +1,25 @@
 <template>
   <div>
-    <QBtn @click="login()">
+    <v-btn @click="login()">
       test
-    </QBtn>
+    </v-btn>
     <pre>{{ data }}</pre>
 
-    <QBtn @click="signOut()">
+    <v-btn @click="signOut()">
       signOut
-    </QBtn>
+    </v-btn>
     <pre>{{ providers }}</pre>
 
-    <QBtn
+    <v-btn
       v-for="provider of providers"
       :key="provider.id"
       @click="signIn(provider.id)"
     >
       Sign in with {{ provider.name }}
-    </QBtn>
-    <QBtn @click="signIn('credentials', demoCredentials)">
+    </v-btn>
+    <v-btn @click="signIn('password', demoCredentials)">
       Username and Password
-    </QBtn>
+    </v-btn>
     {{ sss }}
   </div>
 </template>
@@ -36,13 +36,10 @@ const { signIn, signOut, getSession, getProviders } = useAuth()
 
 const providers = await getProviders()
 
-/*
- * NOTE: Here we hard-coded username and password
- * On your own page this should probably be connected to two inputs
- */
 const demoCredentials = {
-  username: 'k.artem@metrika72.ru',
-  password: 'tm9xbL6CFynA-r33',
+  redirect: false,
+  username: 'kshart@yandex.ru',
+  password: '322',
 }
 
 const data = ref<unknown | null>(null)

@@ -1,0 +1,47 @@
+// Модель карточки в процессе
+model Card {
+  id       String   @id @default(cuid())
+  title    String
+  fields   Json
+  tags     String[]
+  userId   String
+  columnId String
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  touchedAt DateTime
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  column    FunnelColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
+}
+
+// Контакт
+model Contact {
+  id       String @id @default(cuid())
+  title    String
+  phone    String
+  telegram String
+  viber    String
+  whatsapp String
+
+  email  String
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Воронка
+model Funnel {
+  id      String         @id @default(cuid())
+  title   String
+  columns FunnelColumn[]
+}
+
+// Колонка у воронки
+model FunnelColumn {
+  id       String @id @default(cuid())
+  funnelId String
+  title    String
+  color    String
+  sort     Int
+  funnel   Funnel @relation(fields: [funnelId], references: [id], onDelete: Cascade)
+  Card     Card[]
+}
