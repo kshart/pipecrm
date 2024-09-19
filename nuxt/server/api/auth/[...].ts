@@ -5,16 +5,13 @@ import type { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import YandexProvider from 'next-auth/providers/yandex'
 
-// const user = await prisma.user.findFirst()
-// console.log(user)
-
 const providers = [
   YandexProvider.default({
     clientId: process.env.YANDEX_CLIENT_ID,
     clientSecret: process.env.YANDEX_CLIENT_SECRET,
     // authorization: { params: { scope: "login:info+login:email+login:avatar" } }
   })
-] as AuthOptions['providers'][]
+] as AuthOptions['providers']
 
 if (process.env.NODE_ENV === 'development') {
   providers.push(
@@ -56,24 +53,24 @@ export default NuxtAuthHandler({
     verifyRequest: '/auth/verify-request',
     newUser: '/'
   },
-  events: {
-    async signIn (message: unknown) {
-      // console.log('signIn', message)
-    },
-    async signOut (message: unknown) {
-      // console.log('signOut', message)
-    },
-    async createUser (message: unknown) {
-      // console.log('createUser', message)
-    },
-    async updateUser (message: unknown) {
-      // console.log('updateUser', message)
-    },
-    async linkAccount (message: unknown) {
-      // console.log('linkAccount', message)
-    },
-    async session (message: unknown) {
-      // console.log('session', message)
-    },
-  }
+  // events: {
+  //   async signIn (message: unknown) {
+  //     console.log('signIn', message)
+  //   },
+  //   async signOut (message: unknown) {
+  //     console.log('signOut', message)
+  //   },
+  //   async createUser (message: unknown) {
+  //     console.log('createUser', message)
+  //   },
+  //   async updateUser (message: unknown) {
+  //     console.log('updateUser', message)
+  //   },
+  //   async linkAccount (message: unknown) {
+  //     console.log('linkAccount', message)
+  //   },
+  //   async session (message: unknown) {
+  //     console.log('session', message)
+  //   },
+  // }
 })

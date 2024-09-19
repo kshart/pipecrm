@@ -22,13 +22,29 @@ export default defineNuxtConfig({
       /* vuetify options */
     }
   },
+  vite: {
+    ssr: {
+      external: ['@prisma/client']
+    },
+    resolve: {
+      alias: {
+        '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js'
+      }
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    }
+  },
   auth: {
     isEnabled: true,
     globalAppMiddleware: true,
     disableServerSideAuth: false,
     originEnvKey: 'AUTH_ORIGIN',
-    // baseURL: 'https://oauth.чточто.рф/api/auth',
-    baseURL: 'http://192.168.0.6:3000/api/auth',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://192.168.0.6:3000/api/auth' : 'https://pipecrm.ru/api/auth',
     provider: {
       type: 'authjs',
       trustHost: false,

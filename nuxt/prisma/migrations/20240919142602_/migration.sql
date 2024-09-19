@@ -1,44 +1,49 @@
 -- CreateTable
 CREATE TABLE "Card" (
-    "id" TEXT NOT NULL,
+    "uuid" UUID NOT NULL,
     "title" TEXT NOT NULL,
     "fields" JSONB NOT NULL,
     "tags" TEXT[],
     "userId" TEXT NOT NULL,
+    "columnUuid" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "touchedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Card_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Card_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
 CREATE TABLE "Contact" (
-    "id" TEXT NOT NULL,
+    "uuid" UUID NOT NULL,
     "title" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
-    "telegram" TEXT NOT NULL,
-    "viber" TEXT NOT NULL,
-    "whatsapp" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "phone" TEXT,
+    "telegram" TEXT,
+    "viber" TEXT,
+    "whatsapp" TEXT,
+    "email" TEXT,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Contact_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
 CREATE TABLE "Funnel" (
-    "id" TEXT NOT NULL,
+    "uuid" UUID NOT NULL,
     "title" TEXT NOT NULL,
 
-    CONSTRAINT "Funnel_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Funnel_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
 CREATE TABLE "FunnelColumn" (
-    "id" TEXT NOT NULL,
+    "uuid" UUID NOT NULL,
+    "funnelUuid" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "color" TEXT,
+    "sort" INTEGER NOT NULL,
 
-    CONSTRAINT "FunnelColumn_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "FunnelColumn_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
@@ -118,7 +123,13 @@ CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credent
 ALTER TABLE "Card" ADD CONSTRAINT "Card_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Card" ADD CONSTRAINT "Card_columnUuid_fkey" FOREIGN KEY ("columnUuid") REFERENCES "FunnelColumn"("uuid") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Contact" ADD CONSTRAINT "Contact_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FunnelColumn" ADD CONSTRAINT "FunnelColumn_funnelUuid_fkey" FOREIGN KEY ("funnelUuid") REFERENCES "Funnel"("uuid") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

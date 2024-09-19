@@ -32,9 +32,7 @@
         />
       </template>
     </v-navigation-drawer>
-    <v-main>
-      <NuxtPage />
-    </v-main>
+    <NuxtPage />
   </v-app>
 </template>
 

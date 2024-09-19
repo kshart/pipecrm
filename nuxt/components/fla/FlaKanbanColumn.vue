@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- eslint-disable vue/no-mutating-props -->
     {{ props }}
     <v-text-field
       v-model="props.column.title"

@@ -9,3 +9,10 @@ sudo docker run -d \
     -v /var/www/pipecrm/postgresql:/var/lib/postgresql/data \
     postgres:latest
 ```
+
+```
+CREATE USER pipecrm WITH PASSWORD 'pipecrm';
+CREATE DATABASE pipecrm;
+GRANT ALL PRIVILEGES ON DATABASE "pipecrm" to pipecrm;
+ALTER DATABASE pipecrm OWNER TO pipecrm;
+```
