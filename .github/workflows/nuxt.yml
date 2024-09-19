@@ -19,6 +19,7 @@ jobs:
         node-version: 22.x
 
     - name: Build
+      working-directory: ./nuxt
       run: |
         npm ci
         npm run build
