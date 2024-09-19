@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   return await prisma.funnel.findFirst({
     where: {
-      id: String(query.id)
+      uuid: String(query.uuid)
     },
     include: {
       columns: true,

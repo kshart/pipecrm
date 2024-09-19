@@ -1,6 +1,6 @@
 <template>
   <FlaKanban
-    :id="String(route.params.id)"
+    :uuid="String(route.params.uuid)"
   />
 </template>
 

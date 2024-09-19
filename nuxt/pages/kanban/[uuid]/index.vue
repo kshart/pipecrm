@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-btn :to="`/kanban/${funnel?.id}/edit`">
+    <v-btn :to="`/kanban/${funnel?.uuid}/edit`">
       edit
     </v-btn>
     {{ funnel }}
@@ -12,11 +12,10 @@ const route = useRoute()
 
 const { data: funnel, error } = await useFetch('/api/funnel/get', {
   query: {
-    id: route.params.id
+    uuid: route.params.uuid
   }
 })
 if (error.value) {
-  console.log(error.value)
   throw new Error(String(error.value))
 }
 if (funnel.value) {

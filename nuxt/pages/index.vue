@@ -3,8 +3,8 @@
     <div>
       Funnels
       {{ data }}
-      <div v-for="funnel in data" :key="funnel.id">
-        <v-btn :to="'/kanban/' + funnel.id">
+      <div v-for="funnel in data" :key="funnel.uuid">
+        <v-btn :to="'/kanban/' + funnel.uuid">
           {{ funnel.title }}
         </v-btn>
       </div>
@@ -22,8 +22,8 @@ const { data } = await useFetch('/api/funnel')
 
 const createFunnel = async () => {
   const { data } = await useFetch('/api/funnel/create')
-  if (data.value?.id) {
-    router.push('/kanban/' + data.value.id)
+  if (data.value?.uuid) {
+    router.push('/kanban/' + data.value.uuid)
   }
 }
 </script>

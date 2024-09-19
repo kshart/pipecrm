@@ -1,47 +1,47 @@
 // Модель карточки в процессе
 model Card {
-  id       String   @id @default(uuid()) @db.Uuid
-  title    String
-  fields   Json
-  tags     String[]
-  userId   String   @db.Uuid
-  columnId String   @db.Uuid
+  uuid       String   @id @default(uuid()) @db.Uuid
+  title      String
+  fields     Json
+  tags       String[]
+  userId     String
+  columnUuid String   @db.Uuid
 
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   touchedAt DateTime
   user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  column    FunnelColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  column    FunnelColumn @relation(fields: [columnUuid], references: [uuid], onDelete: Cascade)
 }
 
 // Контакт
 model Contact {
-  id       String @id @default(uuid()) @db.Uuid
+  uuid     String @id @default(uuid()) @db.Uuid
   title    String
-  phone    String
-  telegram String
-  viber    String
-  whatsapp String
+  phone    String?
+  telegram String?
+  viber    String?
+  whatsapp String?
 
-  email  String
-  userId String @db.Uuid
+  email  String?
+  userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Воронка
 model Funnel {
-  id      String         @id @default(uuid()) @db.Uuid
+  uuid    String         @id @default(uuid()) @db.Uuid
   title   String
   columns FunnelColumn[]
 }
 
 // Колонка у воронки
 model FunnelColumn {
-  id       String @id @default(uuid()) @db.Uuid
-  funnelId String @db.Uuid
-  title    String
-  color    String
-  sort     Int
-  funnel   Funnel @relation(fields: [funnelId], references: [id], onDelete: Cascade)
-  Card     Card[]
+  uuid       String @id @default(uuid()) @db.Uuid
+  funnelUuid String @db.Uuid
+  title      String
+  color      String?
+  sort       Int
+  funnel     Funnel @relation(fields: [funnelUuid], references: [uuid], onDelete: Cascade)
+  Card       Card[]
 }

@@ -1,20 +1,19 @@
 <template>
   <v-main>
-    {{ funnel }}
-    {{ model }}
+    {{ editor.model }}
     <v-text-field
-      v-model="model.title"
+      v-model="editor.model.value.title"
       label="Title"
       hide-details
       required
-      @change="saveModel"
+      @change="editor.saveModel()"
     />
     <FlaKanbanColumn
-      v-for="column in model.columns"
-      :key="column.id"
+      v-for="column in editor.model.value.columns"
+      :key="column.uuid"
       :column="column"
     />
-    <v-btn @click="addColumn">
+    <v-btn @click="editor.addColumn()">
       add column
     </v-btn>
     колонки
@@ -22,47 +21,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { FunnelColumn } from '@prisma/client'
-import { v4 as uuid } from 'uuid'
-
 const props = defineProps<{
-  id: string
+  uuid: string
 }>()
 
-const { data: funnel, error } = await useFetch('/api/funnel/get', {
-  query: {
-    id: props.id
-  }
-})
-if (error.value) {
-  throw new Error(String(error.value))
-}
-if (funnel.value) {
+const editor = await useKanbanEditor(props.uuid)
+if (editor.model.value.title) {
   useHead({
-    title: funnel.value.title,
+    title: editor.model.value.title,
   })
 }
-
-const model = ref({
-  title: funnel.value?.title || '',
-  columns: funnel.value?.columns || [] as FunnelColumn[],
-})
-
-const addColumn = () => {
-  model.value.columns.push({
-    id: uuid(),
-    title: 'hello',
-  })
-}
-
-const saveModel = async () => {
-  const { data: funnel, error } = await useFetch('/api/funnel/update', {
-    method: 'post',
-    query: {
-      id: props.id
-    },
-    body: model.value,
-  })
-}
-
 </script>

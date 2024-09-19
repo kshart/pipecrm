@@ -1,12 +1,11 @@
 model User {
-  id            String          @id @default(uuid()) @db.Uuid
+  id            String          @id @default(cuid())
   name          String?
   email         String          @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime  @default(now())
@@ -16,7 +15,7 @@ model User {
 }
 
 model Account {
-  userId            String  @db.Uuid
+  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -38,7 +37,7 @@ model Account {
 
 model Session {
   sessionToken String   @unique
-  userId       String   @db.Uuid
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -57,7 +56,7 @@ model VerificationToken {
 // Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
-  userId               String  @db.Uuid
+  userId               String
   providerAccountId    String
   credentialPublicKey  String
   counter              Int
