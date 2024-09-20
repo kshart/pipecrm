@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  build: {
+    analyze: true,
+  },
   modules: [
     '@nuxt/eslint',
     '@prisma/nuxt',
@@ -19,10 +22,17 @@ export default defineNuxtConfig({
       /* module specific options */
     },
     vuetifyOptions: {
-      /* vuetify options */
+      icons: false,
     }
   },
   vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          experimentalMinChunkSize: 1000000,
+        }
+      }
+    },
     ssr: {
       external: ['@prisma/client']
     },
@@ -37,7 +47,7 @@ export default defineNuxtConfig({
           silenceDeprecations: ['legacy-js-api'],
         },
       },
-    }
+    },
   },
   auth: {
     isEnabled: true,

@@ -28,7 +28,6 @@ if (process.env.NODE_ENV === 'development') {
         },
       },
       authorize: (credentials, req) => {
-        console.log(credentials, req)
         return {
           'name': 'Kshart',
           'email': 'kshart@yandex.ru',
