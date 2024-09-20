@@ -24,6 +24,7 @@ export default async (uuid: string) => {
         sort: 0,
         color: null,
       })
+      this.saveModel()
     },
     dropColumn (uuid: string) {
       const index = model.value.columns.findIndex(c => c.uuid === uuid)

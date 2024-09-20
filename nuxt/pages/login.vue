@@ -4,10 +4,10 @@
 
     <v-btn
       v-for="provider of providers"
-      :key="provider.id"
-      @click="signIn(provider.id)"
+      :key="provider?.id"
+      @click="signIn(provider?.id)"
     >
-      Sign in with {{ provider.name }}
+      Sign in with {{ provider?.name }}
     </v-btn>
   </div>
 </template>

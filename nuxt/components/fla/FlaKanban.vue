@@ -1,10 +1,13 @@
 <template>
   <v-main>
-    {{ editor.model }}
+    {{ editor.model.value.title }}
+    <v-btn :to="`/kanban/${props.uuid}`">
+      back
+    </v-btn>
     <v-text-field
       v-model="editor.model.value.title"
       label="Title"
-      hide-details
+      hideDetails
       required
       @change="editor.saveModel()"
     />
@@ -12,6 +15,7 @@
       v-for="column in editor.model.value.columns"
       :key="column.uuid"
       :column="column"
+      @change="editor.saveModel()"
     />
     <v-btn @click="editor.addColumn()">
       add column

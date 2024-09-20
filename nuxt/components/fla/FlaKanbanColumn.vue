@@ -5,8 +5,9 @@
     <v-text-field
       v-model="props.column.title"
       label="Title"
-      hide-details
+      hideDetails
       required
+      @change="emit('change')"
     />
   </div>
 </template>
@@ -17,4 +18,6 @@ import type { FunnelColumn } from '@prisma/client'
 const props = defineProps<{
   column: FunnelColumn
 }>()
+
+const emit = defineEmits(['change'])
 </script>

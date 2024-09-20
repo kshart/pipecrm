@@ -5,17 +5,24 @@ import type { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import YandexProvider from 'next-auth/providers/yandex'
 
+interface CredentialsModule {
+  default: typeof Credentials
+}
+interface YandexProviderModule {
+  default: typeof YandexProvider
+}
+
 const providers = [
-  YandexProvider.default({
-    clientId: process.env.YANDEX_CLIENT_ID,
-    clientSecret: process.env.YANDEX_CLIENT_SECRET,
+  (YandexProvider as unknown as YandexProviderModule).default({
+    clientId: String(process.env.YANDEX_CLIENT_ID),
+    clientSecret: String(process.env.YANDEX_CLIENT_SECRET),
     // authorization: { params: { scope: "login:info+login:email+login:avatar" } }
   })
 ] as AuthOptions['providers']
 
 if (process.env.NODE_ENV === 'development') {
   providers.push(
-    Credentials.default({
+    (Credentials as unknown as CredentialsModule).default({
       id: 'password',
       name: 'Password',
       credentials: {
@@ -27,7 +34,7 @@ if (process.env.NODE_ENV === 'development') {
           type: 'password',
         },
       },
-      authorize: (credentials, req) => {
+      authorize: async () => {
         return {
           'name': 'Kshart',
           'email': 'kshart@yandex.ru',
