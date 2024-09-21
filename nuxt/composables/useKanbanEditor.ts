@@ -1,6 +1,9 @@
 import type { FunnelColumn } from '@prisma/client'
 import { v4 as uuidV4 } from 'uuid'
 
+/**
+ * Редактор воронки
+ */
 export default async (uuid: string) => {
   const { data: funnel, error } = await useFetch('/api/funnel/get', {
     query: { uuid }
@@ -35,8 +38,9 @@ export default async (uuid: string) => {
       for (const column of model.value.columns) {
         column.sort = sort++
       }
-      const { data: funnel, error } = await $fetch('/api/funnel/update', {
+      const funnel = await $fetch('/api/funnel/update', {
         method: 'post',
+        fatal: true,
         query: { uuid },
         body: model.value,
       })

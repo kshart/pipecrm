@@ -71,12 +71,14 @@
       temporary
       :width="800"
     >
-      <FlCardFull
-        v-if="cardUuid"
-        :funnel="funnel"
-        :cardUuid="cardUuid"
-        @close="cardUuid = null"
-      />
+      <ClientOnly>
+        <FlCardFull
+          v-if="cardUuid"
+          :funnel="funnel"
+          :cardUuid="cardUuid"
+          @close="cardUuid = null"
+        />
+      </ClientOnly>
     </v-navigation-drawer>
   </v-layout>
 </template>

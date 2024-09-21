@@ -36,9 +36,10 @@ if (process.env.NODE_ENV === 'development') {
       },
       authorize: async () => {
         return {
-          'name': 'Kshart',
-          'email': 'kshart@yandex.ru',
-          'image': 'https://avatars.yandex.net/get-yapic/23134/enc-01aad189a1d20e0d2440bf552847721c20d6fa4e581d699e083721a522e5e84f/islands-200'
+          id: 'test',
+          name: 'Kshart',
+          email: 'kshart@yandex.ru',
+          image: 'https://avatars.yandex.net/get-yapic/23134/enc-01aad189a1d20e0d2440bf552847721c20d6fa4e581d699e083721a522e5e84f/islands-200'
         }
       },
     })
