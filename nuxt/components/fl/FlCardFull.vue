@@ -7,6 +7,9 @@
     <v-btn @click="save()">
       {{ editor.isNewModel.value ? 'create' : 'save' }}
     </v-btn>
+    <v-btn @click="emit('close')">
+      close
+    </v-btn>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ const props = defineProps<{
   cardUuid: string
 }>()
 const propsRef = toRefs(props)
+const emit = defineEmits(['close'])
 
 const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
 

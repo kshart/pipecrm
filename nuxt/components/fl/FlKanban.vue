@@ -9,59 +9,14 @@
         search
       </div>
       <div class="funnel-columns">
-        <div
+        <FlKanbanColumn
           v-for="column of funnel.columns"
           :key="column.uuid"
+          :column="column"
+          :fetchCards="fetchCards(column.uuid)"
           class="column-content"
-        >
-          {{ column.title }}
-          {{ cardUuid }}
-          <v-btn @click="cardUuid = '1'">
-            to 1
-          </v-btn>
-          <v-btn @click="cardUuid = '2'">
-            to 2
-          </v-btn>
-          <v-btn @click="cardUuid = '3'">
-            to 3
-          </v-btn>
-          <v-btn @click="cardUuid = '4'">
-            to 4
-          </v-btn>
-          <v-btn @click="cardUuid = 'new'">
-            to new
-          </v-btn>
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-          {{ column }}
-        </div>
+          @selectCard="cardUuid = $event"
+        />
       </div>
     </div>
     <v-navigation-drawer
@@ -84,6 +39,19 @@
 </template>
 
 <script lang="ts" setup>
+import type { Paginator } from '@/types/index'
+import type { Card } from '@prisma/client'
+
+const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
+  return await $fetch('/api/card/search', {
+    query: {
+      columnUuid,
+      page,
+      perPage,
+    },
+  })
+}
+
 const route = useRoute()
 const router = useRouter()
 const props = defineProps<{
@@ -117,7 +85,7 @@ const cardUuid = computed({
     } else {
       query.card = uuid
     }
-    router.replace({
+    router.push({
       path: route.path,
       query
     })
