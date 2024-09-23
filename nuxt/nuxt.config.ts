@@ -68,4 +68,10 @@ export default defineNuxtConfig({
       enableOnWindowFocus: true,
     }
   },
+
+  nitro: {
+    experimental: {
+      websocket: true
+    },
+  }
 })

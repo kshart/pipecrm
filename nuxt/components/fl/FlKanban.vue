@@ -8,14 +8,22 @@
         </v-btn>
         search
       </div>
-      <div class="funnel-columns">
+      <div
+        ref="columnsRef"
+        class="funnel-columns"
+        @dragleave="onDragleave"
+      >
         <FlKanbanColumn
           v-for="column of funnel.columns"
           :key="column.uuid"
           :column="column"
           :fetchCards="fetchCards(column.uuid)"
           class="column-content"
+          :isDragActive="dragActiveColumn === column.uuid"
           @selectCard="cardUuid = $event"
+          @dragenter="onDragenter"
+          @dragstart="onDragstart"
+          @dragend="onDragend"
         />
       </div>
     </div>
@@ -91,6 +99,37 @@ const cardUuid = computed({
     })
   },
 })
+
+const cardManipulator = useCardManipulator()
+const dragCard = ref<Card | null>(null)
+const columnsRef = ref<HTMLDivElement | null>(null)
+const dragActiveColumn = ref<string | null>(null)
+const onDragenter = (columnUuid: string) => {
+  if (dragCard.value) {
+    dragActiveColumn.value = columnUuid
+  }
+}
+const onDragleave = (e: DragEvent) => {
+  const isMouseup = e.screenX === 0 && e.screenY === 0
+  if (columnsRef.value && !columnsRef.value.contains(e.relatedTarget as Node) && !isMouseup) {
+    dragActiveColumn.value = null
+  }
+}
+const onDragstart = (card: Card) => {
+  dragCard.value = card
+}
+const onDragend = () => {
+  const card = dragCard.value
+  if (card && dragActiveColumn.value && dragActiveColumn.value !== card.columnUuid) {
+    cardManipulator.setColumn(card.uuid, dragActiveColumn.value)
+  }
+  dragActiveColumn.value = null
+}
+if (import.meta.client) {
+  const socket = await useSocket()
+  console.log(socket)
+  socket.socket.emit('wth', { asd: 'asd' })
+}
 </script>
 
 <style scoped lang="scss">
@@ -109,7 +148,6 @@ const cardUuid = computed({
     overflow-y: hidden;
     .column-content {
       width: 300px;
-      background: #0ff;
       overflow-y: auto;
     }
   }
