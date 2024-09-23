@@ -24,8 +24,12 @@ export default defineEventHandler(async (event) => {
     updateData.columnUuid = data.columnUuid
   }
 
-  return await prisma.card.update({
+  const cardUpdated = await prisma.card.update({
     data: updateData,
     where: { uuid },
   })
+  const broadcast = useBroadcast()
+  broadcast.publish('card:update:' + cardUpdated.uuid, cardUpdated)
+
+  return cardUpdated
 })

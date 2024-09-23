@@ -7,9 +7,9 @@ import { defineEventHandler } from 'h3'
 export default defineNitroPlugin((nitroApp: NitroApp) => {
   const engine = new Engine()
   const io = new Server()
-  const redis = useRedis()
-  redis.subscribe('@all')
-  redis.on('message', async (channel, raw) => {
+  const { redisSub } = useBroadcast()
+  redisSub.subscribe('@all')
+  redisSub.on('message', async (channel, raw) => {
     let message
     try {
       message = JSON.parse(raw)

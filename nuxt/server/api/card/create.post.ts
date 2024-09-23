@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
   //   message: "Invalid input",
   // });
 
-  return await prisma.card.create({
+  const card = await prisma.card.create({
     data: {
       title: data.title,
       fields: data.fields,
@@ -28,4 +28,8 @@ export default defineEventHandler(async (event) => {
       columnUuid: funnel.columns?.[0]?.uuid,
     },
   })
+  const broadcast = useBroadcast()
+  broadcast.publish('card:create', card)
+
+  return card
 })

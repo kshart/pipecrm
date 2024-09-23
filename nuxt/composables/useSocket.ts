@@ -9,11 +9,9 @@ if (import.meta.client) {
     console.log(e)
   })
 }
-export default async () => {
+export default () => {
   if (import.meta.client) {
-    return {
-      socket
-    }
+    return socket
   }
   throw new Error('only-for-client')
 }
