@@ -1,13 +1,16 @@
 import { io } from 'socket.io-client'
 
+let socket = null as ReturnType<typeof io> | null
+if (import.meta.client) {
+  socket = io({
+    transports: ['websocket']
+  })
+  socket.onAny((e) => {
+    console.log(e)
+  })
+}
 export default async () => {
   if (import.meta.client) {
-    const socket = io({
-      transports: ['websocket']
-    })
-    socket.onAny((e) => {
-      console.log(e)
-    })
     return {
       socket
     }

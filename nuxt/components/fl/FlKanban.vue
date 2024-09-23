@@ -129,6 +129,7 @@ if (import.meta.client) {
   const socket = await useSocket()
   console.log(socket)
   socket.socket.emit('wth', { asd: 'asd' })
+  socket.socket.emit('subscribe', { events: ['test'] })
 }
 </script>
 
