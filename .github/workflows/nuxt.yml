@@ -14,12 +14,18 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 22.x
-    - name: Build
+    - name: Make
       working-directory: ./nuxt
       run: |
         npm ci
         npm run build
-        tar -zcvf pipecrm.${{ github.ref_name  }}.tar.gz ./.output
+    - name: Build
+      run: |
+        mkdir release
+        mv ./nuxt/.output ./release
+        cp ./nuxt/ecosystem.config.cjs ./release
+        tar -zcvf pipecrm.${{ github.ref_name }}.tar.gz ./release
+        rm -rf ./release
     - name: Publish
       id: create_release
       uses: actions/create-release@v1
