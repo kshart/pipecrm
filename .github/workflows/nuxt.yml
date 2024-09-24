@@ -19,7 +19,7 @@ jobs:
       run: |
         npm ci
         npm run build
-        tar -zcvf pipecrm.${{ github.ref }}.tar.gz ./.output
+        tar -zcvf pipecrm.${{ github.ref_name  }}.tar.gz ./.output
     - name: Publish
       id: create_release
       uses: actions/create-release@v1
@@ -27,7 +27,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        release_name: Release ${{ github.ref_name }}
         body: |
           Это релиз
         draft: false
@@ -38,6 +38,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./pipecrm.${{ github.ref }}.tar.gz
-        asset_name: pipecrm.${{ github.ref }}.tar.gz
+        asset_path: ./pipecrm.${{ github.ref_name }}.tar.gz
+        asset_name: pipecrm.${{ github.ref_name }}.tar.gz
         asset_content_type: application/x-gzip
