@@ -19,6 +19,7 @@ jobs:
       run: |
         npm ci
         npm run build
+        tar -zcvf pipecrm.${{ github.ref }}.tar.gz ./.output
     - name: Publish
       id: create_release
       uses: actions/create-release@v1
@@ -31,3 +32,12 @@ jobs:
           Это релиз
         draft: false
         prerelease: false
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./pipecrm.${{ github.ref }}.tar.gz
+        asset_name: pipecrm.${{ github.ref }}.tar.gz
+        asset_content_type: application/x-gzip
