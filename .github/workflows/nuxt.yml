@@ -1,4 +1,4 @@
-name: Nuxt build
+name: Nuxt release
 
 on:
   push:
@@ -20,7 +20,8 @@ jobs:
       run: |
         npm ci
         npm run build
-    - name: Create Release
+    - name: Publish
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
