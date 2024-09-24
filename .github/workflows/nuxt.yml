@@ -9,17 +9,25 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
     - uses: actions/checkout@v4
-
     - name: Use Node.js 22.x
       uses: actions/setup-node@v4
       with:
         node-version: 22.x
-
     - name: Build
       working-directory: ./nuxt
       run: |
         npm ci
         npm run build
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Это релиз
+        draft: false
+        prerelease: false
