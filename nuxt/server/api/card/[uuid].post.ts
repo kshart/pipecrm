@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     where: { uuid },
   })
   const broadcast = useBroadcast()
-  broadcast.publish('card:update:' + cardUpdated.uuid, cardUpdated)
+  broadcast.publish('card:u:' + cardUpdated.uuid, cardUpdated)
 
   return cardUpdated
 })

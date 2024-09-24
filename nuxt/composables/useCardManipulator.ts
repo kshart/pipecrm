@@ -1,5 +1,3 @@
-import type { Funnel } from '@prisma/client'
-
 /**
  * Манипуляции с карточкой
  */
@@ -12,7 +10,7 @@ export default () => {
           columnUuid,
         }
       })
-      console.log('changeColumn ' + cardUuid + ' - ' + columnUuid)
+      console.debug('changeColumn ' + cardUuid + ' - ' + columnUuid)
     }
   }
 }

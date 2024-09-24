@@ -42,16 +42,11 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
   })
 
   io.on('connection', (socket) => {
-    console.log('connection', socket.data)
     socket.data.subscribedEvents = new Set<string>()
-    socket.on('wth', (payload) => {
-      socket.emit('hello')
-    })
     socket.on('subscribe', ({ events }) => {
       for (const event of events) {
         socket.data.subscribedEvents.add(event)
       }
-      console.log(socket.data.subscribedEvents)
     })
 
     socket.on('unsubscribe', ({ events }) => {

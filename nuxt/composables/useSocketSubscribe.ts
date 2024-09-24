@@ -1,21 +1,43 @@
 const globalEventsMap = new Map()
 let needForceSubscribe = false
+const toSubscribeNeed = new Set<string>()
+const toUnsubscribeNeed = new Set<string>()
+let hasGlobalSubscriber = false
 
-export default (events: Ref<string[]>) => {
+// добавь типы для onData
+export default (events: Ref<string[]>, onData: (event: string, data: any) => void) => {
   if (import.meta.server) {
     throw new Error('only-for-client')
   }
   const socket = useSocket()
   let activeEvents = [] as string[]
 
-  const onData = (data: any, event: string) => {
-    console.log('onData', data, event)
-  }
-
   const subscribeUpdate = (v1?: any, v2?: any, newEvents?: string[]) => {
     if (!socket) {
       return
     }
+    const globalSubscriber = () => {
+      const eventRemove = []
+      for (const event of toSubscribeNeed) {
+        if (toUnsubscribeNeed.has(event)) {
+          eventRemove.push(event)
+        }
+      }
+      for (const event of eventRemove) {
+        toSubscribeNeed.delete(event)
+        toUnsubscribeNeed.delete(event)
+      }
+      if (toSubscribeNeed.size > 0) {
+        socket.emit('subscribe', { events: Array.from(toSubscribeNeed.values()) })
+        toSubscribeNeed.clear()
+      }
+      if (toUnsubscribeNeed.size > 0) {
+        socket.emit('unsubscribe', { events: Array.from(toUnsubscribeNeed.values()) })
+        toUnsubscribeNeed.clear()
+      }
+      hasGlobalSubscriber = false
+    }
+
     if (socket.disconnected) {
       needForceSubscribe = true
     }
@@ -35,32 +57,32 @@ export default (events: Ref<string[]>) => {
         toUnsubscribe.push(event)
       }
     }
-    const toSubscribeNeed = []
     for (const event of toSubscribe) {
       const count = globalEventsMap.get(event) || 0
       if (!needForceSubscribe && count <= 0) {
-        toSubscribeNeed.push(event)
+        toSubscribeNeed.add(event)
       }
       globalEventsMap.set(event, count + 1)
     }
-    if (toSubscribeNeed.length > 0) {
-      socket.emit('subscribe', { events: toSubscribeNeed })
+    if (toSubscribeNeed.size > 0 && !hasGlobalSubscriber) {
+      hasGlobalSubscriber = true
+      setTimeout(globalSubscriber, 10)
     }
 
-    const toUnsubscribeNeed = []
     for (const event of toUnsubscribe) {
       const count = globalEventsMap.get(event) || 0
       if (count <= 1) {
         if (!needForceSubscribe) {
-          toUnsubscribeNeed.push(event)
+          toUnsubscribeNeed.add(event)
         }
         globalEventsMap.delete(event)
       } else {
         globalEventsMap.set(event, count - 1)
       }
     }
-    if (toUnsubscribeNeed.length > 0) {
-      socket.emit('unsubscribe', { events: toUnsubscribeNeed })
+    if (toUnsubscribeNeed.size > 0 && !hasGlobalSubscriber) {
+      hasGlobalSubscriber = true
+      setTimeout(globalSubscriber, 10)
     }
 
     activeEvents = newEvents
@@ -77,7 +99,7 @@ export default (events: Ref<string[]>) => {
 
   const onAnyData = (event: string, data: any) => {
     if (activeEvents.includes(event)) {
-      onData(data, event)
+      onData(event, data)
     }
   }
 

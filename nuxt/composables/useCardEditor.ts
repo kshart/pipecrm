@@ -60,7 +60,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
         return card
       }
       // отправлять только измененные поля
-      const card = await $fetch('/api/card/update', {
+      const card = await $fetch('/api/card/' + cardUuid.value, {
         method: 'post',
         fatal: true,
         query: {

@@ -125,11 +125,6 @@ const onDragend = () => {
   }
   dragActiveColumn.value = null
 }
-if (import.meta.client) {
-  const socket = useSocket()
-  socket.emit('wth', { asd: 'asd' })
-  socket.emit('subscribe', { events: ['test'] })
-}
 </script>
 
 <style scoped lang="scss">

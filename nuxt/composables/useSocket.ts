@@ -5,9 +5,6 @@ if (import.meta.client) {
   socket = io({
     transports: ['websocket']
   })
-  socket.onAny((e) => {
-    console.log(e)
-  })
 }
 export default () => {
   if (import.meta.client) {
