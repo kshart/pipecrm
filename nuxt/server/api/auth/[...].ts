@@ -49,10 +49,13 @@ export default NuxtAuthHandler({
   providers,
   secret: useRuntimeConfig().authSecret,
   adapter: PrismaAdapter(prisma),
-  session: process.env.NODE_ENV === 'development' ? {
-    strategy: 'jwt',
-    maxAge: 3000,
-  } : undefined,
+  session:
+  process.env.NODE_ENV === 'development'
+    ? {
+        strategy: 'jwt',
+        maxAge: 3000,
+      }
+    : undefined,
   pages: {
     signIn: '/login',
     signOut: '/logout',

@@ -7,6 +7,9 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "paths": {
+      "@/*": [
+        "./*"
+      ],
       "*": ["./node_modules/*"]
     }
   }

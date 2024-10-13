@@ -38,7 +38,7 @@ export default async (uuid: string) => {
       for (const column of model.value.columns) {
         column.sort = sort++
       }
-      const funnel = await $fetch('/api/funnel/update', {
+      await $fetch('/api/funnel/update', {
         method: 'post',
         fatal: true,
         query: { uuid },

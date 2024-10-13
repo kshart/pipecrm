@@ -79,7 +79,8 @@ if (import.meta.client) {
       items.value.push(reactive(card))
     }
   })
-  useSocketSubscribe(events, (event: string, card: any) => {
+  useSocketSubscribe(events, (event: string, data: unknown) => {
+    const card = data as Card
     const index = items.value.findIndex(c => c.uuid === card.uuid)
     const oldCard = items.value[index]
     if (!oldCard) {

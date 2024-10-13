@@ -34,6 +34,17 @@
       v-model="cardUuid"
       :funnel="funnel"
     />
+    <v-fab
+      v-if="!cardUuid"
+      icon="mdi-plus"
+      color="green"
+      location="bottom end"
+      size="64"
+      absolute
+      app
+      appear
+      @click="cardUuid = 'new'"
+    />
   </v-layout>
 </template>
 
@@ -73,10 +84,10 @@ if (funnel.value) {
 }
 
 const cardUuid = computed({
-  get (): string | undefined {
+  get (): string | 'new' | undefined {
     return route.query.card ? String(route.query.card) : undefined
   },
-  set (uuid: string | undefined) {
+  set (uuid: string | 'new' | undefined) {
     const query = {
       ...route.query
     }

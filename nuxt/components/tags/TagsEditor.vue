@@ -1,29 +1,63 @@
 <template>
-  <div v-if="tags">
+  <div>
     <v-combobox
-      v-model="tags"
+      :modelValue="tags"
       :items="allTags"
+      itemTitle="title"
+      itemValue="title"
       label="Tags"
       chips
+      closableChips
       clearable
       multiple
+      :loading="loading"
+      @update:search="search"
+      @update:modelValue="tags = $event.map(t => t?.title !== undefined ? t.title : t)"
     >
-      <template #selection="{ attrs, item, select, selected }">
+      <template #chip="{ item, index }">
         <v-chip
-          v-bind="attrs"
-          :modelValue="selected"
           closable
-          @click="select"
-          @click:close="tags = tags.filter(t => t !== item)"
+          :style="tagService.getStyle(item.value)"
+          @click:close="tags.splice(index, 1)"
         >
-          <strong>{{ item }}</strong>
+          {{ item.title }}
         </v-chip>
+      </template>
+      <template #item="{ item, props }">
+        <v-list-item
+          v-bind="props"
+          role="option"
+          :style="tagService.getStyle(item.value)"
+        >
+          <template #prepend>
+            <VCheckboxBtn
+              :key="item.value"
+              :modelValue="tags.includes(item.value)"
+              :ripple="false"
+              :tabindex="-1"
+            />
+          </template>
+        </v-list-item>
       </template>
     </v-combobox>
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { Tag } from '@prisma/client'
+import { debounce } from 'perfect-debounce'
+import tagApi from '@/api/tag'
+
 const tags = defineModel<string[]>()
-const allTags = ref<string[]>(['asd', 'sadadas'])
+const allTags = ref<Tag[]>([])
+
+const loading = ref(false)
+const search = debounce(async (fts: string) => {
+  loading.value = true
+  const r = await tagApi.search(fts)
+  loading.value = false
+  allTags.value = r.data
+}, 500)
+
+const tagService = useTagService(tags as Ref<string[]>)
 </script>

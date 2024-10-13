@@ -1,12 +1,12 @@
-import type { Card } from '@prisma/client'
-import { getServerSession } from '#auth'
 import prisma from '~/lib/prisma'
-import cardMe, { CardUpdateData } from '~/server/cardMe'
+import cardMe from '~/server/cardMe'
+import { getServerSession } from '#auth'
+import type { CardUpdateData } from '~/server/cardMe'
 
 export default defineEventHandler(async (event) => {
-  const session = await getServerSession(event)
+  await getServerSession(event)
   const uuid = String(event.context.params?.uuid)
-  const data = await readBody<UpdateCardData>(event)
+  const data = await readBody<CardUpdateData>(event)
 
   const card = await prisma.card.findFirstOrThrow({
     where: { uuid },

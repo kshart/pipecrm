@@ -4,7 +4,7 @@ CREATE TABLE "Card" (
     "title" TEXT NOT NULL,
     "fields" JSONB NOT NULL,
     "tags" TEXT[],
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
     "columnUuid" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

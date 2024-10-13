@@ -5,14 +5,14 @@ const toUnsubscribeNeed = new Set<string>()
 let hasGlobalSubscriber = false
 
 // добавь типы для onData
-export default (events: Ref<string[]>, onData: (event: string, data: any) => void) => {
+export default (events: Ref<string[]>, onData: (event: string, data: unknown) => void) => {
   if (import.meta.server) {
     throw new Error('only-for-client')
   }
   const socket = useSocket()
   let activeEvents = [] as string[]
 
-  const subscribeUpdate = (v1?: any, v2?: any, newEvents?: string[]) => {
+  const subscribeUpdate = (v1?: unknown, v2?: unknown, newEvents?: string[]) => {
     if (!socket) {
       return
     }
@@ -97,7 +97,7 @@ export default (events: Ref<string[]>, onData: (event: string, data: any) => voi
     subscribeUpdate(null, null, events.value)
   })
 
-  const onAnyData = (event: string, data: any) => {
+  const onAnyData = (event: string, data: unknown) => {
     if (activeEvents.includes(event)) {
       onData(event, data)
     }

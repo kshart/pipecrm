@@ -2,7 +2,6 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
   rules: {
-    'no-unused-vars': 'warn',
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/v-on-event-hyphenation': ['error', 'never'],
     'keyword-spacing': ['error', { before: true, after: true }],
@@ -157,11 +156,6 @@ export default withNuxt({
     'no-unreachable-loop': 'error',
     'no-unsafe-finally': 'error',
     'no-unsafe-negation': 'error',
-    'no-unused-expressions': ['error', {
-      allowShortCircuit: true,
-      allowTernary: true,
-      allowTaggedTemplates: true
-    }],
     'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
     'no-useless-call': 'error',
     'no-useless-computed-key': 'error',

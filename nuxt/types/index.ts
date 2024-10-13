@@ -1,4 +1,3 @@
-
 export interface PaginatorQuery {
   /**
    * Страница начиная с 0

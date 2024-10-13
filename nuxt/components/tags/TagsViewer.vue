@@ -3,6 +3,7 @@
     <v-chip
       v-for="tag of props.tags"
       :key="tag"
+      :style="tagService.getStyle(tag)"
     >
       {{ tag }}
     </v-chip>
@@ -13,4 +14,6 @@
 const props = defineProps<{
   tags: string[]
 }>()
+const propsRef = toRefs(props)
+const tagService = useTagService(propsRef.tags)
 </script>

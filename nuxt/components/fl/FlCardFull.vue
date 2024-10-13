@@ -1,5 +1,5 @@
 <template>
-  <div class="card-full pa-4">
+  <div class="pa-4">
     <v-text-field
       v-model="editor.model.value.title"
       label="Title"
@@ -21,7 +21,7 @@ const route = useRoute()
 const router = useRouter()
 const props = defineProps<{
   funnel: Funnel
-  cardUuid: string
+  cardUuid: string | 'new'
 }>()
 const propsRef = toRefs(props)
 
@@ -44,8 +44,3 @@ defineExpose({
 
 const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
 </script>
-
-<style scoped lang="scss">
-.card-full {
-}
-</style>

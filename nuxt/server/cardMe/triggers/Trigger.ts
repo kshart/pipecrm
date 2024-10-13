@@ -1,4 +1,3 @@
-
-export default class Trigger {
-
+export default interface Trigger {
+  id: string
 }
