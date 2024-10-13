@@ -32,7 +32,7 @@
     "vuetify-nuxt-module": "^0.18.3"
   },
   "devDependencies": {
-    "@prisma/client": "^5.19.1",
+    "@prisma/client": "^5.20.0",
     "prisma": "^5.19.1",
     "sass": "^1.79.1"
   }

@@ -28,7 +28,12 @@ export default defineNuxtConfig({
       /* module specific options */
     },
     vuetifyOptions: {
-      icons: false,
+      theme: {
+        defaultTheme: 'dark'
+      },
+      icons: {
+        defaultSet: 'mdi',
+      },
     }
   },
   vite: {

@@ -5,18 +5,25 @@
     :class="isDragActive ? 'drag-active' : null"
     @dragenter="onDragenter"
   >
-    <div>{{ props.column.title }}</div>
-    <div>{{ request }}</div>
-    <div>{{ request.total }}</div>
-    <v-infinite-scroll :items="items" :onLoad="load">
+    <div class="text-center mt-4">{{ props.column.title }}</div>
+    <v-infinite-scroll
+      :onLoad="load"
+      class="kanban-column-list"
+    >
       <FlKanbanCard
         v-for="card of items"
         :key="card.uuid"
         :card="card"
+        :selected="selectedCardUuid && card.uuid === selectedCardUuid"
         @click="emit('selectCard', card.uuid)"
         @dragstart="emit('dragstart', card)"
         @dragend="emit('dragend')"
       />
+      <template #empty>
+        <span v-if="request.total > 0" class="text-disabled">
+          Loaded {{ request.total }}
+        </span>
+      </template>
     </v-infinite-scroll>
   </div>
 </template>
@@ -35,6 +42,7 @@ const props = defineProps<{
   column: FunnelColumn
   fetchCards: (page: number, perPage: number) => Promise<Paginator<Card>>
   isDragActive: boolean
+  selectedCardUuid: string | undefined
 }>()
 
 const items = ref<Card[]>([])
@@ -94,7 +102,12 @@ if (import.meta.client) {
 
 <style scoped lang="scss">
 .kanban-column {
-  background: #00f;
+  user-select: none;
+  .kanban-column-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
   &.drag-active {
     background: #ff0;
   }

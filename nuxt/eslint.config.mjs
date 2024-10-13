@@ -4,6 +4,7 @@ export default withNuxt({
   rules: {
     'no-unused-vars': 'warn',
     'vue/attribute-hyphenation': ['error', 'never'],
+    'vue/v-on-event-hyphenation': ['error', 'never'],
     'keyword-spacing': ['error', { before: true, after: true }],
 
     'no-var': 'warn',

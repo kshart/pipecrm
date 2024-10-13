@@ -31,8 +31,9 @@ const props = defineProps<{
 
 const editor = await useKanbanEditor(props.uuid)
 if (editor.model.value.title) {
-  useHead({
+  useSeoMeta({
     title: 'Edit: ' + editor.model.value.title,
+    ogTitle: 'Edit: ' + editor.model.value.title,
   })
 }
 </script>

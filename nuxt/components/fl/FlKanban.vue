@@ -1,48 +1,39 @@
 <template>
   <v-layout>
-    <div class="kanban-page">
-      <div class="search-container">
-        {{ funnel.title }}
-        <v-btn :to="`/kanban/${funnel.uuid}/edit`">
-          edit
-        </v-btn>
-        search
-      </div>
-      <div
-        ref="columnsRef"
-        class="funnel-columns"
-        @dragleave="onDragleave"
-      >
-        <FlKanbanColumn
-          v-for="column of funnel.columns"
-          :key="column.uuid"
-          :column="column"
-          :fetchCards="fetchCards(column.uuid)"
-          class="column-content"
-          :isDragActive="dragActiveColumn === column.uuid"
-          @selectCard="cardUuid = $event"
-          @dragenter="onDragenter"
-          @dragstart="onDragstart"
-          @dragend="onDragend"
-        />
+    <div class="kanban-page-wrap">
+      <div class="kanban-page">
+        <div class="search-container">
+          {{ funnel.title }}
+          <v-btn :to="`/kanban/${funnel.uuid}/edit`">
+            edit
+          </v-btn>
+          search
+        </div>
+        <div
+          ref="columnsRef"
+          class="funnel-columns"
+          @dragleave="onDragleave"
+        >
+          <FlKanbanColumn
+            v-for="column of funnel.columns"
+            :key="column.uuid"
+            :column="column"
+            :fetchCards="fetchCards(column.uuid)"
+            class="column-content"
+            :isDragActive="dragActiveColumn === column.uuid"
+            :selectedCardUuid="cardUuid"
+            @selectCard="cardUuid = $event"
+            @dragenter="onDragenter"
+            @dragstart="onDragstart"
+            @dragend="onDragend"
+          />
+        </div>
       </div>
     </div>
-    <v-navigation-drawer
-      :modelValue="!!cardUuid"
-      location="left"
-      permanent
-      temporary
-      :width="800"
-    >
-      <ClientOnly>
-        <FlCardFull
-          v-if="cardUuid"
-          :funnel="funnel"
-          :cardUuid="cardUuid"
-          @close="cardUuid = null"
-        />
-      </ClientOnly>
-    </v-navigation-drawer>
+    <FlCardFullDrawer
+      v-model="cardUuid"
+      :funnel="funnel"
+    />
   </v-layout>
 </template>
 
@@ -75,16 +66,17 @@ if (error.value) {
   throw new Error(String(error.value))
 }
 if (funnel.value) {
-  useHead({
+  useSeoMeta({
     title: funnel.value.title,
+    ogTitle: funnel.value.title,
   })
 }
 
 const cardUuid = computed({
-  get (): string | null {
-    return route.query.card ? String(route.query.card) : null
+  get (): string | undefined {
+    return route.query.card ? String(route.query.card) : undefined
   },
-  set (uuid: string | null) {
+  set (uuid: string | undefined) {
     const query = {
       ...route.query
     }
@@ -128,22 +120,27 @@ const onDragend = () => {
 </script>
 
 <style scoped lang="scss">
-.kanban-page {
-  background: #f00;
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  .search-container {
-    background: #0f0;
-  }
-  .funnel-columns {
-    height: 100%;
-    background: #00f;
+.kanban-page-wrap {
+  width: 100%;
+  overflow-x: auto;
+  .kanban-page {
     display: flex;
-    overflow-y: hidden;
-    .column-content {
-      width: 300px;
-      overflow-y: auto;
+    height: 100vh;
+    flex-direction: column;
+    padding: 10px;
+    .search-container {
+      background: #0f0;
+    }
+    .funnel-columns {
+      height: 100%;
+      display: flex;
+      overflow-y: hidden;
+      gap: 10px;
+      .column-content {
+        width: 300px;
+        flex-shrink: 0;
+        overflow-y: auto;
+      }
     }
   }
 }

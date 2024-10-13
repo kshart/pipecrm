@@ -1,15 +1,16 @@
 <template>
-  <div class="card-full">
+  <div class="card-full pa-4">
     <v-text-field
       v-model="editor.model.value.title"
       label="Title"
     />
-    <v-btn @click="save()">
-      {{ editor.isNewModel.value ? 'create' : 'save' }}
-    </v-btn>
-    <v-btn @click="emit('close')">
-      close
-    </v-btn>
+    <ColumnEditor
+      v-model="editor.model.value.columnUuid"
+      :funnel="funnel"
+    />
+    <TagsEditor
+      v-model="editor.model.value.tags"
+    />
   </div>
 </template>
 
@@ -23,10 +24,10 @@ const props = defineProps<{
   cardUuid: string
 }>()
 const propsRef = toRefs(props)
-const emit = defineEmits(['close'])
 
-const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
-
+/**
+ * Сохранить карточку
+ */
 const save = async () => {
   const card = await editor.saveModel()
   await router.replace({
@@ -36,10 +37,15 @@ const save = async () => {
     },
   })
 }
+
+defineExpose({
+  save
+})
+
+const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
 </script>
 
 <style scoped lang="scss">
 .card-full {
-  background: #00f;
 }
 </style>

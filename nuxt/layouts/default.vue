@@ -2,12 +2,15 @@
   <v-app>
     <v-navigation-drawer
       rail
-      expand-on-hover
+      :mobile="false"
+      style="
+        width: 56px;
+      "
     >
       <v-list-item
         v-if="user"
         :title="user.name || ''"
-        :prepend-avatar="user.image || ''"
+        :prependAvatar="user.image || ''"
       />
       <v-divider />
       <v-list-item
@@ -32,7 +35,14 @@
         />
       </template>
     </v-navigation-drawer>
-    <NuxtPage />
+    <NuxtPage
+      style="
+        --v-layout-left: 56px;
+        --v-layout-right: 0px;
+        --v-layout-top: 0px;
+        --v-layout-bottom: 0px;
+      "
+    />
   </v-app>
 </template>
 
