@@ -11,7 +11,7 @@
         </div>
         <div
           ref="columnsRef"
-          class="funnel-columns"
+          class="funnel-columns scroll-nano-deep"
           @dragleave="onDragleave"
         >
           <FlKanbanColumn

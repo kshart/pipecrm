@@ -1,0 +1,27 @@
+
+.scroll-nano-deep {
+  --scrollbar-bg-hover-color: #555;
+  --scrollbar-bg-color: #444;
+  @supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-bg-color);
+      border-radius: 4px;
+      &:hover {
+        background: var(--scrollbar-bg-hover-color);
+      }
+    }
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-color: var(--scrollbar-bg-color) transparent;
+    scrollbar-width: thin;
+    * {
+      scrollbar-color: var(--scrollbar-bg-color) transparent;
+      scrollbar-width: thin;
+    }
+  }
+}

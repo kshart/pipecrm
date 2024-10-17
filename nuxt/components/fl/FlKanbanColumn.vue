@@ -9,18 +9,20 @@
     <v-infinite-scroll
       :onLoad="load"
       class="kanban-column-list"
+      side="end"
     >
       <FlKanbanCard
         v-for="card of items"
         :key="card.uuid"
         :card="card"
-        :selected="selectedCardUuid && card.uuid === selectedCardUuid"
+        :selected="Boolean(selectedCardUuid && card.uuid === selectedCardUuid)"
+        class="fl-kanban-card"
         @click="emit('selectCard', card.uuid)"
         @dragstart="emit('dragstart', card)"
         @dragend="emit('dragend')"
       />
       <template #empty>
-        <span v-if="request.total > 0" class="text-disabled">
+        <span v-if="request.total && request.total > 0" class="text-disabled">
           Loaded {{ request.total }}
         </span>
       </template>
@@ -31,6 +33,11 @@
 <script lang="ts" setup>
 import type { Paginator } from '@/types/index'
 import type { Card, FunnelColumn } from '@prisma/client'
+
+interface VInfiniteScrollOnLoadEvent {
+  side: 'start' | 'end' | 'both'
+  done: (status: 'loading' | 'error' | 'empty' | 'ok') => void
+}
 
 const emit = defineEmits<{
   (e: 'selectCard', uuid: string): void
@@ -52,7 +59,7 @@ const request = ref({
   total: null as number | null,
 })
 
-const load = async ({ done }) => {
+const load = async ({ done }: VInfiniteScrollOnLoadEvent) => {
   const { data, total } = await props.fetchCards(request.value.page, request.value.perPage)
   request.value.page++
   request.value.total = total
@@ -104,10 +111,19 @@ if (import.meta.client) {
 <style scoped lang="scss">
 .kanban-column {
   user-select: none;
+  display: flex;
+  flex-direction: column;
   .kanban-column-list {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    height: 100%;
+    :deep(.v-infinite-scroll__side:first-child) {
+      display: none;
+    }
+    .fl-kanban-card {
+      flex-shrink: 0;
+    }
   }
   &.drag-active {
     background: #ff0;

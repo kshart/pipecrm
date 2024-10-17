@@ -51,3 +51,7 @@ const { signOut, getSession } = useAuth()
 
 const { user } = await getSession()
 </script>
+
+<style lang="scss">
+@use "~/assets/scss/scroll.scss";
+</style>

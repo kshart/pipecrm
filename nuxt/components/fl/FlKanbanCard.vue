@@ -7,11 +7,11 @@
     @dragend.stop.prevent="emit('dragend')"
   >
     <v-card-title>{{ props.card.title }}</v-card-title>
-    <v-card-subtitle>
-      <TagsViewer
-        :tags="props.card.tags"
-      />
-    </v-card-subtitle>
+    <TagsViewer
+      v-if="props.card.tags.length > 0"
+      class="pa-2"
+      :tags="props.card.tags"
+    />
   </v-card>
 </template>
 
@@ -23,6 +23,6 @@ const emit = defineEmits<{
 }>()
 const props = defineProps<{
   card: Card
-  selected: boolean
+  selected?: boolean
 }>()
 </script>

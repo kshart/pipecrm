@@ -11,8 +11,8 @@ export default (refTags?: Ref<string[]>) => {
   const getStyle = (title: string) => {
     const tag = !title ? null : loadedTags.value.get(title)
     return {
-      color: tag?.textColor || '#eee',
-      background: tag?.bgColor || '#999',
+      color: tag?.textColor || undefined,
+      background: tag?.bgColor || undefined,
     }
   }
   const load = (tagTitles: string[]) => {
