@@ -12,15 +12,22 @@
       multiple
       :loading="loading"
       @update:search="search"
-      @update:modelValue="tags = $event.map(t => t?.title !== undefined ? t.title : t)"
+      @update:modelValue="tags = ($event as (string | Tag)[]).map(t => typeof t === 'string' ? t : t.title)"
     >
       <template #chip="{ item, index }">
         <v-chip
           closable
           :style="tagService.getStyle(item.value)"
-          @click:close="tags.splice(index, 1)"
+          @click="false"
+          @click:close="tags?.splice(index, 1)"
         >
           {{ item.title }}
+          <v-menu
+            activator="parent"
+            :closeOnContentClick="false"
+          >
+            <TagsEditorProps :tag="item.value" />
+          </v-menu>
         </v-chip>
       </template>
       <template #item="{ item, props }">
@@ -32,7 +39,7 @@
           <template #prepend>
             <VCheckboxBtn
               :key="item.value"
-              :modelValue="tags.includes(item.value)"
+              :modelValue="tags?.includes(item.value)"
               :ripple="false"
               :tabindex="-1"
             />
@@ -52,6 +59,7 @@ const tags = defineModel<string[]>()
 const allTags = ref<Tag[]>([])
 
 const loading = ref(false)
+
 const search = debounce(async (fts: string) => {
   loading.value = true
   const r = await tagApi.search(fts)

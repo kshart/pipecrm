@@ -1,18 +1,45 @@
 import type { Tag } from '@prisma/client'
+import { debounce } from 'perfect-debounce'
 import tagApi from '@/api/tag'
 
 const loadedTags = ref(new Map<string, Tag>())
 const requestedTags = new Set<string>()
 
+const saveTag = debounce((title: string) => {
+  const tag = loadedTags.value.get(title)
+  if (tag) {
+    tagApi.save(title, {
+      textColor: tag.textColor,
+      bgColor: tag.bgColor,
+      cardOutlineColor: tag.cardOutlineColor,
+    })
+  }
+}, 500)
+
 /**
  * Хранилище настроек тегов
  */
 export default (refTags?: Ref<string[]>) => {
+  /** css стили для тега */
   const getStyle = (title: string) => {
     const tag = !title ? null : loadedTags.value.get(title)
     return {
       color: tag?.textColor || undefined,
       background: tag?.bgColor || undefined,
+    }
+  }
+  /** Настройки карточки по тегам */
+  const getCardConf = (tags: string[]) => {
+    let cardOutlineColor: Tag['cardOutlineColor'] = null
+    for (const tagTitle of tags) {
+      const tag = loadedTags.value.get(tagTitle)
+      if (tag?.cardOutlineColor) {
+        cardOutlineColor = tag.cardOutlineColor
+        break
+      }
+    }
+    return {
+      cardOutlineColor,
     }
   }
   const load = (tagTitles: string[]) => {
@@ -46,6 +73,16 @@ export default (refTags?: Ref<string[]>) => {
       }
     }
   }
+  const change = (title: string, props: Partial<Pick<Tag, 'textColor' | 'bgColor' | 'cardOutlineColor'>>) => {
+    const tag = loadedTags.value.get(title)
+    if (tag) {
+      tag.textColor = props.textColor !== undefined ? props.textColor : tag.textColor
+      tag.bgColor = props.bgColor !== undefined ? props.bgColor : tag.bgColor
+      tag.cardOutlineColor = props.cardOutlineColor !== undefined ? props.cardOutlineColor : tag.cardOutlineColor
+      loadedTags.value.set(title, tag)
+      saveTag(title)
+    }
+  }
 
   if (refTags) {
     watch(refTags, () => load(refTags.value), { immediate: true })
@@ -53,8 +90,10 @@ export default (refTags?: Ref<string[]>) => {
 
   return {
     loadedTags,
-    getStyle,
     load,
     apply,
+    change,
+    getStyle,
+    getCardConf,
   }
 }

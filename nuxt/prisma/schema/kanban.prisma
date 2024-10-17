@@ -17,8 +17,6 @@ model Card {
 // Тег
 model Tag {
   title            String @id
-  // primary теги отображаются перед остальными
-  primary          Boolean
   // Колличество карточек с таким тегом
   count            Int
   textColor        String?

@@ -1,5 +1,9 @@
 <template>
   <v-card
+    :border="Boolean(cardConf.cardOutlineColor)"
+    :style="{
+      'border-color': cardConf.cardOutlineColor || undefined
+    }"
     :color="selected ? 'primary' : undefined"
     draggable="true"
     @click="emit('click')"
@@ -25,4 +29,7 @@ const props = defineProps<{
   card: Card
   selected?: boolean
 }>()
+
+const tagService = useTagService()
+const cardConf = computed(() => tagService.getCardConf(props.card.tags))
 </script>

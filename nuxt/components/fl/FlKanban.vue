@@ -50,7 +50,7 @@
 
 <script lang="ts" setup>
 import type { Paginator } from '@/types/index'
-import type { Card } from '@prisma/client'
+import type { Card, Tag } from '@prisma/client'
 
 const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
   return await $fetch('/api/card/search', {
@@ -127,6 +127,13 @@ const onDragend = () => {
     cardManipulator.setColumn(card.uuid, dragActiveColumn.value)
   }
   dragActiveColumn.value = null
+}
+if (import.meta.client) {
+  const tagService = useTagService()
+  useSocketSubscribe(ref(['tag:u']), (event: string, data: unknown) => {
+    const tag = data as Tag
+    tagService.apply([tag])
+  })
 }
 </script>
 

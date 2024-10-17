@@ -1,7 +1,6 @@
 -- CreateTable
 CREATE TABLE "Tag" (
     "title" TEXT NOT NULL,
-    "primary" BOOLEAN NOT NULL,
     "count" INTEGER NOT NULL,
     "textColor" TEXT,
     "bgColor" TEXT,

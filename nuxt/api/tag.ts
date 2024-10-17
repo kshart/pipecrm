@@ -5,6 +5,11 @@ interface TagSearchResult {
   data: Tag[]
   total: number
 }
+interface TagSaveData {
+  textColor: string | null
+  bgColor: string | null
+  cardOutlineColor: string | null
+}
 
 export default {
   search (fts: string) {
@@ -22,4 +27,13 @@ export default {
     (models, args) => models.filter(tag => args.includes(tag.title)),
     100
   ),
+
+  async save (title: string, body: TagSaveData) {
+    await $fetch('/api/tag', {
+      method: 'post',
+      fatal: true,
+      query: { title },
+      body,
+    })
+  }
 }
