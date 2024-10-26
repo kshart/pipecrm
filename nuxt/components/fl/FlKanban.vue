@@ -20,6 +20,7 @@
             :column="column"
             :fetchCards="fetchCards(column.uuid)"
             class="column-content"
+            :isDrag="Boolean(dragActiveColumn)"
             :isDragActive="dragActiveColumn === column.uuid"
             :selectedCardUuid="cardUuid"
             @selectCard="cardUuid = $event"

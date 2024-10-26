@@ -24,6 +24,8 @@ export default async (uuid: string) => {
         uuid: uuidV4(),
         funnelUuid: uuid,
         title: 'hello',
+        description: '',
+        hideEmpty: false,
         sort: 0,
         color: null,
       })

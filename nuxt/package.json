@@ -30,6 +30,7 @@
     "socket.io-client": "^4.8.0",
     "uuid": "^10.0.0",
     "vue": "latest",
+    "vuedraggable": "^4.1.0",
     "vuetify-nuxt-module": "^0.18.3",
     "zod": "^3.23.8"
   },

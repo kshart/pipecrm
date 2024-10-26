@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="!props.column.hideEmpty || isDrag || items.length > 0"
     ref="elementRef"
     class="kanban-column"
     :class="isDragActive ? 'drag-active' : null"
@@ -48,6 +49,9 @@ const emit = defineEmits<{
 const props = defineProps<{
   column: FunnelColumn
   fetchCards: (page: number, perPage: number) => Promise<Paginator<Card>>
+  /** Режим перетаскивания */
+  isDrag: boolean
+  /** Это активная колонка в режиме перетаскивания */
   isDragActive: boolean
   selectedCardUuid: string | undefined
 }>()

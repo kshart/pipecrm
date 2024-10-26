@@ -2,6 +2,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
   rules: {
+    '@typescript-eslint/unified-signatures': ['error', 'never'],
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/v-on-event-hyphenation': ['error', 'never'],
     'keyword-spacing': ['error', { before: true, after: true }],

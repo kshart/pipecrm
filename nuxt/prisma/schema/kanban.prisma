@@ -49,11 +49,30 @@ model Funnel {
 
 // Колонка у воронки
 model FunnelColumn {
-  uuid       String @id @default(uuid()) @db.Uuid
-  funnelUuid String @db.Uuid
-  title      String
-  color      String?
-  sort       Int
-  funnel     Funnel @relation(fields: [funnelUuid], references: [uuid], onDelete: Cascade)
-  Card       Card[]
+  uuid        String @id @default(uuid()) @db.Uuid
+  funnelUuid  String @db.Uuid
+  title       String
+  description String?
+  hideEmpty   Boolean @default(false)
+  color       String?
+  sort        Int
+  funnel      Funnel @relation(fields: [funnelUuid], references: [uuid], onDelete: Cascade)
+  dataGroups  DataGroupOnFunnelColumn[]
+  Card        Card[]
+}
+
+model DataGroup {
+  uuid    String  @id @default(uuid()) @db.Uuid
+  title   String
+  fields  Json
+  columns DataGroupOnFunnelColumn[]
+}
+
+model DataGroupOnFunnelColumn {
+  column        FunnelColumn @relation(fields: [columnUuid], references: [uuid])
+  columnUuid    String       @db.Uuid
+  dataGroup     DataGroup    @relation(fields: [dataGroupUuid], references: [uuid])
+  dataGroupUuid String       @db.Uuid
+
+  @@id([columnUuid, dataGroupUuid])
 }
