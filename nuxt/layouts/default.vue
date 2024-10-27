@@ -54,4 +54,8 @@ const { user } = await getSession()
 
 <style lang="scss">
 @use "~/assets/scss/scroll.scss";
+
+:root {
+  overflow-y: auto;
+}
 </style>

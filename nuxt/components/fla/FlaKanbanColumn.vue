@@ -43,7 +43,7 @@ const props = defineProps<{
 const emit = defineEmits(['change'])
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .column-uuid {
   cursor: move;
 }

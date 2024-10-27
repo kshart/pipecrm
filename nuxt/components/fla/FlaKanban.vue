@@ -54,7 +54,7 @@ if (editor.model.value.title) {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .fla-kanban {
   display: flex;
   overflow-x: auto;

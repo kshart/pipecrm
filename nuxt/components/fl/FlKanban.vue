@@ -135,6 +135,11 @@ if (import.meta.client) {
     const tag = data as Tag
     tagService.apply([tag])
   })
+
+  useSocketSubscribe(ref(['dataGroup:u']), async (event: string, data: unknown) => {
+    const dataGroupService = await useDataGroupService()
+    dataGroupService.fetch()
+  })
 }
 </script>
 

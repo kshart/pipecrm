@@ -44,7 +44,7 @@ export default {
         promises.push(prisma.tag.upsert({
           where: { title: tag },
           update: { count: { increment: count } },
-          create: { title: tag, count, primary: false },
+          create: { title: tag, count },
         }))
       }
       await Promise.all(promises)

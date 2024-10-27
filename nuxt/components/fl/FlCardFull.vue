@@ -11,6 +11,12 @@
     <TagsEditor
       v-model="editor.model.value.tags"
     />
+    <ClientOnly>
+      <DataGroupViewer
+        :funnel="funnel"
+        :card="editor.model.value"
+      />
+    </ClientOnly>
   </div>
 </template>
 

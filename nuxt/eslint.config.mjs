@@ -2,6 +2,9 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt({
   rules: {
+    'vue/enforce-style-attribute': ['error', {
+      allow: ['scoped']
+    }],
     '@typescript-eslint/unified-signatures': ['error', 'never'],
     'vue/attribute-hyphenation': ['error', 'never'],
     'vue/v-on-event-hyphenation': ['error', 'never'],

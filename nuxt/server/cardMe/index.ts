@@ -1,9 +1,17 @@
+import type { FlCard } from '@/types/FlCard'
 import type { Funnel, Card } from '@prisma/client'
 import prisma from '~/lib/prisma'
 import tagService from './tagService'
+import { v4 as uuidV4 } from 'uuid'
 
-export type CardCreateData = Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid' | 'fields'>
-export type CardUpdateData = Partial<Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid'>>
+export type CardCreateData = Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid'> & {
+  fields: FlCard['fields']
+}
+export type CardUpdateData = Partial<
+  Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid'> & {
+    fields: FlCard['fields']
+  }
+>
 
 /**
  * Редактор карточек.
@@ -31,7 +39,9 @@ export default {
   },
   async update (card: Card, data: CardUpdateData): Promise<Card> {
     const afterSave: ((newCard: Card) => Promise<void>)[] = []
-    const updateData = {} as CardUpdateData
+    const updateData = {
+      updatedUuid: uuidV4(),
+    } as CardUpdateData
     if (data.title) {
       updateData.title = data.title
     }
@@ -44,6 +54,9 @@ export default {
     }
     if (data.columnUuid) {
       updateData.columnUuid = data.columnUuid
+    }
+    if (data.fields) {
+      updateData.fields = data.fields
     }
 
     const cardUpdated = await prisma.card.update({

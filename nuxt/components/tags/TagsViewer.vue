@@ -21,7 +21,7 @@ const propsRef = toRefs(props)
 const tagService = useTagService(propsRef.tags)
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .tags-viewer {
   display: flex;
   flex-wrap: wrap;

@@ -7,12 +7,19 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   build: {
     analyze: true,
+    transpile: [
+      'vuetify',
+      'v-phone-input',
+    ],
   },
   modules: [
     '@nuxt/eslint',
     '@prisma/nuxt',
     '@sidebase/nuxt-auth',
     'vuetify-nuxt-module',
+  ],
+  plugins: [
+    '@/plugins/VPhoneInput'
   ],
   runtimeConfig: {
     authSecret: '123',
@@ -26,6 +33,17 @@ export default defineNuxtConfig({
       /* module specific options */
     },
     vuetifyOptions: {
+      defaults: {
+        VTextField: {
+          density: 'comfortable'
+        },
+        VNumberInput: {
+          density: 'comfortable'
+        },
+        VSelect: {
+          density: 'comfortable'
+        },
+      },
       theme: {
         defaultTheme: 'dark'
       },
@@ -67,7 +85,7 @@ export default defineNuxtConfig({
     provider: {
       type: 'authjs',
       trustHost: false,
-      defaultProvider: 'yandex',
+      defaultProvider: process.env.NODE_ENV === 'development' ? 'password' : 'yandex',
       addDefaultCallbackUrl: true
     },
     sessionRefresh: {

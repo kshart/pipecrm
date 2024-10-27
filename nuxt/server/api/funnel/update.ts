@@ -1,5 +1,6 @@
 import type { FunnelColumn } from '@prisma/client'
 import prisma from '~/lib/prisma'
+import { v4 as uuidV4 } from 'uuid'
 
 /**
  * Нужна валидация body
@@ -61,6 +62,7 @@ export default defineEventHandler(async (event) => {
     where: { uuid },
     data: {
       title,
+      updatedUuid: uuidV4(),
     },
     include: {
       columns: true,
