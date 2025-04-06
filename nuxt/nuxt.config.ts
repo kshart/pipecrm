@@ -81,7 +81,7 @@ export default defineNuxtConfig({
     globalAppMiddleware: true,
     disableServerSideAuth: false,
     originEnvKey: 'AUTH_ORIGIN',
-    baseURL: process.env.NODE_ENV === 'development' ? 'http://192.168.0.6:3000/api/auth' : 'https://pipecrm.ru/api/auth',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http:/172.31.204.245:3005/api/auth' : 'https://pipecrm.ru/api/auth',
     provider: {
       type: 'authjs',
       trustHost: false,
@@ -96,7 +96,8 @@ export default defineNuxtConfig({
 
   nitro: {
     experimental: {
-      websocket: true
+      websocket: true,
+      wasm: true,
     },
   }
 })

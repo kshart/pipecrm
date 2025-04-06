@@ -19,6 +19,13 @@ export type CardUpdateData = Partial<
  */
 export default {
   async create (funnel: Funnel, data: CardCreateData): Promise<Card> {
+    const afterSave: ((newCard: Card) => Promise<void>)[] = [
+      (newCard: Card) => useCardLogger().log(newCard)
+    ]
+    if (data.tags?.length > 0) {
+      afterSave.push((newCard) => tagService.cardUpdateTags(newCard.tags, []))
+    }
+
     const columnUuid: string = funnel.columns?.[0]?.uuid
     const card = await prisma.card.create({
       data: {
@@ -29,16 +36,17 @@ export default {
         columnUuid,
       },
     })
-    if (card.tags.length > 0) {
-      await tagService.cardUpdateTags(card.tags, [])
-    }
+    await Promise.all(afterSave.map(f => f(card)))
 
     const broadcast = useBroadcast()
     broadcast.publish('card:c:' + columnUuid, card)
     return card
   },
   async update (card: Card, data: CardUpdateData): Promise<Card> {
-    const afterSave: ((newCard: Card) => Promise<void>)[] = []
+    const afterSave: ((newCard: Card) => Promise<void>)[] = [
+      (newCard: Card) => useCardLogger().log(newCard)
+    ]
+
     const updateData = {
       updatedUuid: uuidV4(),
     } as CardUpdateData

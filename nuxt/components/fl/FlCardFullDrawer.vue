@@ -7,9 +7,10 @@
     :width="800"
   >
     <div class="card-full-drawer">
-      <div class="panel-history">
-        history
-      </div>
+      <FlCardHistory
+        class="panel-history"
+        :cardUuid="cardUuid"
+      />
       <div class="panel-card">
         <FlCardFull
           v-if="cardUuid"
