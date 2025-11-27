@@ -1,6 +1,6 @@
 import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 import type { AuthOptions } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import YandexProvider from 'next-auth/providers/yandex'

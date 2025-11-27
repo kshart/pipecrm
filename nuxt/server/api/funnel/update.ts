@@ -1,5 +1,5 @@
-import type { FunnelColumn } from '@prisma/client'
-import prisma from '~/lib/prisma'
+import type { FunnelColumn } from '@@/types/prisma'
+import prisma from '@@/lib/prisma'
 import { v4 as uuidV4 } from 'uuid'
 
 /**

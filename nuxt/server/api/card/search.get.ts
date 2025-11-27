@@ -1,6 +1,6 @@
-import prisma from '~/lib/prisma'
-import type { Card } from '@prisma/client'
-import type { Paginator, PaginatorQuery } from '@/types/index'
+import prisma from '@@/lib/prisma'
+import type { Card } from '@@/types/prisma'
+import type { Paginator, PaginatorQuery } from '@@/types/index'
 
 interface CardGetQuery extends PaginatorQuery {
   columnUuid: string

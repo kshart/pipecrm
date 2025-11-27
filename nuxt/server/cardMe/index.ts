@@ -1,6 +1,6 @@
-import type { FlCard } from '@/types/FlCard'
-import type { Funnel, Card } from '@prisma/client'
-import prisma from '~/lib/prisma'
+import type { FlCard } from '@@/types/FlCard'
+import type { Funnel, Card } from '@@/types/prisma'
+import prisma from '@@/lib/prisma'
 import tagService from './tagService'
 import { v4 as uuidV4 } from 'uuid'
 

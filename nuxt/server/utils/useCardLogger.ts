@@ -1,8 +1,8 @@
-import type { FlCard } from '@/types/FlCard'
+import type { FlCard } from '@@/types/FlCard'
 import { InfluxDB, Point, HttpError } from '@influxdata/influxdb-client'
 
-const appConfig = useAppConfig()
-const { url, token, org, bucket } = appConfig.influxDB
+const { influxDB } = useRuntimeConfig()
+const { url, token, org, bucket } = influxDB
 
 const writeApi = new InfluxDB({ url, token })
   .getWriteApi(org, bucket, 'ns')

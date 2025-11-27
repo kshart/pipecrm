@@ -1,6 +1,6 @@
 import { getServerSession } from '#auth'
-import prisma from '~/lib/prisma'
-import cardMe from '~/server/cardMe'
+import prisma from '@@/lib/prisma'
+import cardMe from '@@/server/cardMe'
 
 export default defineEventHandler(async (event) => {
   await getServerSession(event)

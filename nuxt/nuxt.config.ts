@@ -1,8 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  prisma: {
-    autoSetupPrisma: true,
-  },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   build: {
@@ -14,7 +11,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/eslint',
-    '@prisma/nuxt',
     '@sidebase/nuxt-auth',
     'vuetify-nuxt-module',
   ],
@@ -26,6 +22,12 @@ export default defineNuxtConfig({
     redis: {
       host: '127.0.0.1',
       port: 6379,
+    },
+    influxDB: {
+      url: process.env.INFLUX_DB_URL,
+      token: process.env.INFLUX_DB_TOKEN,
+      org: process.env.INFLUX_DB_ORG,
+      bucket: process.env.INFLUX_DB_BUCKET,
     }
   },
   vuetify: {
@@ -60,14 +62,6 @@ export default defineNuxtConfig({
         }
       }
     },
-    ssr: {
-      external: ['@prisma/client']
-    },
-    resolve: {
-      alias: {
-        '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js'
-      }
-    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -81,7 +75,7 @@ export default defineNuxtConfig({
     globalAppMiddleware: true,
     disableServerSideAuth: false,
     originEnvKey: 'AUTH_ORIGIN',
-    baseURL: process.env.NODE_ENV === 'development' ? 'http:/172.31.204.245:3005/api/auth' : 'https://pipecrm.ru/api/auth',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://172.29.121.50:3000/api/auth' : 'https://pipecrm.ru/api/auth',
     provider: {
       type: 'authjs',
       trustHost: false,
@@ -97,7 +91,6 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       websocket: true,
-      wasm: true,
     },
   }
 })

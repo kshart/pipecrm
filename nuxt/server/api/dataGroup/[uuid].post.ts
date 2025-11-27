@@ -1,6 +1,6 @@
-import type { FlDataGroup } from '@/types/FlDataGroup'
+import type { FlDataGroup } from '@@/types/FlDataGroup'
 import { z } from 'zod'
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 import { v4 as uuidV4 } from 'uuid'
 import { getServerSession } from '#auth'
 

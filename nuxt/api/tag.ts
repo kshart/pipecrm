@@ -1,5 +1,5 @@
-import type { Tag } from '@prisma/client'
-import { groupablePost } from '@/api/groupable'
+import type { Tag } from '@@/types/prisma'
+import { groupablePost } from '@@/api/groupable'
 
 interface TagSearchResult {
   data: Tag[]
