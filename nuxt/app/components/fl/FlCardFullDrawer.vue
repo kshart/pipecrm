@@ -6,9 +6,10 @@
     temporary
     :width="800"
   >
-    <div class="card-full-drawer">
+    <div class="card-full-drawer" v-if="cardUuid">
       <FlCardHistory
         class="panel-history"
+        :funnel="props.funnel"
         :cardUuid="cardUuid"
       />
       <div class="panel-card">
@@ -36,7 +37,7 @@
 import FlCardFull from './FlCardFull.vue'
 import type { Funnel } from '@@/types/prisma'
 
-const cardUuid = defineModel<string | null>()
+const cardUuid = defineModel<string | null>({ default: null })
 const props = defineProps<{
   funnel: Funnel
 }>()

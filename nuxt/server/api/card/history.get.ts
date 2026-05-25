@@ -1,30 +1,18 @@
+import { z } from 'zod'
 import prisma from '@@/lib/prisma'
 import type { Card } from '@@/types/prisma'
-import type { Paginator, PaginatorQuery } from '@@/types/index'
+import type { Paginator } from '@@/types/index'
 
-interface CardGetQuery extends PaginatorQuery {
-  columnUuid: string
-}
+const querySchema = z.object({
+  cardUuid: z.string().uuid(),
+  timeStart: z.string().datetime(),
+  timeStop: z.string().datetime(),
+})
+
 
 export default defineEventHandler(async (event): Promise<Paginator<Card>> => {
-  return await useCardLogger().read()
+  const cardLogger = useCardLogger()
+  const query = await getValidatedQuery(event, querySchema.parse)
 
-  const query = getQuery<CardGetQuery>(event)
-  const perPage = Number(query.perPage || 30)
-  const page = Number(query.page || 0)
-
-  const data = await prisma.card.findMany({
-    where: {
-      columnUuid: String(query.columnUuid)
-    },
-    skip: page * perPage,
-    take: perPage,
-  })
-
-  return {
-    data,
-    total,
-    page,
-    totalPages: Math.ceil(total / perPage)
-  }
+  return await cardLogger.read(query.cardUuid, query.timeStart, query.timeStop)
 })

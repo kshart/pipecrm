@@ -54,7 +54,7 @@ import type { Paginator } from '@@/types/index'
 import type { Card, Tag } from '@@/types/prisma'
 
 const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
-  return await $fetch('/api/card/search', {
+  return await $fetch<Paginator<Card>>('/api/card/search', {
     query: {
       columnUuid,
       page,
