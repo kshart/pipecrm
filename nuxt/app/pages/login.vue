@@ -18,7 +18,7 @@ definePageMeta({
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
-  }
+  },
 })
 const { signIn, getProviders } = useAuth()
 

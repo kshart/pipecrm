@@ -11,10 +11,12 @@ export default (columnUuid: string, onChangeCard: (card: Card) => void) => {
     onChangeCard,
   }
   watchers.push(conf)
+
   onBeforeUnmount(() => {
     const index = watchers.indexOf(conf)
     watchers.splice(index, 1)
   })
+
   return {
     /**
      * У карточки сменилась колонка

@@ -10,5 +10,6 @@ export default () => {
   if (import.meta.client) {
     return socket
   }
+
   throw new Error('only-for-client')
 }

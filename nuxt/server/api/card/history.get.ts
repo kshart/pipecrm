@@ -5,8 +5,8 @@ import type { Paginator } from '@@/types/index'
 
 const querySchema = z.object({
   cardUuid: z.string().uuid(),
-  timeStart: z.string().datetime(),
-  timeStop: z.string().datetime(),
+  timeStart: z.optional(z.string().datetime()),
+  timeStop: z.optional(z.string().datetime()),
 })
 
 

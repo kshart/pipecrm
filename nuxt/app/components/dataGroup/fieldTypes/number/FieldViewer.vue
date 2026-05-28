@@ -10,7 +10,6 @@
 
 <script lang="ts" setup>
 import type { FieldConfigNumber } from './index'
-// import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 const props = defineProps<{
   field: FieldConfigNumber

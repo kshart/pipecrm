@@ -72,7 +72,6 @@
             >
               show on funnel
             </v-btn>
-
           </div>
           <div
             v-for="field of dataGroup.fields"
@@ -122,7 +121,6 @@
 
 <script lang="ts" setup>
 import type { Funnel } from '@@/types/prisma'
-import type { FieldConfig } from './fieldTypes'
 import type { FlDataGroup } from '@@/types/FlDataGroup'
 import fieldTypes from './fieldTypes'
 import { v4 as uuidV4 } from 'uuid'
@@ -138,7 +136,6 @@ const tab = ref(dataGroups.value?.[0]?.uuid)
 const fieldConf = (type: string) => fieldTypes.find(ft => ft.name === type)
 
 const save = (uuid: string, dataGroup: FlDataGroup) => {
-  console.log('save ' + uuid, dataGroup)
   dataGroupService.saveGroup(uuid, dataGroup)
 }
 

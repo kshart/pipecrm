@@ -6,11 +6,13 @@
     :class="isDragActive ? 'drag-active' : null"
     @dragenter="onDragenter"
   >
-    <div class="text-center mt-4">{{ props.column.title }}</div>
+    <div class="text-center mt-4">
+      {{ props.column.title }}
+    </div>
     <v-infinite-scroll
-      :onLoad="load"
       class="kanban-column-list"
       side="end"
+      @load="load"
     >
       <FlKanbanCard
         v-for="card of items"
@@ -109,7 +111,6 @@ if (import.meta.client) {
     }
   })
 }
-
 </script>
 
 <style scoped lang="scss">

@@ -1,7 +1,7 @@
 import type { FlCard } from '@@/types/FlCard'
 import { InfluxDB, Point, HttpError } from '@influxdata/influxdb-client'
 
-interface ReadResultRecord {
+export interface ReadResultRecord {
   field: string
   time: string
   value: string
@@ -22,7 +22,7 @@ export function useCardLogger () {
      * Прочитать историю изменений карточки
      * @param count Максимальное колличество записей в текущем запросе
      */
-    async read (cardUuid: string, timeStart:string, timeStop: string, count: number = 10) {
+    async read (cardUuid: string, timeStart: string | undefined, timeStop: string | undefined, count: number = 10) {
       const cardUuidRaw = cardUuid.replaceAll(/[^0-9a-zA-Z-]*/g, '')
 
       if (!Number.isInteger(count)) {
@@ -46,7 +46,7 @@ export function useCardLogger () {
           |> yield(name: "l")
 
         data
-          |> range(start: 0, stop: ${timeStop})
+          |> range(start: ${timeStart || 0}${timeStop ? ', stop: ' + timeStop : ''})
           |> limit(n: ${count})
           |> yield(name: "v")
       `

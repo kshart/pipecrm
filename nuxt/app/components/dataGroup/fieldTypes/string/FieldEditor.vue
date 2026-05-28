@@ -58,5 +58,4 @@ const setClearable = (clearable: boolean | null) => {
   }
   props.field.config.vConf.clearable = Boolean(clearable)
 }
-
 </script>

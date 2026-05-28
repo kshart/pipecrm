@@ -6,21 +6,32 @@
     temporary
     :width="800"
   >
-    <div class="card-full-drawer" v-if="cardUuid">
-      <FlCardHistory
-        class="panel-history"
-        :funnel="props.funnel"
-        :cardUuid="cardUuid"
-      />
+    <div
+      v-if="cardUuid"
+      class="card-full-drawer"
+    >
+      <div class="panel-left">
+        <FlCardHistory
+          class="panel-left-history"
+          :funnel="props.funnel"
+          :cardUuid="cardUuid"
+        />
+        <div class="panel-left-action">
+          <div style="height: 200px">height: 200px</div>
+        </div>
+      </div>
       <div class="panel-card">
         <FlCardFull
           v-if="cardUuid"
-          ref="flCardFullRef"
+          ref="flCardFull"
           :funnel="props.funnel"
           :cardUuid="cardUuid"
           @close="cardUuid = null"
         />
-        <div v-if="flCardFullRef" class="pa-2">
+        <div
+          v-if="flCardFullRef"
+          class="pa-2"
+        >
           <v-btn @click="flCardFullRef.save()">
             save
           </v-btn>
@@ -41,8 +52,7 @@ const cardUuid = defineModel<string | null>({ default: null })
 const props = defineProps<{
   funnel: Funnel
 }>()
-const flCardFullRef = ref<typeof FlCardFull | undefined>()
-
+const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull')
 </script>
 
 <style scoped lang="scss">
@@ -50,10 +60,18 @@ const flCardFullRef = ref<typeof FlCardFull | undefined>()
   height: 100%;
   display: flex;
   overflow: hidden;
-  .panel-history {
+  .panel-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 400px;
-    background: #0f0;
-    overflow-y: auto;
+    .panel-left-history {
+      z-index: 1;
+    }
+    .panel-left-action {
+      z-index: 2;
+      background: #0ff;
+    }
   }
   .panel-card {
     width: 400px;

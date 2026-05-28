@@ -206,7 +206,7 @@ export type FunnelColumnGroupByOutputType = {
   _max: FunnelColumnMaxAggregateOutputType | null
 }
 
-type GetFunnelColumnGroupByPayload<T extends FunnelColumnGroupByArgs> = Prisma.PrismaPromise<
+export type GetFunnelColumnGroupByPayload<T extends FunnelColumnGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FunnelColumnGroupByOutputType, T['by']> &
       {
@@ -1361,6 +1361,11 @@ export type FunnelColumnFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` FunnelColumns.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of FunnelColumns.
+   */
   distinct?: Prisma.FunnelColumnScalarFieldEnum | Prisma.FunnelColumnScalarFieldEnum[]
 }
 

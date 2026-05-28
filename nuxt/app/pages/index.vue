@@ -43,7 +43,6 @@ useSeoMeta({
 })
 
 const router = useRouter()
-const { data } = await useFetch('/api/funnel')
 
 const createFunnel = async () => {
   const { data } = await useFetch('/api/funnel/create')
@@ -51,4 +50,6 @@ const createFunnel = async () => {
     router.push('/kanban/' + data.value.uuid + '/edit')
   }
 }
+
+const { data } = await useFetch('/api/funnel')
 </script>

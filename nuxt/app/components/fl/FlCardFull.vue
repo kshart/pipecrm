@@ -36,6 +36,7 @@ const propsRef = toRefs(props)
  */
 const save = async () => {
   const card = await editor.saveModel()
+
   await router.replace({
     path: route.path,
     query: {
@@ -45,7 +46,7 @@ const save = async () => {
 }
 
 defineExpose({
-  save
+  save,
 })
 
 const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)

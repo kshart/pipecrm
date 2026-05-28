@@ -13,6 +13,7 @@ export default async () => {
     fetchDataGroups.value = $fetch<FlDataGroup[]>('/api/dataGroup')
   }
   const dataGroups = ref(await fetchDataGroups.value)
+
   watch(fetchDataGroups, async (value) => {
     if (value) {
       dataGroups.value = await value

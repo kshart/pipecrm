@@ -18,5 +18,4 @@ const props = defineProps<{
 }>()
 
 const model = defineModel<string[] | string | null>()
-
 </script>

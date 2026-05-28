@@ -71,7 +71,7 @@ const dataGroupService = await useDataGroupService()
 const dataGroups = dataGroupService.groupsForFunnel(computed(() => props.funnel.uuid))
 const tab = ref(dataGroups.value?.[0]?.uuid)
 
-const dataGroupsWithFieldConfig = computed(() => dataGroups.value.map(group => {
+const dataGroupsWithFieldConfig = computed(() => dataGroups.value.map((group) => {
   const fields: {
     field: FieldConfig
     conf: typeof fieldTypes[0]
@@ -81,7 +81,7 @@ const dataGroupsWithFieldConfig = computed(() => dataGroups.value.map(group => {
     if (conf) {
       fields.push({
         field: field as FieldConfig,
-        conf
+        conf,
       })
     } else {
       console.error(`DataGroupField type '${field.type}' undefined`)
@@ -89,7 +89,7 @@ const dataGroupsWithFieldConfig = computed(() => dataGroups.value.map(group => {
   }
   return {
     ...group,
-    fields
+    fields,
   }
 }))
 </script>

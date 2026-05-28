@@ -53,7 +53,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
     isNewModel,
     isLoading,
     model,
-    async saveModel () {
+    async saveModel (): Promise<FlCard> {
       isLoading.value = true
       if (isNewModel.value) {
         const card = await $fetch('/api/card/create', {
@@ -70,6 +70,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
           }
         })
         isLoading.value = false
+
         return card
       }
       // отправлять только измененные поля
@@ -86,6 +87,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
         body: model.value,
       })
       isLoading.value = false
+
       return card
     }
   }
