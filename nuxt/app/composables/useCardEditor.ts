@@ -53,7 +53,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
     isNewModel,
     isLoading,
     model,
-    async saveModel (): Promise<FlCard> {
+    async saveModel(): Promise<FlCard> {
       isLoading.value = true
       if (isNewModel.value) {
         const card = await $fetch('/api/card/create', {
@@ -67,7 +67,7 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
             tags: model.value.tags,
             userId: model.value.userId,
             columnUuid: model.value.columnUuid,
-          }
+          },
         })
         isLoading.value = false
 
@@ -89,6 +89,6 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
       isLoading.value = false
 
       return card
-    }
+    },
   }
 }

@@ -21,12 +21,12 @@ export default (columnUuid: string, onChangeCard: (card: Card) => void) => {
     /**
      * У карточки сменилась колонка
      */
-    change (card: Card) {
+    change(card: Card) {
       for (const watcher of watchers) {
         if (watcher.columnUuid === card.columnUuid) {
           watcher.onChangeCard(card)
         }
       }
-    }
+    },
   }
 }

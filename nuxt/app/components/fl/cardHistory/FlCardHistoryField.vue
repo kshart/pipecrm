@@ -1,12 +1,5 @@
-<template>
-  <div style="background: #0f0">
-    <pre style="font-size:10px;color:#000">{{ fieldConfig.title  }}: {{ value }}</pre>
-    {{ timeFormatted }}
-  </div>
-</template>
-
 <script lang="ts" setup>
-import type { Funnel, DataGroupField } from '@@/types/prisma'
+import type { DataGroupField } from '@@/types/prisma'
 
 const props = defineProps<{
   fieldConfig: DataGroupField
@@ -15,3 +8,10 @@ const props = defineProps<{
   value: string
 }>()
 </script>
+
+<template>
+  <div style="background: #0f0">
+    <pre style="font-size:10px;color:#000">{{ props.fieldConfig.title }}: {{ props.value }}</pre>
+    {{ props.timeFormatted }}
+  </div>
+</template>

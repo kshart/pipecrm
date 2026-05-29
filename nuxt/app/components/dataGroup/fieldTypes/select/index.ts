@@ -17,7 +17,7 @@ export default {
   name: 'select',
   FieldViewer,
   FieldEditor,
-  createNew () {
+  createNew() {
     return {
       options: [],
       vConf: undefined,

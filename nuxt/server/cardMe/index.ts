@@ -18,12 +18,12 @@ export type CardUpdateData = Partial<
  * Здесть обрабатываются все тригеры
  */
 export default {
-  async create (funnel: Funnel, data: CardCreateData): Promise<Card> {
+  async create(funnel: Funnel, data: CardCreateData): Promise<Card> {
     const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard)
+      (newCard: Card) => useCardLogger().log(newCard),
     ]
     if (data.tags?.length > 0) {
-      afterSave.push((newCard) => tagService.cardUpdateTags(newCard.tags, []))
+      afterSave.push(newCard => tagService.cardUpdateTags(newCard.tags, []))
     }
 
     const columnUuid: string = funnel.columns?.[0]?.uuid
@@ -42,9 +42,9 @@ export default {
     broadcast.publish('card:c:' + columnUuid, card)
     return card
   },
-  async update (card: Card, data: CardUpdateData): Promise<Card> {
+  async update(card: Card, data: CardUpdateData): Promise<Card> {
     const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard)
+      (newCard: Card) => useCardLogger().log(newCard),
     ]
 
     const updateData = {
@@ -55,7 +55,7 @@ export default {
     }
     if (Array.isArray(data.tags)) {
       updateData.tags = data.tags
-      afterSave.push((newCard) => tagService.cardUpdateTags(newCard.tags, card.tags))
+      afterSave.push(newCard => tagService.cardUpdateTags(newCard.tags, card.tags))
     }
     if (data.userId) {
       updateData.userId = data.userId
@@ -76,5 +76,5 @@ export default {
     const broadcast = useBroadcast()
     broadcast.publish('card:u:' + cardUpdated.uuid, cardUpdated)
     return cardUpdated
-  }
+  },
 }

@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import type { FunnelColumn } from '@@/types/prisma'
+
+const props = defineProps<{
+  column: FunnelColumn
+}>()
+
+const emit = defineEmits(['change'])
+</script>
+
 <template>
   <div class="pa-3">
     <!-- eslint-disable vue/no-mutating-props -->
@@ -32,16 +42,6 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import type { FunnelColumn } from '@@/types/prisma'
-
-const props = defineProps<{
-  column: FunnelColumn
-}>()
-
-const emit = defineEmits(['change'])
-</script>
 
 <style scoped lang="scss">
 .column-uuid {

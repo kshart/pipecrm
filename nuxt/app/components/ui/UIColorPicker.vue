@@ -1,40 +1,9 @@
-<template>
-  <div>
-    <v-menu
-      :closeOnContentClick="false"
-    >
-      <template #activator="{ props }">
-        <v-btn
-          :color="color || '#fff'"
-          size="small"
-          :width="20"
-          v-bind="props"
-        />
-      </template>
-      <v-color-picker
-        v-model="color"
-        class="mt-2"
-        :canvasHeight="100"
-        mode="rgb"
-        hideInputs
-        @update:modelValue="changeDebounced"
-      />
-    </v-menu>
-    <v-btn
-      variant="plain"
-      icon="mdi-close"
-      size="x-small"
-      @click="color = null; model = null"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 interface Props {
   delay?: number
 }
 const props = withDefaults(defineProps<Props>(), {
-  delay: 500
+  delay: 500,
 })
 
 const model = defineModel<string | null>()
@@ -65,3 +34,34 @@ const changeDebounced = () => {
   }, props.delay)
 }
 </script>
+
+<template>
+  <div>
+    <v-menu
+      :closeOnContentClick="false"
+    >
+      <template #activator="{ props }">
+        <v-btn
+          :color="color || '#fff'"
+          size="small"
+          :width="20"
+          v-bind="props"
+        />
+      </template>
+      <v-color-picker
+        v-model="color"
+        class="mt-2"
+        :canvasHeight="100"
+        mode="rgb"
+        hideInputs
+        @update:modelValue="changeDebounced"
+      />
+    </v-menu>
+    <v-btn
+      variant="plain"
+      icon="mdi-close"
+      size="x-small"
+      @click="color = null; model = null"
+    />
+  </div>
+</template>

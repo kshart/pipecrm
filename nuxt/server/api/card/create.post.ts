@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const funnel = await prisma.funnel.findFirstOrThrow({
     where: {
-      uuid: String(data.funnelUuid)
+      uuid: String(data.funnelUuid),
     },
     include: { // deprecated
       columns: true,

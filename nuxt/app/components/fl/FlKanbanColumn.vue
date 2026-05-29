@@ -1,38 +1,3 @@
-<template>
-  <div
-    v-show="!props.column.hideEmpty || isDrag || items.length > 0"
-    ref="elementRef"
-    class="kanban-column"
-    :class="isDragActive ? 'drag-active' : null"
-    @dragenter="onDragenter"
-  >
-    <div class="text-center mt-4">
-      {{ props.column.title }}
-    </div>
-    <v-infinite-scroll
-      class="kanban-column-list"
-      side="end"
-      @load="load"
-    >
-      <FlKanbanCard
-        v-for="card of items"
-        :key="card.uuid"
-        :card="card"
-        :selected="Boolean(selectedCardUuid && card.uuid === selectedCardUuid)"
-        class="fl-kanban-card"
-        @click="emit('selectCard', card.uuid)"
-        @dragstart="emit('dragstart', card)"
-        @dragend="emit('dragend')"
-      />
-      <template #empty>
-        <span v-if="request.total && request.total > 0" class="text-disabled">
-          Loaded {{ request.total }}
-        </span>
-      </template>
-    </v-infinite-scroll>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import type { Paginator } from '@@/types/index'
 import type { Card, FunnelColumn } from '@@/types/prisma'
@@ -112,6 +77,44 @@ if (import.meta.client) {
   })
 }
 </script>
+
+<template>
+  <div
+    v-show="!props.column.hideEmpty || isDrag || items.length > 0"
+    ref="elementRef"
+    class="kanban-column"
+    :class="isDragActive ? 'drag-active' : null"
+    @dragenter="onDragenter"
+  >
+    <div class="text-center mt-4">
+      {{ props.column.title }}
+    </div>
+    <v-infinite-scroll
+      class="kanban-column-list"
+      side="end"
+      @load="load"
+    >
+      <FlKanbanCard
+        v-for="card of items"
+        :key="card.uuid"
+        :card="card"
+        :selected="Boolean(selectedCardUuid && card.uuid === selectedCardUuid)"
+        class="fl-kanban-card"
+        @click="emit('selectCard', card.uuid)"
+        @dragstart="emit('dragstart', card)"
+        @dragend="emit('dragend')"
+      />
+      <template #empty>
+        <span
+          v-if="request.total && request.total > 0"
+          class="text-disabled"
+        >
+          Loaded {{ request.total }}
+        </span>
+      </template>
+    </v-infinite-scroll>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .kanban-column {

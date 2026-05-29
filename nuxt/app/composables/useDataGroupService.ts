@@ -21,23 +21,23 @@ export default async () => {
   })
 
   return {
-    async fetch () {
+    async fetch() {
       fetchDataGroups.value = $fetch<FlDataGroup[]>('/api/dataGroup')
     },
-    groups (): Ref<FlDataGroup[]> {
+    groups(): Ref<FlDataGroup[]> {
       return dataGroups
     },
-    groupsForFunnel (uuid: Ref<string>): Ref<FlDataGroup[]> {
+    groupsForFunnel(uuid: Ref<string>): Ref<FlDataGroup[]> {
       return computed(() => dataGroups.value.filter(dg => dg.funnelUuids.includes(uuid.value)))
     },
-    async saveGroup (uuid: string, dataGroup: FlDataGroup) {
+    async saveGroup(uuid: string, dataGroup: FlDataGroup) {
       return $fetch(`/api/dataGroup/${uuid}`, {
         method: 'post',
         fatal: true,
         body: dataGroup,
       })
     },
-    async createGroup () {
+    async createGroup() {
       return $fetch('/api/dataGroup/create', {
         method: 'post',
         fatal: true,

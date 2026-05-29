@@ -1,60 +1,3 @@
-<template>
-  <div>
-    <v-btn
-      v-for="dataGroup in dataGroups"
-      :key="dataGroup.uuid"
-      :style="{
-        borderWidth: '0 0 2px 0',
-        borderColor: tab === dataGroup.uuid ? 'rgb(var(--v-theme-primary)) !important' : 'transparent',
-      }"
-      :active="tab === dataGroup.uuid"
-      activeColor="primary"
-      rounded="0"
-      height="26px"
-      variant="plain"
-      size="small"
-      :text="dataGroup.title"
-      @click="tab = dataGroup.uuid"
-    />
-    <v-btn
-      height="26px"
-      rounded="0"
-      variant="plain"
-      size="small"
-      icon="mdi-cog"
-      @click="editMode = true"
-    />
-    <v-tabs-window v-model="tab" class="pt-3">
-      <v-tabs-window-item
-        v-for="dataGroup of dataGroupsWithFieldConfig"
-        :key="dataGroup.uuid"
-        :value="dataGroup.uuid"
-      >
-        <component
-          v-for="{ field, conf } of dataGroup.fields"
-          :key="field.uuid"
-          :is="conf.FieldViewer"
-          :field="field"
-          :fieldType="conf"
-          class="mb-3"
-          v-model="props.card.fields[field.uuid]"
-        />
-      </v-tabs-window-item>
-    </v-tabs-window>
-    <v-dialog
-      v-model="editMode"
-      width="auto"
-    >
-      <template v-slot="{ isActive }">
-        <DataGroupEditor
-          v-if="isActive"
-          :funnel="props.funnel"
-        />
-      </template>
-    </v-dialog>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import type { Funnel } from '@@/types/prisma'
 import type { FlCard } from '@@/types/FlCard'
@@ -93,3 +36,64 @@ const dataGroupsWithFieldConfig = computed(() => dataGroups.value.map((group) =>
   }
 }))
 </script>
+
+<template>
+  <!-- eslint-disable vue/no-mutating-props -->
+  <div>
+    <v-btn
+      v-for="dataGroup in dataGroups"
+      :key="dataGroup.uuid"
+      :style="{
+        borderWidth: '0 0 2px 0',
+        borderColor: tab === dataGroup.uuid ? 'rgb(var(--v-theme-primary)) !important' : 'transparent',
+      }"
+      :active="tab === dataGroup.uuid"
+      activeColor="primary"
+      rounded="0"
+      height="26px"
+      variant="plain"
+      size="small"
+      :text="dataGroup.title"
+      @click="tab = dataGroup.uuid"
+    />
+    <v-btn
+      height="26px"
+      rounded="0"
+      variant="plain"
+      size="small"
+      icon="mdi-cog"
+      @click="editMode = true"
+    />
+    <v-tabs-window
+      v-model="tab"
+      class="pt-3"
+    >
+      <v-tabs-window-item
+        v-for="dataGroup of dataGroupsWithFieldConfig"
+        :key="dataGroup.uuid"
+        :value="dataGroup.uuid"
+      >
+        <component
+          :is="conf.FieldViewer"
+          v-for="{ field, conf } of dataGroup.fields"
+          :key="field.uuid"
+          v-model="props.card.fields[field.uuid]"
+          :field="field"
+          :fieldType="conf"
+          class="mb-3"
+        />
+      </v-tabs-window-item>
+    </v-tabs-window>
+    <v-dialog
+      v-model="editMode"
+      width="auto"
+    >
+      <template #default="{ isActive }">
+        <DataGroupEditor
+          v-if="isActive"
+          :funnel="props.funnel"
+        />
+      </template>
+    </v-dialog>
+  </div>
+</template>

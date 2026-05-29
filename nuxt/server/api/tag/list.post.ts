@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   return await prisma.tag.findMany({
     where: {
       title: {
-        in: tags
-      }
+        in: tags,
+      },
     },
   })
 })

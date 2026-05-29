@@ -17,7 +17,7 @@ const providers = [
     clientId: String(process.env.YANDEX_CLIENT_ID),
     clientSecret: String(process.env.YANDEX_CLIENT_SECRET),
     // authorization: { params: { scope: "login:info+login:email+login:avatar" } }
-  })
+  }),
 ] as AuthOptions['providers']
 
 if (process.env.NODE_ENV === 'development') {
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
       name: 'Password',
       credentials: {
         username: {
-          label: 'Username'
+          label: 'Username',
         },
         password: {
           label: 'Password',
@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'development') {
           id: 'test',
           name: 'Kshart',
           email: 'kshart@yandex.ru',
-          image: 'https://avatars.yandex.net/get-yapic/23134/enc-01aad189a1d20e0d2440bf552847721c20d6fa4e581d699e083721a522e5e84f/islands-200'
+          image: 'https://avatars.yandex.net/get-yapic/23134/enc-01aad189a1d20e0d2440bf552847721c20d6fa4e581d699e083721a522e5e84f/islands-200',
         }
       },
     })
@@ -61,7 +61,7 @@ export default NuxtAuthHandler({
     signOut: '/logout',
     error: '/auth/error',
     verifyRequest: '/auth/verify-request',
-    newUser: '/'
+    newUser: '/',
   },
   // events: {
   //   async signIn (message: unknown) {

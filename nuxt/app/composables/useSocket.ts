@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 let socket = null as ReturnType<typeof io> | null
 if (import.meta.client) {
   socket = io({
-    transports: ['websocket']
+    transports: ['websocket'],
   })
 }
 export default () => {

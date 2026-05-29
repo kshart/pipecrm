@@ -1,3 +1,19 @@
+<script lang="ts" setup>
+import Draggable from 'vuedraggable'
+
+const props = defineProps<{
+  uuid: string
+}>()
+
+const editor = await useKanbanEditor(props.uuid)
+if (editor.model.value.title) {
+  useSeoMeta({
+    title: 'Edit: ' + editor.model.value.title,
+    ogTitle: 'Edit: ' + editor.model.value.title,
+  })
+}
+</script>
+
 <template>
   <v-main>
     <div class="fla-kanban">
@@ -37,22 +53,6 @@
     </div>
   </v-main>
 </template>
-
-<script lang="ts" setup>
-import Draggable from 'vuedraggable'
-
-const props = defineProps<{
-  uuid: string
-}>()
-
-const editor = await useKanbanEditor(props.uuid)
-if (editor.model.value.title) {
-  useSeoMeta({
-    title: 'Edit: ' + editor.model.value.title,
-    ogTitle: 'Edit: ' + editor.model.value.title,
-  })
-}
-</script>
 
 <style scoped lang="scss">
 .fla-kanban {

@@ -1,8 +1,23 @@
+<script lang="ts" setup>
+import type { Card } from '@@/types/prisma'
+
+const emit = defineEmits<{
+  (e: 'click' | 'dragstart' | 'dragend'): void
+}>()
+const props = defineProps<{
+  card: Card
+  selected?: boolean
+}>()
+
+const tagService = useTagService()
+const cardConf = computed(() => tagService.getCardConf(props.card.tags))
+</script>
+
 <template>
   <v-card
     :border="Boolean(cardConf.cardOutlineColor)"
     :style="{
-      'border-color': cardConf.cardOutlineColor || undefined
+      'border-color': cardConf.cardOutlineColor || undefined,
     }"
     :color="selected ? 'primary' : undefined"
     draggable="true"
@@ -18,18 +33,3 @@
     />
   </v-card>
 </template>
-
-<script lang="ts" setup>
-import type { Card } from '@@/types/prisma'
-
-const emit = defineEmits<{
-  (e: 'click' | 'dragstart' | 'dragend'): void
-}>()
-const props = defineProps<{
-  card: Card
-  selected?: boolean
-}>()
-
-const tagService = useTagService()
-const cardConf = computed(() => tagService.getCardConf(props.card.tags))
-</script>

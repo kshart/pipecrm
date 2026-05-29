@@ -1,3 +1,97 @@
+<script lang="ts" setup>
+import type { Paginator } from '@@/types/index'
+import type { Card, Tag } from '@@/types/prisma'
+
+const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
+  return await $fetch<Paginator<Card>>('/api/card/search', {
+    query: {
+      columnUuid,
+      page,
+      perPage,
+    },
+  })
+}
+
+const route = useRoute()
+const router = useRouter()
+const props = defineProps<{
+  uuid: string
+}>()
+
+const { data: funnel, error } = await useFetch('/api/funnel/get', {
+  query: {
+    uuid: props.uuid,
+  },
+})
+if (error.value) {
+  throw new Error(String(error.value))
+}
+if (funnel.value) {
+  useSeoMeta({
+    title: funnel.value.title,
+    ogTitle: funnel.value.title,
+  })
+}
+
+const cardUuid = computed({
+  get(): string | 'new' | undefined {
+    return route.query.card ? String(route.query.card) : undefined
+  },
+  set(uuid: string | 'new' | undefined) {
+    const query = {
+      ...route.query,
+    }
+    if (!uuid) {
+      delete query.card
+    } else {
+      query.card = uuid
+    }
+    router.push({
+      path: route.path,
+      query,
+    })
+  },
+})
+
+const cardManipulator = useCardManipulator()
+const dragCard = ref<Card | null>(null)
+const columnsRef = ref<HTMLDivElement | null>(null)
+const dragActiveColumn = ref<string | null>(null)
+const onDragenter = (columnUuid: string) => {
+  if (dragCard.value) {
+    dragActiveColumn.value = columnUuid
+  }
+}
+const onDragleave = (e: DragEvent) => {
+  const isMouseup = e.screenX === 0 && e.screenY === 0
+  if (columnsRef.value && !columnsRef.value.contains(e.relatedTarget as Node) && !isMouseup) {
+    dragActiveColumn.value = null
+  }
+}
+const onDragstart = (card: Card) => {
+  dragCard.value = card
+}
+const onDragend = () => {
+  const card = dragCard.value
+  if (card && dragActiveColumn.value && dragActiveColumn.value !== card.columnUuid) {
+    cardManipulator.setColumn(card.uuid, dragActiveColumn.value)
+  }
+  dragActiveColumn.value = null
+}
+if (import.meta.client) {
+  const tagService = useTagService()
+  useSocketSubscribe(ref(['tag:u']), (event: string, data: unknown) => {
+    const tag = data as Tag
+    tagService.apply([tag])
+  })
+
+  useSocketSubscribe(ref(['dataGroup:u']), async (event: string, data: unknown) => {
+    const dataGroupService = await useDataGroupService()
+    dataGroupService.fetch()
+  })
+}
+</script>
+
 <template>
   <v-layout>
     <div class="kanban-page-wrap">
@@ -48,100 +142,6 @@
     />
   </v-layout>
 </template>
-
-<script lang="ts" setup>
-import type { Paginator } from '@@/types/index'
-import type { Card, Tag } from '@@/types/prisma'
-
-const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
-  return await $fetch<Paginator<Card>>('/api/card/search', {
-    query: {
-      columnUuid,
-      page,
-      perPage,
-    },
-  })
-}
-
-const route = useRoute()
-const router = useRouter()
-const props = defineProps<{
-  uuid: string
-}>()
-
-const { data: funnel, error } = await useFetch('/api/funnel/get', {
-  query: {
-    uuid: props.uuid
-  }
-})
-if (error.value) {
-  throw new Error(String(error.value))
-}
-if (funnel.value) {
-  useSeoMeta({
-    title: funnel.value.title,
-    ogTitle: funnel.value.title,
-  })
-}
-
-const cardUuid = computed({
-  get (): string | 'new' | undefined {
-    return route.query.card ? String(route.query.card) : undefined
-  },
-  set (uuid: string | 'new' | undefined) {
-    const query = {
-      ...route.query
-    }
-    if (!uuid) {
-      delete query.card
-    } else {
-      query.card = uuid
-    }
-    router.push({
-      path: route.path,
-      query
-    })
-  },
-})
-
-const cardManipulator = useCardManipulator()
-const dragCard = ref<Card | null>(null)
-const columnsRef = ref<HTMLDivElement | null>(null)
-const dragActiveColumn = ref<string | null>(null)
-const onDragenter = (columnUuid: string) => {
-  if (dragCard.value) {
-    dragActiveColumn.value = columnUuid
-  }
-}
-const onDragleave = (e: DragEvent) => {
-  const isMouseup = e.screenX === 0 && e.screenY === 0
-  if (columnsRef.value && !columnsRef.value.contains(e.relatedTarget as Node) && !isMouseup) {
-    dragActiveColumn.value = null
-  }
-}
-const onDragstart = (card: Card) => {
-  dragCard.value = card
-}
-const onDragend = () => {
-  const card = dragCard.value
-  if (card && dragActiveColumn.value && dragActiveColumn.value !== card.columnUuid) {
-    cardManipulator.setColumn(card.uuid, dragActiveColumn.value)
-  }
-  dragActiveColumn.value = null
-}
-if (import.meta.client) {
-  const tagService = useTagService()
-  useSocketSubscribe(ref(['tag:u']), (event: string, data: unknown) => {
-    const tag = data as Tag
-    tagService.apply([tag])
-  })
-
-  useSocketSubscribe(ref(['dataGroup:u']), async (event: string, data: unknown) => {
-    const dataGroupService = await useDataGroupService()
-    dataGroupService.fetch()
-  })
-}
-</script>
 
 <style scoped lang="scss">
 .kanban-page-wrap {

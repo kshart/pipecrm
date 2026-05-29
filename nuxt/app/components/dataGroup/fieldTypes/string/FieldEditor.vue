@@ -1,4 +1,35 @@
+<!-- eslint-disable vue/no-mutating-props -->
+<script lang="ts" setup>
+import type { FieldConfigString } from './index'
+
+const props = defineProps<{
+  field: FieldConfigString
+}>()
+
+const types = [
+  'email',
+  'tel',
+  'text',
+  'url',
+]
+
+const setType = (type: string) => {
+  if (!props.field.config.vConf) {
+    props.field.config.vConf = {}
+  }
+  props.field.config.vConf.type = type
+}
+
+const setClearable = (clearable: boolean | null) => {
+  if (!props.field.config.vConf) {
+    props.field.config.vConf = {}
+  }
+  props.field.config.vConf.clearable = Boolean(clearable)
+}
+</script>
+
 <template>
+  <!-- eslint-disable vue/no-mutating-props -->
   <v-row dense>
     <v-col>
       <v-checkbox
@@ -30,32 +61,3 @@
     </v-col>
   </v-row>
 </template>
-
-<script lang="ts" setup>
-import type { FieldConfigString } from './index'
-
-const props = defineProps<{
-  field: FieldConfigString
-}>()
-
-const types = [
-  'email',
-  'tel',
-  'text',
-  'url',
-]
-
-const setType = (type: string) => {
-  if (!props.field.config.vConf) {
-    props.field.config.vConf = {}
-  }
-  props.field.config.vConf.type = type
-}
-
-const setClearable = (clearable: boolean | null) => {
-  if (!props.field.config.vConf) {
-    props.field.config.vConf = {}
-  }
-  props.field.config.vConf.clearable = Boolean(clearable)
-}
-</script>

@@ -10,16 +10,16 @@ export default defineEventHandler(async (event) => {
   const data = await prisma.tag.findMany({
     where: {
       title: {
-        contains: String(query.fts)
-      }
+        contains: String(query.fts),
+      },
     },
     take: 10,
   })
   const total = await prisma.tag.count({
     where: {
       title: {
-        contains: String(query.fts)
-      }
+        contains: String(query.fts),
+      },
     },
   })
   return {

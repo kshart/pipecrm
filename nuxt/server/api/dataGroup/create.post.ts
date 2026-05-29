@@ -18,6 +18,6 @@ export default defineEventHandler(async () => {
   const { funnels, ...model } = dataGroup
   return {
     ...model,
-    funnelUuids: funnels.map(ff => ff.funnelUuid)
+    funnelUuids: funnels.map(ff => ff.funnelUuid),
   } as unknown as FlDataGroup
 })

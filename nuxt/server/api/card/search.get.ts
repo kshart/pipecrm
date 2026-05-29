@@ -13,20 +13,20 @@ export default defineEventHandler(async (event): Promise<Paginator<Card>> => {
 
   const data = await prisma.card.findMany({
     where: {
-      columnUuid: String(query.columnUuid)
+      columnUuid: String(query.columnUuid),
     },
     skip: page * perPage,
     take: perPage,
   })
   const total = await prisma.card.count({
     where: {
-      columnUuid: String(query.columnUuid)
+      columnUuid: String(query.columnUuid),
     },
   })
   return {
     data,
     total,
     page,
-    totalPages: Math.ceil(total / perPage)
+    totalPages: Math.ceil(total / perPage),
   }
 })

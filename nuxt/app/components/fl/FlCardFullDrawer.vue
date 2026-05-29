@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import FlCardFull from './FlCardFull.vue'
+import type { Funnel } from '@@/types/prisma'
+
+const cardUuid = defineModel<string | null>({ default: null })
+const props = defineProps<{
+  funnel: Funnel
+}>()
+const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull')
+</script>
+
 <template>
   <v-navigation-drawer
     :modelValue="!!cardUuid"
@@ -17,7 +28,9 @@
           :cardUuid="cardUuid"
         />
         <div class="panel-left-action">
-          <div style="height: 200px">height: 200px</div>
+          <div style="height: 200px">
+            height: 200px
+          </div>
         </div>
       </div>
       <div class="panel-card">
@@ -43,17 +56,6 @@
     </div>
   </v-navigation-drawer>
 </template>
-
-<script lang="ts" setup>
-import FlCardFull from './FlCardFull.vue'
-import type { Funnel } from '@@/types/prisma'
-
-const cardUuid = defineModel<string | null>({ default: null })
-const props = defineProps<{
-  funnel: Funnel
-}>()
-const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull')
-</script>
 
 <style scoped lang="scss">
 .card-full-drawer {

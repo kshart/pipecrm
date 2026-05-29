@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const route = useRoute()
+</script>
+
 <template>
   <v-main>
     <FlKanban
@@ -5,7 +9,3 @@
     />
   </v-main>
 </template>
-
-<script lang="ts" setup>
-const route = useRoute()
-</script>

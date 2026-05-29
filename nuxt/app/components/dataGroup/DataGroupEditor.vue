@@ -1,3 +1,51 @@
+<script lang="ts" setup>
+import type { Funnel } from '@@/types/prisma'
+import type { FlDataGroup } from '@@/types/FlDataGroup'
+import fieldTypes from './fieldTypes'
+import { v4 as uuidV4 } from 'uuid'
+
+const props = defineProps<{
+  funnel: Funnel
+}>()
+
+const dataGroupService = await useDataGroupService()
+const dataGroups = dataGroupService.groups()
+const tab = ref(dataGroups.value?.[0]?.uuid)
+
+const fieldConf = (type: string) => fieldTypes.find(ft => ft.name === type)
+
+const save = (uuid: string, dataGroup: FlDataGroup) => {
+  dataGroupService.saveGroup(uuid, dataGroup)
+}
+
+const dataGroupsEditable = ref<typeof dataGroups.value>(
+  structuredClone(toRaw(dataGroups.value))
+)
+
+dataGroupsEditable.value.map((dg) => {
+  watch(dg, value => save(dg.uuid, value), { deep: true })
+})
+
+const createField = (dataGroup: FlDataGroup) => {
+  const fieldType = fieldTypes[0]
+  dataGroup.fields.push({
+    uuid: uuidV4(),
+    type: fieldType.name,
+    title: 'New field',
+    config: fieldType.createNew(),
+  })
+}
+
+const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
+  const funnelUuidIndex = dataGroup.funnelUuids.indexOf(props.funnel.uuid)
+  if (funnelUuidIndex >= 0) {
+    dataGroup.funnelUuids.splice(funnelUuidIndex, 1)
+  } else {
+    dataGroup.funnelUuids.push(props.funnel.uuid)
+  }
+}
+</script>
+
 <template>
   <v-card
     title="Data groups editor"
@@ -52,7 +100,10 @@
           :key="dataGroup.uuid"
           :value="dataGroup.uuid"
         >
-          <div class="px-3 pb-5" style="width: 700px">
+          <div
+            class="px-3 pb-5"
+            style="width: 700px"
+          >
             <v-text-field
               v-model="dataGroup.title"
               hideDetails
@@ -118,51 +169,3 @@
     </div>
   </v-card>
 </template>
-
-<script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-import type { FlDataGroup } from '@@/types/FlDataGroup'
-import fieldTypes from './fieldTypes'
-import { v4 as uuidV4 } from 'uuid'
-
-const props = defineProps<{
-  funnel: Funnel
-}>()
-
-const dataGroupService = await useDataGroupService()
-const dataGroups = dataGroupService.groups()
-const tab = ref(dataGroups.value?.[0]?.uuid)
-
-const fieldConf = (type: string) => fieldTypes.find(ft => ft.name === type)
-
-const save = (uuid: string, dataGroup: FlDataGroup) => {
-  dataGroupService.saveGroup(uuid, dataGroup)
-}
-
-const dataGroupsEditable = ref<typeof dataGroups.value>(
-  structuredClone(toRaw(dataGroups.value))
-)
-
-dataGroupsEditable.value.map((dg) => {
-  watch(dg, (value) => save(dg.uuid, value), { deep: true })
-})
-
-const createField = (dataGroup: FlDataGroup) => {
-  const fieldType = fieldTypes[0]
-  dataGroup.fields.push({
-    uuid: uuidV4(),
-    type: fieldType.name,
-    title: 'New field',
-    config: fieldType.createNew(),
-  })
-}
-
-const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
-  const funnelUuidIndex = dataGroup.funnelUuids.indexOf(props.funnel.uuid)
-  if (funnelUuidIndex >= 0) {
-    dataGroup.funnelUuids.splice(funnelUuidIndex, 1)
-  } else {
-    dataGroup.funnelUuids.push(props.funnel.uuid)
-  }
-}
-</script>

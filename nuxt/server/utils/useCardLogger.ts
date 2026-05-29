@@ -16,20 +16,20 @@ const writeApi = new InfluxDB({ url, token })
 const queryApi = new InfluxDB({ url, token })
   .getQueryApi(org)
 
-export function useCardLogger () {
+export function useCardLogger() {
   return {
     /**
      * Прочитать историю изменений карточки
      * @param count Максимальное колличество записей в текущем запросе
      */
-    async read (cardUuid: string, timeStart: string | undefined, timeStop: string | undefined, count: number = 10) {
+    async read(cardUuid: string, timeStart: string | undefined, timeStop: string | undefined, count: number = 10) {
       const cardUuidRaw = cardUuid.replaceAll(/[^0-9a-zA-Z-]*/g, '')
 
       if (!Number.isInteger(count)) {
         throw new Error('Это как?')
       }
 
-      let fluxQuery = `
+      const fluxQuery = `
         import "date"
         data = from(bucket: "buck-test")
           |> range(start: 0)
@@ -72,17 +72,17 @@ export function useCardLogger () {
               })
             }
           },
-          error (error) {
+          error(error) {
             reject(error)
           },
-          complete () {
+          complete() {
             resolve({ data, firstTime, lastTime })
           },
         })
       })
     },
-    async log (card: FlCard) {
-      let fluxQuery = `
+    async log(card: FlCard) {
+      const fluxQuery = `
         import "date"
         from(bucket: "buck-test")
           |> range(start: 0)
@@ -98,10 +98,10 @@ export function useCardLogger () {
 
             oldValues.set(_field, _value)
           },
-          error (error) {
+          error(error) {
             reject(error)
           },
-          complete () {
+          complete() {
             resolve()
           },
         })
@@ -140,6 +140,6 @@ export function useCardLogger () {
           console.log('Run ./onboarding.js to setup a new InfluxDB database.')
         }
       }
-    }
+    },
   }
 }

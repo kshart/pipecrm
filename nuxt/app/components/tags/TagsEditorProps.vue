@@ -1,3 +1,33 @@
+<script lang="ts" setup>
+import { debounce } from 'perfect-debounce'
+
+const props = defineProps<{
+  tag: string
+}>()
+
+const tagService = useTagService(computed(() => [props.tag]))
+
+const textColor = ref<string | null>(null)
+const bgColor = ref<string | null>(null)
+const cardOutlineColor = ref<string | null>(null)
+
+onMounted(() => {
+  const tag = tagService.loadedTags.value.get(props.tag)
+  if (tag) {
+    textColor.value = tag.textColor
+    bgColor.value = tag.bgColor
+    cardOutlineColor.value = tag.cardOutlineColor
+  }
+})
+const save = debounce(() => {
+  tagService.change(props.tag, {
+    textColor: textColor.value,
+    bgColor: bgColor.value,
+    cardOutlineColor: cardOutlineColor.value,
+  })
+}, 10)
+</script>
+
 <template>
   <v-list class="pa-4">
     <v-row>
@@ -58,33 +88,3 @@
     </v-row>
   </v-list>
 </template>
-
-<script lang="ts" setup>
-import { debounce } from 'perfect-debounce'
-
-const props = defineProps<{
-  tag: string
-}>()
-
-const tagService = useTagService(computed(() => [props.tag]))
-
-const textColor = ref<string | null>(null)
-const bgColor = ref<string | null>(null)
-const cardOutlineColor = ref<string | null>(null)
-
-onMounted(() => {
-  const tag = tagService.loadedTags.value.get(props.tag)
-  if (tag) {
-    textColor.value = tag.textColor
-    bgColor.value = tag.bgColor
-    cardOutlineColor.value = tag.cardOutlineColor
-  }
-})
-const save = debounce(() => {
-  tagService.change(props.tag, {
-    textColor: textColor.value,
-    bgColor: bgColor.value,
-    cardOutlineColor: cardOutlineColor.value,
-  })
-}, 10)
-</script>

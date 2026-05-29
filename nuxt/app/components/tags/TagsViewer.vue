@@ -1,5 +1,16 @@
+<script lang="ts" setup>
+const props = defineProps<{
+  tags: string[]
+}>()
+const propsRef = toRefs(props)
+const tagService = useTagService(propsRef.tags)
+</script>
+
 <template>
-  <div v-if="props.tags.length > 0" class="tags-viewer">
+  <div
+    v-if="props.tags.length > 0"
+    class="tags-viewer"
+  >
     <v-chip
       v-for="{ tag, style } of props.tags.map(tag => ({ tag, style: tagService.getStyle(tag) }))"
       :key="tag"
@@ -12,14 +23,6 @@
     </v-chip>
   </div>
 </template>
-
-<script lang="ts" setup>
-const props = defineProps<{
-  tags: string[]
-}>()
-const propsRef = toRefs(props)
-const tagService = useTagService(propsRef.tags)
-</script>
 
 <style scoped lang="scss">
 .tags-viewer {

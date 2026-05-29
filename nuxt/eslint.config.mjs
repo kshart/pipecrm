@@ -213,7 +213,41 @@ export default withNuxt({
   //   'import/no-named-default': 'error',
   //   'import/no-webpack-loader-syntax': 'error'
   // },
+  ignores: [
+    'prisma/generated',
+  ],
 })
+  .override('nuxt/vue/rules', {
+    rules: {
+      'vue/attribute-hyphenation': ['error', 'never'],
+      'vue/v-on-event-hyphenation': ['error', 'never'],
+      'vue/block-order': ['error', {
+        order: ['script', 'template', 'style'],
+      }],
+    },
+  })
+  .override('nuxt/typescript/rules', {
+    rules: {
+      '@typescript-eslint/unified-signatures': ['error', { ignoreDifferentlyNamedParameters: true }],
+    },
+  })
+  .override('nuxt/stylistic', {
+    rules: {
+      '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+      '@stylistic/comma-dangle': ['error', {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+        importAttributes: 'always-multiline',
+        dynamicImports: 'always-multiline',
+        enums: 'always-multiline',
+        generics: 'always-multiline',
+        tuples: 'always-multiline',
+      }],
+    },
+  })
 //   {
 //     extends: [
 //       "@nuxtjs",

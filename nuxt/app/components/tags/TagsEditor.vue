@@ -1,3 +1,23 @@
+<script lang="ts" setup>
+import type { Tag } from '@@/types/prisma'
+import { debounce } from 'perfect-debounce'
+import tagApi from '@@/api/tag'
+
+const tags = defineModel<string[]>()
+const allTags = ref<Tag[]>([])
+
+const loading = ref(false)
+
+const search = debounce(async (fts: string) => {
+  loading.value = true
+  const r = await tagApi.search(fts)
+  loading.value = false
+  allTags.value = r.data
+}, 500)
+
+const tagService = useTagService(tags as Ref<string[]>)
+</script>
+
 <template>
   <div>
     <v-combobox
@@ -49,23 +69,3 @@
     </v-combobox>
   </div>
 </template>
-
-<script lang="ts" setup>
-import type { Tag } from '@@/types/prisma'
-import { debounce } from 'perfect-debounce'
-import tagApi from '@@/api/tag'
-
-const tags = defineModel<string[]>()
-const allTags = ref<Tag[]>([])
-
-const loading = ref(false)
-
-const search = debounce(async (fts: string) => {
-  loading.value = true
-  const r = await tagApi.search(fts)
-  loading.value = false
-  allTags.value = r.data
-}, 500)
-
-const tagService = useTagService(tags as Ref<string[]>)
-</script>

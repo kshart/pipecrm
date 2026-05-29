@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   return await prisma.card.findFirstOrThrow({
     where: {
-      uuid: String(query.uuid)
+      uuid: String(query.uuid),
     },
   })
 })

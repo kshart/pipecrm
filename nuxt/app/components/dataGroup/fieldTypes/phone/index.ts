@@ -5,15 +5,13 @@ import FieldEditor from './FieldEditor.vue'
 /**
  * @see https://vuetifyjs.com/en/api/v-number-input/
  */
-export type FieldConfigPhone = IFieldConfig<'phone', {
-
-}>
+export type FieldConfigPhone = IFieldConfig<'phone', {}>
 
 export default {
   name: 'phone',
   FieldViewer,
   FieldEditor,
-  createNew () {
+  createNew() {
     return {
     }
   },

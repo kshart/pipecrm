@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import type { Funnel } from '@@/types/prisma'
+
+const columnUuid = defineModel<string>()
+const props = defineProps<{
+  funnel: Funnel
+}>()
+</script>
+
 <template>
   <v-select
     v-model="columnUuid"
@@ -7,12 +16,3 @@
     itemValue="uuid"
   />
 </template>
-
-<script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-
-const columnUuid = defineModel<string>()
-const props = defineProps<{
-  funnel: Funnel
-}>()
-</script>

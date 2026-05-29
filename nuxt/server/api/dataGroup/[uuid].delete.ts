@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const uuid = String(event.context.params?.uuid)
 
   await prisma.dataGroup.delete({
-    where: { uuid }
+    where: { uuid },
   })
   useBroadcast().publish('dataGroup:u', null)
 })

@@ -47,13 +47,13 @@ export default defineEventHandler(async (event) => {
         where: {
           uuid: {
             in: columnsToRemove,
-          }
+          },
         },
       })
     }
     if (columnsToCreate.length > 0) {
       await prisma.funnelColumn.createMany({
-        data: columnsToCreate
+        data: columnsToCreate,
       })
     }
   }

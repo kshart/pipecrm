@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+definePageMeta({
+  layout: 'empty',
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/',
+  },
+})
+const { signIn, getProviders } = useAuth()
+
+const providers = await getProviders()
+</script>
+
 <template>
   <div>
     <pre>{{ providers }}</pre>
@@ -11,16 +24,3 @@
     </v-btn>
   </div>
 </template>
-
-<script lang="ts" setup>
-definePageMeta({
-  layout: 'empty',
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/',
-  },
-})
-const { signIn, getProviders } = useAuth()
-
-const providers = await getProviders()
-</script>

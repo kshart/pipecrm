@@ -17,7 +17,7 @@ export default {
   name: 'string',
   FieldViewer,
   FieldEditor,
-  createNew () {
+  createNew() {
     return {
       isTextarea: false,
       vConf: undefined,

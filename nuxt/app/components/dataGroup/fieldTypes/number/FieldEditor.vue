@@ -1,7 +1,3 @@
-<template>
-  <div />
-</template>
-
 <script lang="ts" setup>
 import type { FieldConfigNumber } from './index'
 
@@ -10,3 +6,7 @@ const props = defineProps<{
   fieldType: any
 }>()
 </script>
+
+<template>
+  <div />
+</template>

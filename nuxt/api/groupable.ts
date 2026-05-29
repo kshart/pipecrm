@@ -2,8 +2,8 @@
  * Группируем запросы
  * Ждем 100 мс и отправляем пачку запросов
  */
-export function groupableGet<ArgT, AccumT, ModelT, FetchResultT> (
-  requestsReduce: (accumulator: AccumT|null, arg: ArgT) => AccumT,
+export function groupableGet<ArgT, AccumT, ModelT, FetchResultT>(
+  requestsReduce: (accumulator: AccumT | null, arg: ArgT) => AccumT,
   argumentsToUrl: (accumulator: AccumT) => string,
   returnModels: (data: FetchResultT, arg: ArgT) => ModelT[],
   timeout = 100
@@ -15,9 +15,9 @@ export function groupableGet<ArgT, AccumT, ModelT, FetchResultT> (
   }
 
   let requests = [] as GroupGet[]
-  let accumulator: AccumT|null = null
+  let accumulator: AccumT | null = null
 
-  let listGroupedTimeout: ReturnType<typeof setTimeout>|null = null
+  let listGroupedTimeout: ReturnType<typeof setTimeout> | null = null
   const listGroupedLoad = () => {
     listGroupedTimeout = null
     if (!accumulator) {
@@ -39,7 +39,7 @@ export function groupableGet<ArgT, AccumT, ModelT, FetchResultT> (
       requests.push({
         arg,
         resolve,
-        reject
+        reject,
       })
       accumulator = requestsReduce(accumulator, arg)
       if (!listGroupedTimeout) {
@@ -53,9 +53,9 @@ export function groupableGet<ArgT, AccumT, ModelT, FetchResultT> (
  * Группируем запросы
  * Ждем 100 мс и отправляем пачку запросов
  */
-export function groupablePost<ArgT, AccumT, ModelT, FetchResultT> (
+export function groupablePost<ArgT, AccumT, ModelT, FetchResultT>(
   url: string,
-  requestsReduce: (accumulator: AccumT|null, arg: ArgT) => AccumT,
+  requestsReduce: (accumulator: AccumT | null, arg: ArgT) => AccumT,
   argumentsToBody: (accumulator: AccumT) => any,
   returnModels: (data: FetchResultT, arg: ArgT) => ModelT[],
   timeout = 100
@@ -67,9 +67,9 @@ export function groupablePost<ArgT, AccumT, ModelT, FetchResultT> (
   }
 
   let requests = [] as GroupPost[]
-  let accumulator: AccumT|null = null
+  let accumulator: AccumT | null = null
 
-  let listGroupedTimeout: ReturnType<typeof setTimeout>|null = null
+  let listGroupedTimeout: ReturnType<typeof setTimeout> | null = null
   const listGroupedLoad = () => {
     listGroupedTimeout = null
     if (!accumulator) {
@@ -82,7 +82,7 @@ export function groupablePost<ArgT, AccumT, ModelT, FetchResultT> (
     requests = []
     $fetch<FetchResultT>(url, {
       method: 'post',
-      body
+      body,
     }).then((data: FetchResultT) => {
       for (const request of currentRequests) {
         request.resolve(returnModels(data, request.arg))
@@ -94,7 +94,7 @@ export function groupablePost<ArgT, AccumT, ModelT, FetchResultT> (
       requests.push({
         arg,
         resolve,
-        reject
+        reject,
       })
       accumulator = requestsReduce(accumulator, arg)
       if (!listGroupedTimeout) {

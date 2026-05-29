@@ -6,7 +6,7 @@ import { v4 as uuidV4 } from 'uuid'
  */
 export default async (uuid: string) => {
   const { data: funnel, error } = await useFetch('/api/funnel/get', {
-    query: { uuid }
+    query: { uuid },
   })
   if (error.value) {
     throw new Error(String(error.value))
@@ -19,7 +19,7 @@ export default async (uuid: string) => {
 
   return {
     model,
-    addColumn () {
+    addColumn() {
       model.value.columns.push({
         uuid: uuidV4(),
         funnelUuid: uuid,
@@ -31,11 +31,11 @@ export default async (uuid: string) => {
       })
       this.saveModel()
     },
-    dropColumn (uuid: string) {
+    dropColumn(uuid: string) {
       const index = model.value.columns.findIndex(c => c.uuid === uuid)
       model.value.columns.splice(index, 1)
     },
-    async saveModel () {
+    async saveModel() {
       let sort = 0
       for (const column of model.value.columns) {
         column.sort = sort++
@@ -46,6 +46,6 @@ export default async (uuid: string) => {
         query: { uuid },
         body: model.value,
       })
-    }
+    },
   }
 }

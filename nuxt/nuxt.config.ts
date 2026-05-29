@@ -1,27 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
-  build: {
-    analyze: true,
-    transpile: [
-      'vuetify',
-      'v-phone-input',
-    ],
-  },
   modules: [
     '@nuxt/eslint',
     '@sidebase/nuxt-auth',
     'vuetify-nuxt-module',
   ],
-  eslint: {
-    config: {
-      stylistic: true
-    }
-  },
   plugins: [
-    '@/plugins/VPhoneInput'
+    '@/plugins/VPhoneInput',
   ],
+  devtools: { enabled: true },
   runtimeConfig: {
     authSecret: '123',
     redis: {
@@ -33,39 +20,29 @@ export default defineNuxtConfig({
       token: process.env.INFLUX_DB_TOKEN,
       org: process.env.INFLUX_DB_ORG,
       bucket: process.env.INFLUX_DB_BUCKET,
-    }
-  },
-  vuetify: {
-    moduleOptions: {
-      /* module specific options */
     },
-    vuetifyOptions: {
-      defaults: {
-        VTextField: {
-          density: 'comfortable'
-        },
-        VNumberInput: {
-          density: 'comfortable'
-        },
-        VSelect: {
-          density: 'comfortable'
-        },
-      },
-      theme: {
-        defaultTheme: 'dark'
-      },
-      icons: {
-        defaultSet: 'mdi',
-      },
-    }
+  },
+  build: {
+    analyze: true,
+    transpile: [
+      'vuetify',
+      'v-phone-input',
+    ],
+  },
+  compatibilityDate: '2024-04-03',
+
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
   },
   vite: {
     build: {
       rollupOptions: {
         output: {
           experimentalMinChunkSize: 1000000,
-        }
-      }
+        },
+      },
     },
     css: {
       preprocessorOptions: {
@@ -85,17 +62,40 @@ export default defineNuxtConfig({
       type: 'authjs',
       trustHost: false,
       defaultProvider: process.env.NODE_ENV === 'development' ? 'password' : 'yandex',
-      addDefaultCallbackUrl: true
+      addDefaultCallbackUrl: true,
     },
     sessionRefresh: {
       enablePeriodically: 60 * 1000,
       enableOnWindowFocus: true,
-    }
-  },
-
-  nitro: {
-    experimental: {
-      websocket: true,
     },
-  }
+  },
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
+  vuetify: {
+    moduleOptions: {
+      /* module specific options */
+    },
+    vuetifyOptions: {
+      defaults: {
+        VTextField: {
+          density: 'comfortable',
+        },
+        VNumberInput: {
+          density: 'comfortable',
+        },
+        VSelect: {
+          density: 'comfortable',
+        },
+      },
+      theme: {
+        defaultTheme: 'dark',
+      },
+      icons: {
+        defaultSet: 'mdi',
+      },
+    },
+  },
 })
