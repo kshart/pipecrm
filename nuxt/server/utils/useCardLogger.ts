@@ -1,8 +1,10 @@
+import type { User } from '@@/types/prisma'
 import type { FlCard } from '@@/types/FlCard'
 import { InfluxDB, Point, HttpError } from '@influxdata/influxdb-client'
 
 export interface ReadResultRecord {
   field: string
+  updatedBy: string
   time: string
   value: string
 }
@@ -67,12 +69,14 @@ export function useCardLogger() {
             } else {
               data.push({
                 field: fields._field,
+                updatedBy: fields.updatedBy || null,
                 time: fields._time,
                 value: fields._value,
               })
             }
           },
           error(error) {
+            console.error(fluxQuery)
             reject(error)
           },
           complete() {
@@ -81,7 +85,7 @@ export function useCardLogger() {
         })
       })
     },
-    async log(card: FlCard) {
+    async log(card: FlCard, user: User) {
       const fluxQuery = `
         import "date"
         from(bucket: "buck-test")
@@ -89,7 +93,7 @@ export function useCardLogger() {
           |> filter(fn: (r) => r._measurement == "card" and r.uuid == "${card.uuid}")
           |> last()
       `
-      const oldValues = new Map<string, any>()
+      const oldValues = new Map<string, unknown>()
 
       await new Promise<void>((resolve, reject) => {
         queryApi.queryRows(fluxQuery, {
@@ -110,6 +114,7 @@ export function useCardLogger() {
       const tagsRaw = JSON.stringify(card.tags)
       const point = new Point('card')
         .tag('uuid', card.uuid)
+        .tag('updatedBy', user.id)
         .timestamp(card.updatedAt)
 
       if (oldValues.get('title') !== card.title) {
@@ -120,6 +125,9 @@ export function useCardLogger() {
       }
       if (oldValues.get('columnUuid') !== card.columnUuid) {
         point.stringField('columnUuid', card.columnUuid)
+      }
+      if (oldValues.get('userId') !== card.userId) {
+        point.stringField('userId', card.userId)
       }
 
       for (const fieldUuid in card.fields) {

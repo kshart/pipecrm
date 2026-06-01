@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import type { Funnel } from '@@/types/prisma'
+
 const props = defineProps<{
+  funnel: Funnel
   propName: string
   timeFormatted: string
   value: string
@@ -7,8 +10,22 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div style="background: #f00">
-    <pre style="font-size:10px;color:#000">{{ props.propName }}: {{ props.value }}</pre>
+  <div>
+    <TagsViewer
+      v-if="props.propName === 'tags'"
+      class="pa-2"
+      :tags="JSON.parse(props.value)"
+    />
+    <ColumnViewer
+      v-else-if="props.propName === 'columnUuid'"
+      class="pa-2"
+      :funnel="props.funnel"
+      :columnUuid="props.value"
+    />
+    <pre
+      v-else
+      style="font-size:10px;color:#000"
+    >{{ props.propName }}: {{ props.value }}</pre>
     {{ props.timeFormatted }}
   </div>
 </template>

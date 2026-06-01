@@ -186,9 +186,12 @@ useSocketSubscribe(events, () => pullRecords())
           v-for="(historyRecord, key) of records"
           :key="key"
           v-bind="historyRecord.props"
+          :funnel="funnel"
         />
         <div class="history-records-group__title">
-          {{ groupTitle }}
+          <div class="title-badge">
+            {{ groupTitle }}
+          </div>
         </div>
       </div>
     </div>
@@ -198,7 +201,6 @@ useSocketSubscribe(events, () => pullRecords())
 <style scoped lang="scss">
 .fl-card-history {
   overflow-y: auto;
-  background: #f0f;
 }
 .history-records {
   display: flex;
@@ -211,6 +213,16 @@ useSocketSubscribe(events, () => pullRecords())
 .history-records-group__title {
   position: sticky;
   top: 0;
-  background: #77777755;
+  font-size: 12px;
+  padding: 3px 0;
+  text-align: center;
+
+  .title-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 15px;
+    backdrop-filter: blur(2px);
+    background: #33333355;
+  }
 }
 </style>

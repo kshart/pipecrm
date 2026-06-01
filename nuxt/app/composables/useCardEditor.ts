@@ -7,6 +7,7 @@ import type { FlCard } from '@@/types/FlCard'
 export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
   const isNewModel = ref(cardUuid.value === 'new')
   const isLoading = ref(false)
+
   const model = ref<FlCard>({
     uuid: '00000000-0000-0000-0000-000000000000',
     title: 'New card',

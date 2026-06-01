@@ -56,12 +56,12 @@ export default defineNuxtConfig({
     isEnabled: true,
     globalAppMiddleware: true,
     disableServerSideAuth: false,
-    originEnvKey: 'AUTH_ORIGIN',
-    baseURL: process.env.NODE_ENV === 'development' ? 'http://172.20.171.20:3000/api/auth' : 'https://pipecrm.ru/api/auth',
+    originEnvKey: process.env.AUTH_ORIGIN,
+    baseURL: process.env.AUTH_ORIGIN + '/api/auth',
     provider: {
       type: 'authjs',
       trustHost: false,
-      defaultProvider: process.env.NODE_ENV === 'development' ? 'password' : 'yandex',
+      defaultProvider: 'yandex',
       addDefaultCallbackUrl: true,
     },
     sessionRefresh: {

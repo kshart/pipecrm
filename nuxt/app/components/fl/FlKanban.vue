@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { Paginator } from '@@/types/index'
-import type { Card, Tag } from '@@/types/prisma'
+import type { Tag } from '@@/types/prisma'
+import type { FlCard } from '@@/types/FlCard'
 
-const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<Card>> => {
-  return await $fetch<Paginator<Card>>('/api/card/search', {
+const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<FlCard>> => {
+  return await $fetch<Paginator<FlCard>>('/api/card/search', {
     query: {
       columnUuid,
       page,
@@ -54,7 +55,7 @@ const cardUuid = computed({
 })
 
 const cardManipulator = useCardManipulator()
-const dragCard = ref<Card | null>(null)
+const dragCard = ref<FlCard | null>(null)
 const columnsRef = ref<HTMLDivElement | null>(null)
 const dragActiveColumn = ref<string | null>(null)
 const onDragenter = (columnUuid: string) => {
@@ -68,7 +69,7 @@ const onDragleave = (e: DragEvent) => {
     dragActiveColumn.value = null
   }
 }
-const onDragstart = (card: Card) => {
+const onDragstart = (card: FlCard) => {
   dragCard.value = card
 }
 const onDragend = () => {

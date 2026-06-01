@@ -43,6 +43,10 @@ const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
     <TagsEditor
       v-model="editor.model.value.tags"
     />
+    <v-text-field
+      v-model="editor.model.value.userId"
+      label="userId"
+    />
     <ClientOnly>
       <DataGroupViewer
         :funnel="funnel"

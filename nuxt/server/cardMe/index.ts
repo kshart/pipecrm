@@ -1,5 +1,5 @@
 import type { FlCard } from '@@/types/FlCard'
-import type { Funnel, Card } from '@@/types/prisma'
+import type { Funnel, Card, User } from '@@/types/prisma'
 import prisma from '@@/lib/prisma'
 import tagService from './tagService'
 import { v4 as uuidV4 } from 'uuid'
@@ -18,9 +18,9 @@ export type CardUpdateData = Partial<
  * Здесть обрабатываются все тригеры
  */
 export default {
-  async create(funnel: Funnel, data: CardCreateData): Promise<Card> {
+  async create(funnel: Funnel, data: CardCreateData, user: User): Promise<Card> {
     const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard),
+      (newCard: Card) => useCardLogger().log(newCard, user),
     ]
     if (data.tags?.length > 0) {
       afterSave.push(newCard => tagService.cardUpdateTags(newCard.tags, []))
@@ -32,8 +32,11 @@ export default {
         title: data.title,
         fields: data.fields || {},
         tags: data.tags,
-        userId: data.userId,
+        userId: data.userId || user.id,
         columnUuid,
+      },
+      include: {
+        user: true,
       },
     })
     await Promise.all(afterSave.map(f => f(card)))
@@ -42,9 +45,9 @@ export default {
     broadcast.publish('card:c:' + columnUuid, card)
     return card
   },
-  async update(card: Card, data: CardUpdateData): Promise<Card> {
+  async update(card: Card, data: CardUpdateData, user: User): Promise<Card> {
     const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard),
+      (newCard: Card) => useCardLogger().log(newCard, user),
     ]
 
     const updateData = {
@@ -59,6 +62,8 @@ export default {
     }
     if (data.userId) {
       updateData.userId = data.userId
+    } else {
+      updateData.userId = user.id
     }
     if (data.columnUuid) {
       updateData.columnUuid = data.columnUuid
@@ -70,6 +75,9 @@ export default {
     const cardUpdated = await prisma.card.update({
       data: updateData,
       where: { uuid: card.uuid },
+      include: {
+        user: true,
+      },
     })
     await Promise.all(afterSave.map(f => f(cardUpdated)))
 

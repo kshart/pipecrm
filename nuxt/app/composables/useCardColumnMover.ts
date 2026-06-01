@@ -1,11 +1,11 @@
-import type { Card } from '@@/types/prisma'
+import type { FlCard } from '@@/types/FlCard'
 
 const watchers = [] as {
   columnUuid: string
-  onChangeCard: (card: Card) => void
+  onChangeCard: (card: FlCard) => void
 }[]
 
-export default (columnUuid: string, onChangeCard: (card: Card) => void) => {
+export default (columnUuid: string, onChangeCard: (card: FlCard) => void) => {
   const conf = {
     columnUuid,
     onChangeCard,
@@ -21,7 +21,7 @@ export default (columnUuid: string, onChangeCard: (card: Card) => void) => {
     /**
      * У карточки сменилась колонка
      */
-    change(card: Card) {
+    change(card: FlCard) {
       for (const watcher of watchers) {
         if (watcher.columnUuid === card.columnUuid) {
           watcher.onChangeCard(card)

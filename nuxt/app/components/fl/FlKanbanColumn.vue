@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Paginator } from '@@/types/index'
-import type { Card, FunnelColumn } from '@@/types/prisma'
+import type { FunnelColumn } from '@@/types/prisma'
+import type { FlCard } from '@@/types/FlCard'
 
 interface VInfiniteScrollOnLoadEvent {
   side: 'start' | 'end' | 'both'
@@ -10,12 +11,12 @@ interface VInfiniteScrollOnLoadEvent {
 const emit = defineEmits<{
   (e: 'selectCard', uuid: string): void
   (e: 'dragenter', columnUuid: string): void
-  (e: 'dragstart', card: Card): void
+  (e: 'dragstart', card: FlCard): void
   (e: 'dragend'): void
 }>()
 const props = defineProps<{
   column: FunnelColumn
-  fetchCards: (page: number, perPage: number) => Promise<Paginator<Card>>
+  fetchCards: (page: number, perPage: number) => Promise<Paginator<FlCard>>
   /** Режим перетаскивания */
   isDrag: boolean
   /** Это активная колонка в режиме перетаскивания */
@@ -23,7 +24,7 @@ const props = defineProps<{
   selectedCardUuid: string | undefined
 }>()
 
-const items = ref<Card[]>([])
+const items = ref<FlCard[]>([])
 const request = ref({
   page: 0,
   perPage: 10,
@@ -51,14 +52,14 @@ const onDragenter = (e: DragEvent) => {
 
 if (import.meta.client) {
   const events = computed(() => items.value.map(card => 'card:u:' + card.uuid))
-  const kanbanCardMover = useCardColumnMover(props.column.uuid, (card: Card) => {
+  const kanbanCardMover = useCardColumnMover(props.column.uuid, (card: FlCard) => {
     const oldCard = items.value.find(c => c.uuid === card.uuid)
     if (!oldCard) {
       items.value.push(reactive(card))
     }
   })
   useSocketSubscribe(events, (event: string, data: unknown) => {
-    const card = data as Card
+    const card = data as FlCard
     const index = items.value.findIndex(c => c.uuid === card.uuid)
     const oldCard = items.value[index]
     if (!oldCard) {
@@ -68,6 +69,7 @@ if (import.meta.client) {
     oldCard.title = card.title
     oldCard.tags = card.tags
     oldCard.fields = card.fields
+    oldCard.user = card.user
     oldCard.userId = card.userId
     oldCard.columnUuid = card.columnUuid
     if (card.columnUuid !== oldColumnUuid) {

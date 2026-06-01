@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { Card } from '@@/types/prisma'
+import type { FlCard } from '@@/types/FlCard'
 
 const emit = defineEmits<{
   (e: 'click' | 'dragstart' | 'dragend'): void
 }>()
 const props = defineProps<{
-  card: Card
+  card: FlCard
   selected?: boolean
 }>()
 
@@ -25,7 +25,20 @@ const cardConf = computed(() => tagService.getCardConf(props.card.tags))
     @dragstart="emit('dragstart')"
     @dragend.stop.prevent="emit('dragend')"
   >
-    <v-card-title>{{ props.card.title }}</v-card-title>
+    <template #append>
+      <v-avatar
+        v-if="props.card?.user"
+        size="24"
+      >
+        <v-img
+          :alt="props.card.user.name"
+          :src="props.card.user.image"
+        />
+      </v-avatar>
+    </template>
+    <template #title>
+      <v-card-title>{{ props.card.title }}</v-card-title>
+    </template>
     <TagsViewer
       v-if="props.card.tags.length > 0"
       class="pa-2"
