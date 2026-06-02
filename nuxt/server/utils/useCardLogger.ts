@@ -1,5 +1,3 @@
-import type { User } from '@@/types/prisma'
-import type { FlCard } from '@@/types/FlCard'
 import { InfluxDB, Point, HttpError } from '@influxdata/influxdb-client'
 
 export interface ReadResultRecord {
@@ -7,6 +5,12 @@ export interface ReadResultRecord {
   updatedBy: string
   time: string
   value: string
+}
+
+export interface ApiResult {
+  data: ReadResultRecord[]
+  firstTime: '' | string
+  lastTime: '' | string
 }
 
 const { influxDB } = useRuntimeConfig()
@@ -24,7 +28,7 @@ export function useCardLogger() {
      * Прочитать историю изменений карточки
      * @param count Максимальное колличество записей в текущем запросе
      */
-    async read(cardUuid: string, timeStart: string | undefined, timeStop: string | undefined, count: number = 10) {
+    async read(cardUuid: string, timeStart: string | undefined, timeStop: string | undefined, count: number = 10): Promise<ApiResult> {
       const cardUuidRaw = cardUuid.replaceAll(/[^0-9a-zA-Z-]*/g, '')
 
       if (!Number.isInteger(count)) {
@@ -53,7 +57,7 @@ export function useCardLogger() {
           |> yield(name: "v")
       `
 
-      return new Promise((resolve, reject) => {
+      return new Promise<ApiResult>((resolve, reject) => {
         const data: ReadResultRecord[] = []
         let lastTime = ''
         let firstTime = ''

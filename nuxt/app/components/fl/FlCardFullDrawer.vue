@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import FlCardFull from './FlCardFull.vue'
-import type { Funnel } from '@@/types/prisma'
+import { FlCardFull } from '#components'
 
 const cardUuid = defineModel<string | null>({ default: null })
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
 }>()
 const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull')
 </script>

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { FlCard } from '@@/types/FlCard'
-
 const emit = defineEmits<{
   (e: 'click' | 'dragstart' | 'dragend'): void
 }>()
@@ -31,8 +29,8 @@ const cardConf = computed(() => tagService.getCardConf(props.card.tags))
         size="24"
       >
         <v-img
-          :alt="props.card.user.name"
-          :src="props.card.user.image"
+          :alt="props.card.user.name || undefined"
+          :src="props.card.user.image || undefined"
         />
       </v-avatar>
     </template>

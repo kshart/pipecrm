@@ -1,6 +1,4 @@
 import prisma from '@@/lib/prisma'
-import type { FlCard } from '@@/types/FlCard'
-import type { Paginator, PaginatorQuery } from '@@/types/index'
 
 interface CardGetQuery extends PaginatorQuery {
   columnUuid: string
@@ -20,7 +18,7 @@ export default defineEventHandler(async (event): Promise<Paginator<FlCard>> => {
     },
     skip: page * perPage,
     take: perPage,
-  })
+  }) as FlCard[]
 
   const total = await prisma.card.count({
     where: {

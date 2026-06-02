@@ -2,12 +2,12 @@ import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@@/lib/prisma'
 import type { AuthOptions } from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
+// import Credentials from 'next-auth/providers/credentials'
 import YandexProvider from 'next-auth/providers/yandex'
 
-interface CredentialsModule {
-  default: typeof Credentials
-}
+// interface CredentialsModule {
+//   default: typeof Credentials
+// }
 interface YandexProviderModule {
   default: typeof YandexProvider
 }
@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'development') {
   //   })
   // )
 }
-const adapter = PrismaAdapter(prisma)
+const adapter = PrismaAdapter(prisma) as AuthOptions['adapter']
 
 export default NuxtAuthHandler({
   providers,

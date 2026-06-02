@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import type { Card } from '@@/types/prisma'
-import type { Paginator } from '@@/types/index'
 
 const querySchema = z.object({
   cardUuid: z.string().uuid(),
@@ -8,7 +6,7 @@ const querySchema = z.object({
   timeStop: z.optional(z.string().datetime()),
 })
 
-export default defineEventHandler(async (event): Promise<Paginator<Card>> => {
+export default defineEventHandler(async (event) => {
   const cardLogger = useCardLogger()
   const query = await getValidatedQuery(event, querySchema.parse)
 

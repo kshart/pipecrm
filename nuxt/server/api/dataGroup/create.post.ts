@@ -1,4 +1,3 @@
-import type { FlDataGroup } from '@@/types/FlDataGroup'
 import prisma from '@@/lib/prisma'
 import { v4 as uuidV4 } from 'uuid'
 

@@ -1,4 +1,3 @@
-import type { Tag } from '@@/types/prisma'
 import { groupablePost } from '@@/api/groupable'
 
 interface TagSearchResult {

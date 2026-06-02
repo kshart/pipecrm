@@ -229,6 +229,12 @@ export default withNuxt({
   .override('nuxt/typescript/rules', {
     rules: {
       '@typescript-eslint/unified-signatures': ['error', { ignoreDifferentlyNamedParameters: true }],
+      '@typescript-eslint/no-unused-vars': ['error', {
+        args: 'none',
+        ignoreRestSiblings: true,
+        vars: 'all',
+        varsIgnorePattern: '^_',
+      }],
     },
   })
   .override('nuxt/stylistic', {

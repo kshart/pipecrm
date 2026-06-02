@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { FieldConfigNumber } from './index'
 
-const props = defineProps<{
+defineProps<{
   field: FieldConfigNumber
-  fieldType: any
 }>()
 </script>
 

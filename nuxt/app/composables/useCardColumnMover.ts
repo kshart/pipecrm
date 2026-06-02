@@ -1,5 +1,3 @@
-import type { FlCard } from '@@/types/FlCard'
-
 const watchers = [] as {
   columnUuid: string
   onChangeCard: (card: FlCard) => void

@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-
 const route = useRoute()
 const router = useRouter()
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
   cardUuid: string | 'new'
 }>()
 const propsRef = toRefs(props)

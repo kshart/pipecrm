@@ -1,5 +1,4 @@
-import type { Funnel } from '@@/types/prisma'
-import type { FlCard } from '@@/types/FlCard'
+type FlCardEditable = Pick<FlCard, 'uuid' | 'title' | 'fields' | 'tags' | 'userId' | 'columnUuid'>
 
 /**
  * Редактор карточки, новой или существующей
@@ -8,19 +7,16 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
   const isNewModel = ref(cardUuid.value === 'new')
   const isLoading = ref(false)
 
-  const model = ref<FlCard>({
+  const model = ref<FlCardEditable>({
     uuid: '00000000-0000-0000-0000-000000000000',
     title: 'New card',
     fields: {},
     tags: [] as string[],
     userId: null,
     columnUuid: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    touchedAt: new Date(),
   })
 
-  let originalModel: FlCard = structuredClone(toRaw(model.value))
+  let originalModel: FlCardEditable = structuredClone(toRaw(model.value))
 
   watch(() => cardUuid.value, async () => {
     isNewModel.value = cardUuid.value === 'new'
@@ -31,9 +27,6 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
       model.value.tags = []
       model.value.userId = null
       model.value.columnUuid = ''
-      model.value.createdAt = new Date()
-      model.value.updatedAt = new Date()
-      model.value.touchedAt = new Date()
     } else {
       isLoading.value = true
       const card = await $fetch('/api/card/get', {
@@ -42,13 +35,10 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
       isLoading.value = false
       model.value.uuid = card.uuid
       model.value.title = card.title
-      model.value.fields = card.fields
+      model.value.fields = card.fields as FlCardEditable['fields']
       model.value.tags = card.tags
       model.value.userId = card.userId
       model.value.columnUuid = card.columnUuid
-      model.value.createdAt = new Date(card.createdAt)
-      model.value.updatedAt = new Date(card.updatedAt)
-      model.value.touchedAt = new Date(card.touchedAt)
     }
 
     originalModel = structuredClone(toRaw(model.value))
@@ -69,9 +59,6 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
     model.value.fields = card.fields
     model.value.userId = card.userId
     model.value.columnUuid = card.columnUuid
-    model.value.createdAt = new Date(card.createdAt)
-    model.value.updatedAt = new Date(card.updatedAt)
-    model.value.touchedAt = new Date(card.touchedAt)
 
     originalModel = structuredClone(toRaw(model.value))
   })
@@ -83,9 +70,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
     async saveModel(): Promise<FlCard> {
       isLoading.value = true
       if (isNewModel.value) {
-        const card = await $fetch('/api/card/create', {
+        const card = await $fetch<FlCard>('/api/card/create', {
           method: 'post',
-          fatal: true,
           body: {
             funnelUuid: funnel.value.uuid,
 
@@ -101,9 +87,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
         return card
       }
       // отправлять только измененные поля
-      const card = await $fetch('/api/card/' + cardUuid.value, {
+      const card = await $fetch<FlCard>('/api/card/' + cardUuid.value, {
         method: 'post',
-        fatal: true,
         query: {
           title: model.value.title,
           fields: model.value.fields,

@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-import type { FlDataGroup } from '@@/types/FlDataGroup'
 import fieldTypes from './fieldTypes'
 import { v4 as uuidV4 } from 'uuid'
 
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
 }>()
 
 const dataGroupService = await useDataGroupService()
@@ -27,7 +25,8 @@ dataGroupsEditable.value.map((dg) => {
 })
 
 const createField = (dataGroup: FlDataGroup) => {
-  const fieldType = fieldTypes[0]
+  const fieldType = fieldTypes[0]!
+
   dataGroup.fields.push({
     uuid: uuidV4(),
     type: fieldType.name,
@@ -156,7 +155,6 @@ const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
             <component
               :is="fieldConf(field.type)!.FieldEditor"
               :field="field"
-              :fieldType="fieldConf(field.type)!"
             />
           </div>
           <v-btn

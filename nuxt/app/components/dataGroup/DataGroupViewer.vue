@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-import type { FlCard } from '@@/types/FlCard'
 import type { FieldConfig } from './fieldTypes'
 import fieldTypes from './fieldTypes'
 
 const props = defineProps<{
-  funnel: Funnel
-  card: FlCard
+  funnel: FlFunnel
+  card: Pick<FlCard, 'fields'>
 }>()
 const editMode = ref(false)
 

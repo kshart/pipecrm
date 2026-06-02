@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { signOut, getSession } = useAuth()
 
-const { user } = await getSession()
+const { user } = await getSession() || {}
 </script>
 
 <template>

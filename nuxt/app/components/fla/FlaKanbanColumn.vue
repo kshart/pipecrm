@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { FunnelColumn } from '@@/types/prisma'
-
 const props = defineProps<{
   column: FunnelColumn
 }>()

@@ -1,7 +1,6 @@
 import { getServerSession } from '#auth'
 import prisma from '@@/lib/prisma'
 import cardMe from '@@/server/cardMe'
-import type { User } from '@@/types/prisma'
 
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event)

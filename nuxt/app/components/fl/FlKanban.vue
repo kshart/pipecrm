@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import type { Paginator } from '@@/types/index'
-import type { Tag } from '@@/types/prisma'
-import type { FlCard } from '@@/types/FlCard'
-
 const fetchCards = (columnUuid: string) => async (page: number, perPage: number): Promise<Paginator<FlCard>> => {
   return await $fetch<Paginator<FlCard>>('/api/card/search', {
     query: {
@@ -19,20 +15,22 @@ const props = defineProps<{
   uuid: string
 }>()
 
-const { data: funnel, error } = await useFetch('/api/funnel/get', {
+const { data: funnel, error } = await useFetch<FlFunnel>('/api/funnel/get', {
   query: {
     uuid: props.uuid,
   },
 })
+if (!funnel.value) {
+  throw showError({ statusCode: 404 })
+}
 if (error.value) {
   throw new Error(String(error.value))
 }
-if (funnel.value) {
-  useSeoMeta({
-    title: funnel.value.title,
-    ogTitle: funnel.value.title,
-  })
-}
+
+useSeoMeta({
+  title: funnel.value.title,
+  ogTitle: funnel.value.title,
+})
 
 const cardUuid = computed({
   get(): string | 'new' | undefined {
@@ -94,7 +92,7 @@ if (import.meta.client) {
 </script>
 
 <template>
-  <v-layout>
+  <v-layout v-if="funnel">
     <div class="kanban-page-wrap">
       <div class="kanban-page">
         <div class="search-container">

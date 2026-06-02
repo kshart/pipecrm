@@ -1,6 +1,5 @@
-import type { FlCard } from '@@/types/FlCard'
-import type { Funnel, Card, User } from '@@/types/prisma'
 import prisma from '@@/lib/prisma'
+import type { Prisma } from '@@/shared/types/prisma'
 import tagService from './tagService'
 import { v4 as uuidV4 } from 'uuid'
 
@@ -18,19 +17,19 @@ export type CardUpdateData = Partial<
  * Здесть обрабатываются все тригеры
  */
 export default {
-  async create(funnel: Funnel, data: CardCreateData, user: User): Promise<Card> {
-    const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard, user),
+  async create(funnel: FlFunnel, data: CardCreateData, user: User): Promise<FlCard> {
+    const afterSave: ((newCard: FlCard) => Promise<void>)[] = [
+      newCard => useCardLogger().log(newCard, user),
     ]
     if (data.tags?.length > 0) {
       afterSave.push(newCard => tagService.cardUpdateTags(newCard.tags, []))
     }
 
-    const columnUuid: string = funnel.columns?.[0]?.uuid
+    const columnUuid = funnel.columns?.[0]?.uuid as string
     const card = await prisma.card.create({
       data: {
         title: data.title,
-        fields: data.fields || {},
+        fields: (data.fields || {}) as Prisma.InputJsonValue,
         tags: data.tags,
         userId: data.userId || user.id,
         columnUuid,
@@ -38,21 +37,23 @@ export default {
       include: {
         user: true,
       },
-    })
+    }) as FlCard
     await Promise.all(afterSave.map(f => f(card)))
 
     const broadcast = useBroadcast()
     broadcast.publish('card:c:' + columnUuid, card)
+
     return card
   },
-  async update(card: Card, data: CardUpdateData, user: User): Promise<Card> {
-    const afterSave: ((newCard: Card) => Promise<void>)[] = [
-      (newCard: Card) => useCardLogger().log(newCard, user),
+  async update(card: Card, data: CardUpdateData, user: User): Promise<FlCard> {
+    const afterSave: ((newCard: FlCard) => Promise<void>)[] = [
+      newCard => useCardLogger().log(newCard, user),
     ]
 
     const updateData = {
       updatedUuid: uuidV4(),
-    } as CardUpdateData
+    } as Partial<Omit<Card, 'fields'> & { fields: Prisma.InputJsonValue }>
+
     if (data.title) {
       updateData.title = data.title
     }
@@ -69,7 +70,7 @@ export default {
       updateData.columnUuid = data.columnUuid
     }
     if (data.fields) {
-      updateData.fields = data.fields
+      updateData.fields = data.fields as Prisma.InputJsonValue
     }
 
     const cardUpdated = await prisma.card.update({
@@ -78,11 +79,12 @@ export default {
       include: {
         user: true,
       },
-    })
+    }) as FlCard
     await Promise.all(afterSave.map(f => f(cardUpdated)))
 
     const broadcast = useBroadcast()
     broadcast.publish('card:u:' + cardUpdated.uuid, cardUpdated)
+
     return cardUpdated
   },
 }

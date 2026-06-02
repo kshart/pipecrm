@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Tag } from '@@/types/prisma'
 import { debounce } from 'perfect-debounce'
 import tagApi from '@@/api/tag'
 

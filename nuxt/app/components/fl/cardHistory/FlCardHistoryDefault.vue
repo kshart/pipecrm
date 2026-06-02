@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
   propName: string
   timeFormatted: string
   value: string

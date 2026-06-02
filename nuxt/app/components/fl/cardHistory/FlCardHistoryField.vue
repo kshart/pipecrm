@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-import type { DataGroupField } from '@@/types/FlDataGroup'
-
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
   fieldConfig: DataGroupField
   time: Date
   timeFormatted: string

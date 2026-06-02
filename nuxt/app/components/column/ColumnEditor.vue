@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import type { Funnel } from '@@/types/prisma'
-
 const columnUuid = defineModel<string>()
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
 }>()
 </script>
 

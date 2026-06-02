@@ -37,15 +37,13 @@ const changeDebounced = () => {
 
 <template>
   <div>
-    <v-menu
-      :closeOnContentClick="false"
-    >
-      <template #activator="{ props }">
+    <v-menu :closeOnContentClick="false">
+      <template #activator="activatorData">
         <v-btn
           :color="color || '#fff'"
           size="small"
           :width="20"
-          v-bind="props"
+          v-bind="activatorData.props"
         />
       </template>
       <v-color-picker

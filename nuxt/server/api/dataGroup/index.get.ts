@@ -1,4 +1,3 @@
-import type { FlDataGroup } from '@@/types/FlDataGroup'
 import prisma from '@@/lib/prisma'
 
 export default defineEventHandler(async () => {

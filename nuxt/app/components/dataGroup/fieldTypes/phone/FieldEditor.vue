@@ -3,7 +3,6 @@ import type { FieldConfigPhone } from './index'
 
 const props = defineProps<{
   field: FieldConfigPhone
-  fieldType: any
 }>()
 </script>
 

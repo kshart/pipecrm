@@ -3,7 +3,6 @@ import type { FieldConfigNumber } from './index'
 
 const props = defineProps<{
   field: FieldConfigNumber
-  fieldType: any
 }>()
 
 const model = defineModel<number | null>()

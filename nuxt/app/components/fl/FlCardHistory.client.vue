@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { FlCardHistoryDefault, FlCardHistoryField } from '#components'
-import type { Funnel } from '@@/types/prisma'
-import type { DataGroupField } from '@@/types/FlDataGroup'
 import type { VInfiniteScroll } from 'vuetify/components'
 import type { ReadResultRecord } from '@@/server/utils/useCardLogger'
 
 const props = defineProps<{
-  funnel: Funnel
+  funnel: FlFunnel
   cardUuid: string
 }>()
 
@@ -28,7 +26,24 @@ watch(() => props.cardUuid, () => {
 const dataGroupService = await useDataGroupService()
 const dataGroups = dataGroupService.groupsForFunnel(computed(() => props.funnel.uuid))
 
-const historyFormatted = computed(() => {
+interface HistoryRecordItem {
+  component: Component
+  props: Partial<{
+    propName: string
+    fieldConfig: DataGroupField
+    value: unknown
+    time: Date
+    timeFormatted: string
+  }>
+}
+
+interface HistoryRecordGroup {
+  groupId: string
+  groupTitle: string
+  records: HistoryRecordItem[]
+}
+
+const historyFormatted = computed<HistoryRecordGroup[]>(() => {
   const fieldMap = new Map<string, DataGroupField>()
 
   for (const group of dataGroups.value) {
@@ -49,7 +64,7 @@ const historyFormatted = computed(() => {
     day: 'numeric',
   })
 
-  const result = new Map<string, any>()
+  const result = new Map<string, HistoryRecordGroup>()
 
   for (const record of historyRecords.value) {
     const fieldConfig = fieldMap.get(record.field)
@@ -81,7 +96,6 @@ const historyFormatted = computed(() => {
       continue
     }
 
-    // if (['columnUuid', 'tags', 'title'].includes(record.field)) {
     group.records.push({
       component: FlCardHistoryDefault,
       props: {
@@ -117,7 +131,7 @@ async function loadRecords({ done }: Parameters<NonNullable<VInfiniteScroll['onL
 
   if (result.data.length) {
     historyRecords.value = historyRecords.value.concat(result.data)
-    timeStopISO = result.data[result.data.length - 1].time
+    timeStopISO = result.data[result.data.length - 1]!.time
   } else {
     timeStopISO = timeStartISO
   }
@@ -136,7 +150,7 @@ async function loadRecords({ done }: Parameters<NonNullable<VInfiniteScroll['onL
 }
 
 async function pullRecords() {
-  const timeStart = new Date(historyLastTimeISO)
+  const timeStart = historyLastTimeISO ? new Date(historyLastTimeISO) : new Date()
   timeStart.setTime(timeStart.getTime() + 1)
   const timeStartISO = timeStart.toISOString()
 

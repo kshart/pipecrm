@@ -1,5 +1,3 @@
-import type { FlDataGroup } from '@@/types/FlDataGroup'
-
 const fetchDataGroups = ref<Promise<FlDataGroup[]> | null>(null)
 
 /**

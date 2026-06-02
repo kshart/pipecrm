@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import type { Paginator } from '@@/types/index'
-import type { FunnelColumn } from '@@/types/prisma'
-import type { FlCard } from '@@/types/FlCard'
-
 interface VInfiniteScrollOnLoadEvent {
   side: 'start' | 'end' | 'both'
   done: (status: 'loading' | 'error' | 'empty' | 'ok') => void
