@@ -1,4 +1,4 @@
-import type { DataGroup } from '@prisma/client'
+import type { DataGroup } from '@@/types/prisma'
 
 export interface DataGroupField {
   uuid: string

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nuxt dev --host 192.168.0.6",
+    "dev": "nuxt dev --host 172.20.171.20",
     "lint": "eslint .",
     "build": "nuxt build",
     "generate": "nuxt generate",
@@ -13,31 +13,30 @@
     "prisma:migrate": "npx prisma db push"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.4.2",
-    "@eslint/js": "^9.10.0",
-    "@nuxt/eslint": "^0.5.0",
-    "@prisma/nuxt": "^0.0.35",
-    "@sidebase/nuxt-auth": "^0.8.2",
+    "@auth/prisma-adapter": "^2.11.2",
+    "@influxdata/influxdb-client": "^1.35.0",
+    "@nuxt/eslint": "^1.15.2",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@sidebase/nuxt-auth": "^1.2.0",
     "@types/uuid": "^10.0.0",
-    "engine.io": "^6.6.1",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-vue": "^9.28.0",
-    "ioredis": "^5.4.1",
-    "next-auth": "^4.21.1",
-    "nuxt": "^3.14.1592",
+    "engine.io": "^6.6.8",
+    "ioredis": "^5.11.0",
+    "next-auth": "4.21.1",
+    "nuxt": "^4.2.1",
     "nuxt-socket-io": "^3.0.13",
-    "socket.io": "^4.8.0",
-    "socket.io-client": "^4.8.0",
-    "uuid": "^10.0.0",
-    "v-phone-input": "^4.4.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "uuid": "^14.0.0",
+    "v-phone-input": "^4.4.2",
     "vue": "latest",
     "vuedraggable": "^4.1.0",
-    "vuetify-nuxt-module": "^0.18.3",
-    "zod": "^3.23.8"
+    "vuetify-nuxt-module": "^0.19.5",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@prisma/client": "^5.22.0",
-    "prisma": "^5.19.1",
-    "sass": "^1.79.1"
+    "@prisma/client": "^7.8.0",
+    "@types/pg": "^8.15.6",
+    "prisma": "^7.8.0",
+    "sass": "^1.100.0"
   }
 }

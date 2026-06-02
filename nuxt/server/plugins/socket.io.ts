@@ -30,8 +30,8 @@ export default defineNitroPlugin((nitroApp) => {
     if (socket.handshake) {
       socket.data = {
         user: {
-          ...socket.handshake.auth
-        }
+          ...socket.handshake.auth,
+        },
       }
 
       next()
@@ -66,18 +66,18 @@ export default defineNitroPlugin((nitroApp) => {
   })
 
   nitroApp.router.use('/socket.io/', defineEventHandler({
-    handler (event) {
+    handler(event) {
       event.node.req.context = event.context
       engine.handleRequest(event.node.req, event.node.res)
-      event._handled = true;
+      event._handled = true
     },
     websocket: {
-      open (peer) {
+      open(peer) {
         // @ts-expect-error private method and property
         engine.prepare(peer._internal.nodeReq)
         // @ts-expect-error private method and property
         engine.onWebSocket(peer._internal.nodeReq, peer._internal.nodeReq.socket, peer.websocket)
-      }
-    }
+      },
+    },
   }))
 })

@@ -1,5 +1,5 @@
-import type { Tag } from '@prisma/client'
-import { groupablePost } from '@/api/groupable'
+import type { Tag } from '@@/types/prisma'
+import { groupablePost } from '@@/api/groupable'
 
 interface TagSearchResult {
   data: Tag[]
@@ -12,7 +12,7 @@ interface TagSaveData {
 }
 
 export default {
-  search (fts: string) {
+  search(fts: string) {
     return $fetch<TagSearchResult>('/api/tag/search', {
       query: {
         fts,
@@ -23,17 +23,17 @@ export default {
   getList: groupablePost<string[], string[], Tag, Tag[]>(
     '/api/tag/list',
     (accumulator, tagTitles) => (accumulator || []).concat(tagTitles).filter((v, i, a) => a.indexOf(v) === i),
-    (tagTitles) => (tagTitles),
+    tagTitles => (tagTitles),
     (models, args) => models.filter(tag => args.includes(tag.title)),
     100
   ),
 
-  async save (title: string, body: TagSaveData) {
+  async save(title: string, body: TagSaveData) {
     await $fetch('/api/tag', {
       method: 'post',
       fatal: true,
       query: { title },
       body,
     })
-  }
+  },
 }

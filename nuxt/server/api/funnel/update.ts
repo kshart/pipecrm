@@ -1,5 +1,5 @@
-import type { FunnelColumn } from '@prisma/client'
-import prisma from '~/lib/prisma'
+import type { FunnelColumn } from '@@/types/prisma'
+import prisma from '@@/lib/prisma'
 import { v4 as uuidV4 } from 'uuid'
 
 /**
@@ -47,13 +47,13 @@ export default defineEventHandler(async (event) => {
         where: {
           uuid: {
             in: columnsToRemove,
-          }
+          },
         },
       })
     }
     if (columnsToCreate.length > 0) {
       await prisma.funnelColumn.createMany({
-        data: columnsToCreate
+        data: columnsToCreate,
       })
     }
   }

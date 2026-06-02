@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 
 interface TagSaveQuery {
   title: string

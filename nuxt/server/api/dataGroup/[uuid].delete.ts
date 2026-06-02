@@ -1,4 +1,4 @@
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const uuid = String(event.context.params?.uuid)
 
   await prisma.dataGroup.delete({
-    where: { uuid }
+    where: { uuid },
   })
   useBroadcast().publish('dataGroup:u', null)
 })

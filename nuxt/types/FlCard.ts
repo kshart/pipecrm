@@ -1,7 +1,8 @@
-import type { Card } from '@prisma/client'
+import type { Card, User } from '@@/types/prisma'
 
-export type FlCard = Card & {
+export type FlCard = Omit<Card, 'fields'> & {
   fields: {
-    [key: string]: any
+    [key: string]: unknown
   }
+  user: User | null
 }

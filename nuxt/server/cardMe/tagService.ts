@@ -1,7 +1,7 @@
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 
 export default {
-  async cardUpdateTags (newTags: string[], oldTags: string[]) {
+  async cardUpdateTags(newTags: string[], oldTags: string[]) {
     const newTagsCountMap = new Map<string, number>()
     const oldTagsCountMap = new Map<string, number>()
     for (const tag of newTags) {
@@ -63,5 +63,5 @@ export default {
       }
       await Promise.all(promises)
     }
-  }
+  },
 }

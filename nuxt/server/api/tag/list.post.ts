@@ -1,4 +1,4 @@
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const tags = await readBody<string[]>(event)
@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   return await prisma.tag.findMany({
     where: {
       title: {
-        in: tags
-      }
+        in: tags,
+      },
     },
   })
 })

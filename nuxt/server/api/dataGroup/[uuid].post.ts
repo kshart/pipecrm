@@ -1,6 +1,6 @@
-import type { FlDataGroup } from '@/types/FlDataGroup'
+import type { FlDataGroup } from '@@/types/FlDataGroup'
 import { z } from 'zod'
-import prisma from '~/lib/prisma'
+import prisma from '@@/lib/prisma'
 import { v4 as uuidV4 } from 'uuid'
 import { getServerSession } from '#auth'
 
@@ -13,9 +13,7 @@ const dataGroupSchema = z.object({
     title: z.string().max(32),
     config: z.any(),
   })),
-  funnelUuids: z.array(
-    z.string().uuid()
-  )
+  funnelUuids: z.array(z.string().uuid()),
 })
 
 export default defineEventHandler(async (event) => {
@@ -49,6 +47,6 @@ export default defineEventHandler(async (event) => {
   const { funnels, ...model } = await dataGroup
   return {
     ...model,
-    funnelUuids: funnels.map(ff => ff.funnelUuid)
+    funnelUuids: funnels.map(ff => ff.funnelUuid),
   } as unknown as FlDataGroup
 })

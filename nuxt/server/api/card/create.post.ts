@@ -1,23 +1,24 @@
 import { getServerSession } from '#auth'
-import prisma from '~/lib/prisma'
-import cardMe from '~/server/cardMe'
+import prisma from '@@/lib/prisma'
+import cardMe from '@@/server/cardMe'
+import type { User } from '@@/types/prisma'
 
 export default defineEventHandler(async (event) => {
-  await getServerSession(event)
+  const session = await getServerSession(event)
   const data = await readBody(event)
+
+  if (!session) {
+    throw createError({ statusCode: 401 })
+  }
 
   const funnel = await prisma.funnel.findFirstOrThrow({
     where: {
-      uuid: String(data.funnelUuid)
+      uuid: String(data.funnelUuid),
     },
-    include: { // deprecated
+    include: {
       columns: true,
     },
   })
-  // throw createError({
-  //   status: 400,
-  //   statusMessage: "Bad Request",
-  //   message: "Invalid input",
-  // });
-  return cardMe.create(funnel, data)
+
+  return cardMe.create(funnel, data, session.user as User)
 })
