@@ -15,13 +15,16 @@ const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull'
     location="right"
     permanent
     temporary
-    :width="800"
+    :width="cardUuid === 'new' ? 400 : 800"
   >
     <div
       v-if="cardUuid"
       class="card-full-drawer"
     >
-      <div class="panel-left">
+      <div
+        v-if="cardUuid !== 'new'"
+        class="panel-left"
+      >
         <FlCardHistory
           class="panel-left-history"
           :funnel="props.funnel"

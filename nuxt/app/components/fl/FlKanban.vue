@@ -154,7 +154,7 @@ if (import.meta.client) {
     flex-direction: column;
     padding: 10px;
     .search-container {
-      background: #0f0;
+      // background: #0f0;
     }
     .funnel-columns {
       height: 100%;

@@ -9,11 +9,13 @@ const props = defineProps<{
 }>()
 const propsRef = toRefs(props)
 
+const { model, saveModel } = useCardEditor(propsRef.cardUuid, propsRef.funnel)
+
 /**
  * Сохранить карточку
  */
 const save = async () => {
-  const card = await editor.saveModel()
+  const card = await saveModel()
 
   await router.replace({
     path: route.path,
@@ -23,34 +25,30 @@ const save = async () => {
   })
 }
 
-defineExpose({
-  save,
-})
-
-const editor = await useCardEditor(propsRef.cardUuid, propsRef.funnel)
+defineExpose({ save })
 </script>
 
 <template>
   <div class="pa-4">
     <v-text-field
-      v-model="editor.model.value.title"
+      v-model="model.title"
       label="Title"
     />
     <ColumnEditor
-      v-model="editor.model.value.columnUuid"
+      v-model="model.columnUuid"
       :funnel="funnel"
     />
     <TagsEditor
-      v-model="editor.model.value.tags"
+      v-model="model.tags"
     />
     <v-text-field
-      v-model="editor.model.value.userId"
+      v-model="model.userId"
       label="userId"
     />
     <ClientOnly>
       <DataGroupViewer
         :funnel="funnel"
-        :card="editor.model.value"
+        :card="model"
       />
     </ClientOnly>
   </div>

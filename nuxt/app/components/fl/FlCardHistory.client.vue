@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FlCardHistoryDefault, FlCardHistoryField } from '#components'
-import type { Funnel, DataGroupField } from '@@/types/prisma'
+import type { Funnel } from '@@/types/prisma'
+import type { DataGroupField } from '@@/types/FlDataGroup'
 import type { VInfiniteScroll } from 'vuetify/components'
 import type { ReadResultRecord } from '@@/server/utils/useCardLogger'
 

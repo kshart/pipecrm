@@ -4,7 +4,7 @@ import type { FlCard } from '@@/types/FlCard'
 /**
  * Редактор карточки, новой или существующей
  */
-export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
+export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>) {
   const isNewModel = ref(cardUuid.value === 'new')
   const isLoading = ref(false)
 
@@ -19,6 +19,8 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
     updatedAt: new Date(),
     touchedAt: new Date(),
   })
+
+  let originalModel: FlCard = structuredClone(toRaw(model.value))
 
   watch(() => cardUuid.value, async () => {
     isNewModel.value = cardUuid.value === 'new'
@@ -48,7 +50,31 @@ export default async (cardUuid: Ref<string>, funnel: Ref<Funnel>) => {
       model.value.updatedAt = new Date(card.updatedAt)
       model.value.touchedAt = new Date(card.touchedAt)
     }
+
+    originalModel = structuredClone(toRaw(model.value))
   }, { immediate: true })
+
+  const events = computed(() => ['card:u:' + cardUuid.value])
+
+  useSocketSubscribe(events, (event: string, data: unknown) => {
+    const card = data as FlCard
+
+    if (originalModel.title === model.value.title) {
+      model.value.title = card.title
+    }
+    if (JSON.stringify(originalModel.tags) === JSON.stringify(model.value.tags)) {
+      model.value.tags = card.tags
+    }
+
+    model.value.fields = card.fields
+    model.value.userId = card.userId
+    model.value.columnUuid = card.columnUuid
+    model.value.createdAt = new Date(card.createdAt)
+    model.value.updatedAt = new Date(card.updatedAt)
+    model.value.touchedAt = new Date(card.touchedAt)
+
+    originalModel = structuredClone(toRaw(model.value))
+  })
 
   return {
     isNewModel,
