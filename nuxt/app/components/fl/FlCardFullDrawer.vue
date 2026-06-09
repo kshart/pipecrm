@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import { FlCardFull } from '#components'
-
 const cardUuid = defineModel<string | null>({ default: null })
 const props = defineProps<{
   funnel: FlFunnel
 }>()
-const flCardFullRef = useTemplateRef<typeof FlCardFull | undefined>('flCardFull')
+const flCardFullRef = useTemplateRef('flCardFull')
 </script>
 
 <template>

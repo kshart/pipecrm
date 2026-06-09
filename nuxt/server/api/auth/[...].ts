@@ -4,12 +4,17 @@ import prisma from '@@/lib/prisma'
 import type { AuthOptions } from 'next-auth'
 // import Credentials from 'next-auth/providers/credentials'
 import YandexProvider from 'next-auth/providers/yandex'
+import GoogleProvider from 'next-auth/providers/google'
 
 // interface CredentialsModule {
 //   default: typeof Credentials
 // }
+
 interface YandexProviderModule {
   default: typeof YandexProvider
+}
+interface GoogleProviderModule {
+  default: typeof GoogleProvider
 }
 
 const providers = [
@@ -17,6 +22,10 @@ const providers = [
     clientId: String(process.env.YANDEX_CLIENT_ID),
     clientSecret: String(process.env.YANDEX_CLIENT_SECRET),
     // authorization: { params: { scope: "login:info+login:email+login:avatar" } }
+  }),
+  (GoogleProvider as unknown as GoogleProviderModule).default({
+    clientId: String(process.env.GOOGLE_CLIENT_ID),
+    clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
   }),
 ] as AuthOptions['providers']
 

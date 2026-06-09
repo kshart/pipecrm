@@ -35,14 +35,16 @@ const { data } = await useFetch('/api/funnel')
             :title="funnel.title"
             :to="'/kanban/' + funnel.uuid"
           >
-            <v-card-actions>
-              <v-btn :to="'/kanban/' + funnel.uuid + '/edit'">
-                edit
-              </v-btn>
-              <v-btn>
-                open
-              </v-btn>
-            </v-card-actions>
+            <template #actions>
+              <v-card-actions>
+                <v-btn :to="'/kanban/' + funnel.uuid + '/edit'">
+                  edit
+                </v-btn>
+                <v-btn>
+                  open
+                </v-btn>
+              </v-card-actions>
+            </template>
           </v-card>
         </v-col>
       </v-row>

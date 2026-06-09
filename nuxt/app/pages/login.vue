@@ -6,13 +6,13 @@ definePageMeta({
     navigateAuthenticatedTo: '/',
   },
 })
-const { signIn, getProviders } = useAuth()
-
+const { signIn, getProviders, status } = useAuth()
 const providers = await getProviders()
 </script>
 
 <template>
   <div>
+    <pre>{{ status }}</pre>
     <pre>{{ providers }}</pre>
 
     <v-btn

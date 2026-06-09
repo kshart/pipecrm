@@ -44,7 +44,7 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
     originalModel = structuredClone(toRaw(model.value))
   }, { immediate: true })
 
-  const events = computed(() => ['card:u:' + cardUuid.value])
+  const events = computed(() => cardUuid.value === 'new' ? [] : ['card:u:' + cardUuid.value])
 
   useSocketSubscribe(events, (event: string, data: unknown) => {
     const card = data as FlCard

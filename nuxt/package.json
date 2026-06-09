@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nuxt dev --host 172.20.171.20",
+    "dev": "nuxt dev",
     "lint": "eslint .",
     "build": "nuxt build",
     "generate": "nuxt generate",

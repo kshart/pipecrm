@@ -66,6 +66,10 @@ export function useCardLogger() {
           next: (row, tableMeta) => {
             const { table, result, ...fields } = tableMeta.toObject(row)
 
+            if (fields.error) {
+              return
+            }
+
             if (result === 'l') {
               firstTime = fields._time
             } else if (result === 'f') {

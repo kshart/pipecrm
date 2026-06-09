@@ -54,29 +54,31 @@ const cardUuid = computed({
 
 const cardManipulator = useCardManipulator()
 const dragCard = ref<FlCard | null>(null)
-const columnsRef = ref<HTMLDivElement | null>(null)
+const columnsRef = useTemplateRef<HTMLDivElement>('columns')
 const dragActiveColumn = ref<string | null>(null)
-const onDragenter = (columnUuid: string) => {
+
+function onDragenter(columnUuid: string) {
   if (dragCard.value) {
     dragActiveColumn.value = columnUuid
   }
 }
-const onDragleave = (e: DragEvent) => {
+function onDragleave(e: DragEvent) {
   const isMouseup = e.screenX === 0 && e.screenY === 0
   if (columnsRef.value && !columnsRef.value.contains(e.relatedTarget as Node) && !isMouseup) {
     dragActiveColumn.value = null
   }
 }
-const onDragstart = (card: FlCard) => {
+function onDragstart(card: FlCard) {
   dragCard.value = card
 }
-const onDragend = () => {
+function onDragend() {
   const card = dragCard.value
   if (card && dragActiveColumn.value && dragActiveColumn.value !== card.columnUuid) {
     cardManipulator.setColumn(card.uuid, dragActiveColumn.value)
   }
   dragActiveColumn.value = null
 }
+
 if (import.meta.client) {
   const tagService = useTagService()
   useSocketSubscribe(ref(['tag:u']), (event: string, data: unknown) => {
@@ -103,7 +105,7 @@ if (import.meta.client) {
           search
         </div>
         <div
-          ref="columnsRef"
+          ref="columns"
           class="funnel-columns scroll-nano-deep"
           @dragleave="onDragleave"
         >

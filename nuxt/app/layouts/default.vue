@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { signOut, getSession } = useAuth()
+const { signOut, getSession, status } = useAuth()
 
 const { user } = await getSession() || {}
 </script>
@@ -35,6 +35,7 @@ const { user } = await getSession() || {}
         title="Dialogs"
       />
       <template #append>
+        {{ status }}
         <v-list-item
           title="signOut"
           @click="signOut()"

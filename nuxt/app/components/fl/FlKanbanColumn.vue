@@ -19,6 +19,7 @@ const props = defineProps<{
   isDragActive: boolean
   selectedCardUuid: string | undefined
 }>()
+const infiniteScrollRef = useTemplateRef('infiniteScroll')
 
 const items = ref<FlCard[]>([])
 const request = ref({
@@ -26,12 +27,27 @@ const request = ref({
   perPage: 10,
   total: null as number | null,
 })
+let isReset = false
 
-const load = async ({ done }: VInfiniteScrollOnLoadEvent) => {
-  const { data, total } = await props.fetchCards(request.value.page, request.value.perPage)
-  request.value.page++
+async function load({ done }: VInfiniteScrollOnLoadEvent) {
+  let { page, perPage } = request.value
+  let oldPage = null
+
+  if (isReset) {
+    perPage = page * perPage
+    oldPage = page
+    page = 0
+    isReset = false
+  }
+  const { data, total } = await props.fetchCards(page, perPage)
+  if (oldPage !== null) {
+    request.value.page = oldPage
+    items.value = reactive(data)
+  } else {
+    request.value.page++
+    items.value = items.value.concat(reactive(data))
+  }
   request.value.total = total
-  items.value = items.value.concat(reactive(data))
   if (items.value.length > 0 && items.value.length < total) {
     done('ok')
   } else {
@@ -39,15 +55,23 @@ const load = async ({ done }: VInfiniteScrollOnLoadEvent) => {
   }
 }
 
-const elementRef = ref<HTMLDivElement | null>(null)
-const onDragenter = (e: DragEvent) => {
+function reset() {
+  isReset = true
+  infiniteScrollRef.value?.reset()
+}
+
+const elementRef = useTemplateRef<HTMLDivElement>('element')
+function onDragenter(e: DragEvent) {
   if (elementRef.value && !elementRef.value.contains(e.relatedTarget as Node)) {
     emit('dragenter', props.column.uuid)
   }
 }
 
 if (import.meta.client) {
-  const events = computed(() => items.value.map(card => 'card:u:' + card.uuid))
+  const events = computed(() => [
+    'card:c:' + props.column.uuid,
+    ...items.value.map(card => 'card:u:' + card.uuid),
+  ])
   const kanbanCardMover = useCardColumnMover(props.column.uuid, (card: FlCard) => {
     const oldCard = items.value.find(c => c.uuid === card.uuid)
     if (!oldCard) {
@@ -55,6 +79,11 @@ if (import.meta.client) {
     }
   })
   useSocketSubscribe(events, (event: string, data: unknown) => {
+    if (event.includes('card:c:')) {
+      reset()
+      return
+    }
+
     const card = data as FlCard
     const index = items.value.findIndex(c => c.uuid === card.uuid)
     const oldCard = items.value[index]
@@ -79,7 +108,7 @@ if (import.meta.client) {
 <template>
   <div
     v-show="!props.column.hideEmpty || isDrag || items.length > 0"
-    ref="elementRef"
+    ref="element"
     class="kanban-column"
     :class="isDragActive ? 'drag-active' : null"
     @dragenter="onDragenter"
@@ -88,6 +117,7 @@ if (import.meta.client) {
       {{ props.column.title }}
     </div>
     <v-infinite-scroll
+      ref="infiniteScroll"
       class="kanban-column-list"
       side="end"
       @load="load"
@@ -132,7 +162,7 @@ if (import.meta.client) {
     }
   }
   &.drag-active {
-    background: #ff0;
+    background: #444;
   }
 }
 </style>

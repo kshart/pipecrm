@@ -61,7 +61,6 @@ export default defineNuxtConfig({
     provider: {
       type: 'authjs',
       trustHost: false,
-      defaultProvider: 'yandex',
       addDefaultCallbackUrl: true,
     },
     sessionRefresh: {

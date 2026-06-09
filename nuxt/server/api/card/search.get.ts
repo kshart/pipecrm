@@ -16,6 +16,9 @@ export default defineEventHandler(async (event): Promise<Paginator<FlCard>> => {
     include: {
       user: true,
     },
+    orderBy: {
+      updatedAt: 'desc',
+    },
     skip: page * perPage,
     take: perPage,
   }) as FlCard[]
