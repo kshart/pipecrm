@@ -9,5 +9,8 @@ export interface DataGroupField {
 
 export interface FlDataGroup extends Pick<DataGroup, 'uuid' | 'title' | 'createdAt' | 'updatedAt' | 'updatedUuid'> {
   fields: DataGroupField[]
-  funnelUuids: string[]
+  funnels: {
+    uuid: string
+    sort: number
+  }[]
 }

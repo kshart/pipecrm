@@ -58,6 +58,7 @@ export const ModelName = {
   FunnelColumn: 'FunnelColumn',
   DataGroup: 'DataGroup',
   DataGroupOnFunnel: 'DataGroupOnFunnel',
+  CardMessage: 'CardMessage',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
@@ -86,7 +87,8 @@ export const CardScalarFieldEnum = {
   title: 'title',
   fields: 'fields',
   tags: 'tags',
-  userId: 'userId',
+  authorId: 'authorId',
+  ownerId: 'ownerId',
   columnUuid: 'columnUuid',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -162,10 +164,25 @@ export type DataGroupScalarFieldEnum = (typeof DataGroupScalarFieldEnum)[keyof t
 
 export const DataGroupOnFunnelScalarFieldEnum = {
   funnelUuid: 'funnelUuid',
-  dataGroupUuid: 'dataGroupUuid'
+  dataGroupUuid: 'dataGroupUuid',
+  sort: 'sort'
 } as const
 
 export type DataGroupOnFunnelScalarFieldEnum = (typeof DataGroupOnFunnelScalarFieldEnum)[keyof typeof DataGroupOnFunnelScalarFieldEnum]
+
+
+export const CardMessageScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  reactions: 'reactions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  cardUuid: 'cardUuid',
+  authorId: 'authorId'
+} as const
+
+export type CardMessageScalarFieldEnum = (typeof CardMessageScalarFieldEnum)[keyof typeof CardMessageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -247,6 +264,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

@@ -25,12 +25,12 @@ const cardConf = computed(() => tagService.getCardConf(props.card.tags))
   >
     <template #append>
       <v-avatar
-        v-if="props.card?.user"
+        v-if="props.card?.owner"
         size="24"
       >
         <v-img
-          :alt="props.card.user.name || undefined"
-          :src="props.card.user.image || undefined"
+          :alt="props.card.owner.name || undefined"
+          :src="props.card.owner.image || undefined"
         />
       </v-avatar>
     </template>

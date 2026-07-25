@@ -94,8 +94,8 @@ if (import.meta.client) {
     oldCard.title = card.title
     oldCard.tags = card.tags
     oldCard.fields = card.fields
-    oldCard.user = card.user
-    oldCard.userId = card.userId
+    oldCard.owner = card.owner
+    oldCard.ownerId = card.ownerId
     oldCard.columnUuid = card.columnUuid
     if (card.columnUuid !== oldColumnUuid) {
       items.value.splice(index, 1)
@@ -137,7 +137,7 @@ if (import.meta.client) {
           v-if="request.total && request.total > 0"
           class="text-disabled"
         >
-          Loaded {{ request.total }}
+          Total {{ request.total }}
         </span>
       </template>
     </v-infinite-scroll>

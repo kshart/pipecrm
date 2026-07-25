@@ -20,40 +20,64 @@ export type DataGroupOnFunnelModel = runtime.Types.Result.DefaultSelection<Prism
 
 export type AggregateDataGroupOnFunnel = {
   _count: DataGroupOnFunnelCountAggregateOutputType | null
+  _avg: DataGroupOnFunnelAvgAggregateOutputType | null
+  _sum: DataGroupOnFunnelSumAggregateOutputType | null
   _min: DataGroupOnFunnelMinAggregateOutputType | null
   _max: DataGroupOnFunnelMaxAggregateOutputType | null
+}
+
+export type DataGroupOnFunnelAvgAggregateOutputType = {
+  sort: number | null
+}
+
+export type DataGroupOnFunnelSumAggregateOutputType = {
+  sort: number | null
 }
 
 export type DataGroupOnFunnelMinAggregateOutputType = {
   funnelUuid: string | null
   dataGroupUuid: string | null
+  sort: number | null
 }
 
 export type DataGroupOnFunnelMaxAggregateOutputType = {
   funnelUuid: string | null
   dataGroupUuid: string | null
+  sort: number | null
 }
 
 export type DataGroupOnFunnelCountAggregateOutputType = {
   funnelUuid: number
   dataGroupUuid: number
+  sort: number
   _all: number
 }
 
 
+export type DataGroupOnFunnelAvgAggregateInputType = {
+  sort?: true
+}
+
+export type DataGroupOnFunnelSumAggregateInputType = {
+  sort?: true
+}
+
 export type DataGroupOnFunnelMinAggregateInputType = {
   funnelUuid?: true
   dataGroupUuid?: true
+  sort?: true
 }
 
 export type DataGroupOnFunnelMaxAggregateInputType = {
   funnelUuid?: true
   dataGroupUuid?: true
+  sort?: true
 }
 
 export type DataGroupOnFunnelCountAggregateInputType = {
   funnelUuid?: true
   dataGroupUuid?: true
+  sort?: true
   _all?: true
 }
 
@@ -95,6 +119,18 @@ export type DataGroupOnFunnelAggregateArgs<ExtArgs extends runtime.Types.Extensi
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DataGroupOnFunnelAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DataGroupOnFunnelSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DataGroupOnFunnelMinAggregateInputType
@@ -125,6 +161,8 @@ export type DataGroupOnFunnelGroupByArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   _count?: DataGroupOnFunnelCountAggregateInputType | true
+  _avg?: DataGroupOnFunnelAvgAggregateInputType
+  _sum?: DataGroupOnFunnelSumAggregateInputType
   _min?: DataGroupOnFunnelMinAggregateInputType
   _max?: DataGroupOnFunnelMaxAggregateInputType
 }
@@ -132,7 +170,10 @@ export type DataGroupOnFunnelGroupByArgs<ExtArgs extends runtime.Types.Extension
 export type DataGroupOnFunnelGroupByOutputType = {
   funnelUuid: string
   dataGroupUuid: string
+  sort: number
   _count: DataGroupOnFunnelCountAggregateOutputType | null
+  _avg: DataGroupOnFunnelAvgAggregateOutputType | null
+  _sum: DataGroupOnFunnelSumAggregateOutputType | null
   _min: DataGroupOnFunnelMinAggregateOutputType | null
   _max: DataGroupOnFunnelMaxAggregateOutputType | null
 }
@@ -158,6 +199,7 @@ export type DataGroupOnFunnelWhereInput = {
   NOT?: Prisma.DataGroupOnFunnelWhereInput | Prisma.DataGroupOnFunnelWhereInput[]
   funnelUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
   dataGroupUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
+  sort?: Prisma.IntFilter<"DataGroupOnFunnel"> | number
   funnel?: Prisma.XOR<Prisma.FunnelScalarRelationFilter, Prisma.FunnelWhereInput>
   dataGroup?: Prisma.XOR<Prisma.DataGroupScalarRelationFilter, Prisma.DataGroupWhereInput>
 }
@@ -165,6 +207,7 @@ export type DataGroupOnFunnelWhereInput = {
 export type DataGroupOnFunnelOrderByWithRelationInput = {
   funnelUuid?: Prisma.SortOrder
   dataGroupUuid?: Prisma.SortOrder
+  sort?: Prisma.SortOrder
   funnel?: Prisma.FunnelOrderByWithRelationInput
   dataGroup?: Prisma.DataGroupOrderByWithRelationInput
 }
@@ -176,6 +219,7 @@ export type DataGroupOnFunnelWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.DataGroupOnFunnelWhereInput | Prisma.DataGroupOnFunnelWhereInput[]
   funnelUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
   dataGroupUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
+  sort?: Prisma.IntFilter<"DataGroupOnFunnel"> | number
   funnel?: Prisma.XOR<Prisma.FunnelScalarRelationFilter, Prisma.FunnelWhereInput>
   dataGroup?: Prisma.XOR<Prisma.DataGroupScalarRelationFilter, Prisma.DataGroupWhereInput>
 }, "funnelUuid_dataGroupUuid">
@@ -183,9 +227,12 @@ export type DataGroupOnFunnelWhereUniqueInput = Prisma.AtLeast<{
 export type DataGroupOnFunnelOrderByWithAggregationInput = {
   funnelUuid?: Prisma.SortOrder
   dataGroupUuid?: Prisma.SortOrder
+  sort?: Prisma.SortOrder
   _count?: Prisma.DataGroupOnFunnelCountOrderByAggregateInput
+  _avg?: Prisma.DataGroupOnFunnelAvgOrderByAggregateInput
   _max?: Prisma.DataGroupOnFunnelMaxOrderByAggregateInput
   _min?: Prisma.DataGroupOnFunnelMinOrderByAggregateInput
+  _sum?: Prisma.DataGroupOnFunnelSumOrderByAggregateInput
 }
 
 export type DataGroupOnFunnelScalarWhereWithAggregatesInput = {
@@ -194,9 +241,11 @@ export type DataGroupOnFunnelScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DataGroupOnFunnelScalarWhereWithAggregatesInput | Prisma.DataGroupOnFunnelScalarWhereWithAggregatesInput[]
   funnelUuid?: Prisma.UuidWithAggregatesFilter<"DataGroupOnFunnel"> | string
   dataGroupUuid?: Prisma.UuidWithAggregatesFilter<"DataGroupOnFunnel"> | string
+  sort?: Prisma.IntWithAggregatesFilter<"DataGroupOnFunnel"> | number
 }
 
 export type DataGroupOnFunnelCreateInput = {
+  sort: number
   funnel: Prisma.FunnelCreateNestedOneWithoutDataGroupsInput
   dataGroup: Prisma.DataGroupCreateNestedOneWithoutFunnelsInput
 }
@@ -204,9 +253,11 @@ export type DataGroupOnFunnelCreateInput = {
 export type DataGroupOnFunnelUncheckedCreateInput = {
   funnelUuid: string
   dataGroupUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelUpdateInput = {
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
   funnel?: Prisma.FunnelUpdateOneRequiredWithoutDataGroupsNestedInput
   dataGroup?: Prisma.DataGroupUpdateOneRequiredWithoutFunnelsNestedInput
 }
@@ -214,20 +265,23 @@ export type DataGroupOnFunnelUpdateInput = {
 export type DataGroupOnFunnelUncheckedUpdateInput = {
   funnelUuid?: Prisma.StringFieldUpdateOperationsInput | string
   dataGroupUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelCreateManyInput = {
   funnelUuid: string
   dataGroupUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelUpdateManyMutationInput = {
-
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelUncheckedUpdateManyInput = {
   funnelUuid?: Prisma.StringFieldUpdateOperationsInput | string
   dataGroupUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelListRelationFilter = {
@@ -248,16 +302,27 @@ export type DataGroupOnFunnelFunnelUuidDataGroupUuidCompoundUniqueInput = {
 export type DataGroupOnFunnelCountOrderByAggregateInput = {
   funnelUuid?: Prisma.SortOrder
   dataGroupUuid?: Prisma.SortOrder
+  sort?: Prisma.SortOrder
+}
+
+export type DataGroupOnFunnelAvgOrderByAggregateInput = {
+  sort?: Prisma.SortOrder
 }
 
 export type DataGroupOnFunnelMaxOrderByAggregateInput = {
   funnelUuid?: Prisma.SortOrder
   dataGroupUuid?: Prisma.SortOrder
+  sort?: Prisma.SortOrder
 }
 
 export type DataGroupOnFunnelMinOrderByAggregateInput = {
   funnelUuid?: Prisma.SortOrder
   dataGroupUuid?: Prisma.SortOrder
+  sort?: Prisma.SortOrder
+}
+
+export type DataGroupOnFunnelSumOrderByAggregateInput = {
+  sort?: Prisma.SortOrder
 }
 
 export type DataGroupOnFunnelCreateNestedManyWithoutFunnelInput = {
@@ -345,11 +410,13 @@ export type DataGroupOnFunnelUncheckedUpdateManyWithoutDataGroupNestedInput = {
 }
 
 export type DataGroupOnFunnelCreateWithoutFunnelInput = {
+  sort: number
   dataGroup: Prisma.DataGroupCreateNestedOneWithoutFunnelsInput
 }
 
 export type DataGroupOnFunnelUncheckedCreateWithoutFunnelInput = {
   dataGroupUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelCreateOrConnectWithoutFunnelInput = {
@@ -384,14 +451,17 @@ export type DataGroupOnFunnelScalarWhereInput = {
   NOT?: Prisma.DataGroupOnFunnelScalarWhereInput | Prisma.DataGroupOnFunnelScalarWhereInput[]
   funnelUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
   dataGroupUuid?: Prisma.UuidFilter<"DataGroupOnFunnel"> | string
+  sort?: Prisma.IntFilter<"DataGroupOnFunnel"> | number
 }
 
 export type DataGroupOnFunnelCreateWithoutDataGroupInput = {
+  sort: number
   funnel: Prisma.FunnelCreateNestedOneWithoutDataGroupsInput
 }
 
 export type DataGroupOnFunnelUncheckedCreateWithoutDataGroupInput = {
   funnelUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelCreateOrConnectWithoutDataGroupInput = {
@@ -422,34 +492,42 @@ export type DataGroupOnFunnelUpdateManyWithWhereWithoutDataGroupInput = {
 
 export type DataGroupOnFunnelCreateManyFunnelInput = {
   dataGroupUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelUpdateWithoutFunnelInput = {
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
   dataGroup?: Prisma.DataGroupUpdateOneRequiredWithoutFunnelsNestedInput
 }
 
 export type DataGroupOnFunnelUncheckedUpdateWithoutFunnelInput = {
   dataGroupUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelUncheckedUpdateManyWithoutFunnelInput = {
   dataGroupUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelCreateManyDataGroupInput = {
   funnelUuid: string
+  sort: number
 }
 
 export type DataGroupOnFunnelUpdateWithoutDataGroupInput = {
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
   funnel?: Prisma.FunnelUpdateOneRequiredWithoutDataGroupsNestedInput
 }
 
 export type DataGroupOnFunnelUncheckedUpdateWithoutDataGroupInput = {
   funnelUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type DataGroupOnFunnelUncheckedUpdateManyWithoutDataGroupInput = {
   funnelUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  sort?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -457,6 +535,7 @@ export type DataGroupOnFunnelUncheckedUpdateManyWithoutDataGroupInput = {
 export type DataGroupOnFunnelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   funnelUuid?: boolean
   dataGroupUuid?: boolean
+  sort?: boolean
   funnel?: boolean | Prisma.FunnelDefaultArgs<ExtArgs>
   dataGroup?: boolean | Prisma.DataGroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dataGroupOnFunnel"]>
@@ -464,6 +543,7 @@ export type DataGroupOnFunnelSelect<ExtArgs extends runtime.Types.Extensions.Int
 export type DataGroupOnFunnelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   funnelUuid?: boolean
   dataGroupUuid?: boolean
+  sort?: boolean
   funnel?: boolean | Prisma.FunnelDefaultArgs<ExtArgs>
   dataGroup?: boolean | Prisma.DataGroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dataGroupOnFunnel"]>
@@ -471,6 +551,7 @@ export type DataGroupOnFunnelSelectCreateManyAndReturn<ExtArgs extends runtime.T
 export type DataGroupOnFunnelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   funnelUuid?: boolean
   dataGroupUuid?: boolean
+  sort?: boolean
   funnel?: boolean | Prisma.FunnelDefaultArgs<ExtArgs>
   dataGroup?: boolean | Prisma.DataGroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dataGroupOnFunnel"]>
@@ -478,9 +559,10 @@ export type DataGroupOnFunnelSelectUpdateManyAndReturn<ExtArgs extends runtime.T
 export type DataGroupOnFunnelSelectScalar = {
   funnelUuid?: boolean
   dataGroupUuid?: boolean
+  sort?: boolean
 }
 
-export type DataGroupOnFunnelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"funnelUuid" | "dataGroupUuid", ExtArgs["result"]["dataGroupOnFunnel"]>
+export type DataGroupOnFunnelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"funnelUuid" | "dataGroupUuid" | "sort", ExtArgs["result"]["dataGroupOnFunnel"]>
 export type DataGroupOnFunnelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   funnel?: boolean | Prisma.FunnelDefaultArgs<ExtArgs>
   dataGroup?: boolean | Prisma.DataGroupDefaultArgs<ExtArgs>
@@ -503,6 +585,7 @@ export type $DataGroupOnFunnelPayload<ExtArgs extends runtime.Types.Extensions.I
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     funnelUuid: string
     dataGroupUuid: string
+    sort: number
   }, ExtArgs["result"]["dataGroupOnFunnel"]>
   composites: {}
 }
@@ -930,6 +1013,7 @@ export interface Prisma__DataGroupOnFunnelClient<T, Null = never, ExtArgs extend
 export interface DataGroupOnFunnelFieldRefs {
   readonly funnelUuid: Prisma.FieldRef<"DataGroupOnFunnel", 'String'>
   readonly dataGroupUuid: Prisma.FieldRef<"DataGroupOnFunnel", 'String'>
+  readonly sort: Prisma.FieldRef<"DataGroupOnFunnel", 'Int'>
 }
     
 

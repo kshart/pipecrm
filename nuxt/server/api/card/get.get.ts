@@ -8,7 +8,8 @@ export default defineEventHandler(async (event) => {
       uuid: String(query.uuid),
     },
     include: {
-      user: true,
+      owner: true,
+      author: true,
     },
   })
 })

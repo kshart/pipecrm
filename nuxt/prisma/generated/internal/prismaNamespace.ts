@@ -391,6 +391,7 @@ export const ModelName = {
   FunnelColumn: 'FunnelColumn',
   DataGroup: 'DataGroup',
   DataGroupOnFunnel: 'DataGroupOnFunnel',
+  CardMessage: 'CardMessage',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "card" | "tag" | "contact" | "funnel" | "funnelColumn" | "dataGroup" | "dataGroupOnFunnel" | "user" | "account" | "session" | "verificationToken" | "authenticator"
+    modelProps: "card" | "tag" | "contact" | "funnel" | "funnelColumn" | "dataGroup" | "dataGroupOnFunnel" | "cardMessage" | "user" | "account" | "session" | "verificationToken" | "authenticator"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -933,6 +934,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CardMessage: {
+      payload: Prisma.$CardMessagePayload<ExtArgs>
+      fields: Prisma.CardMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.CardMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        findMany: {
+          args: Prisma.CardMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>[]
+        }
+        create: {
+          args: Prisma.CardMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        createMany: {
+          args: Prisma.CardMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.CardMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        update: {
+          args: Prisma.CardMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.CardMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.CardMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.CardMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardMessage>
+        }
+        groupBy: {
+          args: Prisma.CardMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardMessageCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1347,7 +1422,8 @@ export const CardScalarFieldEnum = {
   title: 'title',
   fields: 'fields',
   tags: 'tags',
-  userId: 'userId',
+  authorId: 'authorId',
+  ownerId: 'ownerId',
   columnUuid: 'columnUuid',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -1423,10 +1499,25 @@ export type DataGroupScalarFieldEnum = (typeof DataGroupScalarFieldEnum)[keyof t
 
 export const DataGroupOnFunnelScalarFieldEnum = {
   funnelUuid: 'funnelUuid',
-  dataGroupUuid: 'dataGroupUuid'
+  dataGroupUuid: 'dataGroupUuid',
+  sort: 'sort'
 } as const
 
 export type DataGroupOnFunnelScalarFieldEnum = (typeof DataGroupOnFunnelScalarFieldEnum)[keyof typeof DataGroupOnFunnelScalarFieldEnum]
+
+
+export const CardMessageScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  reactions: 'reactions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  cardUuid: 'cardUuid',
+  authorId: 'authorId'
+} as const
+
+export type CardMessageScalarFieldEnum = (typeof CardMessageScalarFieldEnum)[keyof typeof CardMessageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1508,6 +1599,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1601,6 +1700,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -1734,6 +1847,7 @@ export type GlobalOmitConfig = {
   funnelColumn?: Prisma.FunnelColumnOmit
   dataGroup?: Prisma.DataGroupOmit
   dataGroupOnFunnel?: Prisma.DataGroupOnFunnelOmit
+  cardMessage?: Prisma.CardMessageOmit
   user?: Prisma.UserOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit

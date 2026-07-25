@@ -4,13 +4,28 @@ CREATE TABLE "Card" (
     "title" TEXT NOT NULL,
     "fields" JSONB NOT NULL,
     "tags" TEXT[],
-    "userId" TEXT,
+    "authorId" TEXT,
+    "ownerId" TEXT,
     "columnUuid" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "touchedAt" TIMESTAMP(3) NOT NULL,
+    "updatedUuid" UUID NOT NULL,
 
     CONSTRAINT "Card_pkey" PRIMARY KEY ("uuid")
+);
+
+-- CreateTable
+CREATE TABLE "Tag" (
+    "title" TEXT NOT NULL,
+    "count" INTEGER NOT NULL,
+    "textColor" TEXT,
+    "bgColor" TEXT,
+    "cardOutlineColor" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Tag_pkey" PRIMARY KEY ("title")
 );
 
 -- CreateTable
@@ -31,6 +46,9 @@ CREATE TABLE "Contact" (
 CREATE TABLE "Funnel" (
     "uuid" UUID NOT NULL,
     "title" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedUuid" UUID NOT NULL,
 
     CONSTRAINT "Funnel_pkey" PRIMARY KEY ("uuid")
 );
@@ -40,10 +58,33 @@ CREATE TABLE "FunnelColumn" (
     "uuid" UUID NOT NULL,
     "funnelUuid" UUID NOT NULL,
     "title" TEXT NOT NULL,
+    "description" TEXT,
+    "hideEmpty" BOOLEAN NOT NULL DEFAULT false,
     "color" TEXT,
     "sort" INTEGER NOT NULL,
 
     CONSTRAINT "FunnelColumn_pkey" PRIMARY KEY ("uuid")
+);
+
+-- CreateTable
+CREATE TABLE "DataGroup" (
+    "uuid" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "fields" JSONB NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedUuid" UUID NOT NULL,
+
+    CONSTRAINT "DataGroup_pkey" PRIMARY KEY ("uuid")
+);
+
+-- CreateTable
+CREATE TABLE "DataGroupOnFunnel" (
+    "funnelUuid" UUID NOT NULL,
+    "dataGroupUuid" UUID NOT NULL,
+    "sort" INTEGER NOT NULL,
+
+    CONSTRAINT "DataGroupOnFunnel_pkey" PRIMARY KEY ("funnelUuid","dataGroupUuid")
 );
 
 -- CreateTable
@@ -120,7 +161,10 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
 
 -- AddForeignKey
-ALTER TABLE "Card" ADD CONSTRAINT "Card_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Card" ADD CONSTRAINT "Card_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Card" ADD CONSTRAINT "Card_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Card" ADD CONSTRAINT "Card_columnUuid_fkey" FOREIGN KEY ("columnUuid") REFERENCES "FunnelColumn"("uuid") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -130,6 +174,12 @@ ALTER TABLE "Contact" ADD CONSTRAINT "Contact_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "FunnelColumn" ADD CONSTRAINT "FunnelColumn_funnelUuid_fkey" FOREIGN KEY ("funnelUuid") REFERENCES "Funnel"("uuid") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DataGroupOnFunnel" ADD CONSTRAINT "DataGroupOnFunnel_funnelUuid_fkey" FOREIGN KEY ("funnelUuid") REFERENCES "Funnel"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DataGroupOnFunnel" ADD CONSTRAINT "DataGroupOnFunnel_dataGroupUuid_fkey" FOREIGN KEY ("dataGroupUuid") REFERENCES "DataGroup"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

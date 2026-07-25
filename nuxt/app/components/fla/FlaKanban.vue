@@ -20,7 +20,7 @@ if (editor.model.value.title) {
       <div class="psevdo-column">
         {{ editor.model.value.title }}
         <v-btn :to="`/kanban/${props.uuid}`">
-          back
+          to funnel
         </v-btn>
         <v-text-field
           v-model="editor.model.value.title"

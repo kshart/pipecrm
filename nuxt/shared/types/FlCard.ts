@@ -1,8 +1,9 @@
-import type { Card, User } from './prisma'
+import type { Card } from './prisma'
 
 export interface FlCard extends Omit<Card, 'fields'> {
   fields: {
     [key: string]: unknown
   }
-  user: User | null
+  owner: FlUserShort | null
+  author: FlUserShort | null
 }

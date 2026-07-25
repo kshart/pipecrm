@@ -21,6 +21,12 @@ export default defineNuxtConfig({
       org: process.env.INFLUX_DB_ORG,
       bucket: process.env.INFLUX_DB_BUCKET,
     },
+    s3: {
+      region: process.env.S3_REGION,
+      endpoint: process.env.S3_ENDPOINT,
+      accessKeyId: process.env.S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    }
   },
   build: {
     analyze: true,

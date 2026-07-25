@@ -12,10 +12,15 @@ const dataGroupSchema = z.object({
     title: z.string().max(32),
     config: z.any(),
   })),
-  funnelUuids: z.array(z.string().uuid()),
+  funnels: z.array(z.object({
+    uuid: z.string().uuid(),
+    sort: z.number().int(),
+  })),
 })
 
 export default defineEventHandler(async (event) => {
+  const broadcast = useBroadcast()
+
   await getServerSession(event)
   const uuid = String(event.context.params?.uuid)
   const data = await readValidatedBody(event, dataGroupSchema.parse)
@@ -30,7 +35,10 @@ export default defineEventHandler(async (event) => {
           dataGroupUuid: uuid,
         },
         createMany: {
-          data: data.funnelUuids.map(funnelUuid => ({ funnelUuid })),
+          data: data.funnels.map(ff => ({
+            funnelUuid: ff.uuid,
+            sort: ff.sort,
+          })),
         },
       },
       updatedUuid: uuidV4(),
@@ -41,11 +49,14 @@ export default defineEventHandler(async (event) => {
   })
 
   await prisma.$transaction([dataGroup])
-  useBroadcast().publish('dataGroup:u', null)
+  broadcast.publish('dataGroup:u', null)
 
   const { funnels, ...model } = await dataGroup
   return {
     ...model,
-    funnelUuids: funnels.map(ff => ff.funnelUuid),
+    funnels: funnels.map(ff => ({
+      uuid: ff.funnelUuid,
+      sort: ff.sort,
+    })),
   } as unknown as FlDataGroup
 })

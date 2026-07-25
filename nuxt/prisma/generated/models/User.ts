@@ -201,8 +201,10 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   Authenticator?: Prisma.AuthenticatorListRelationFilter
-  Card?: Prisma.CardListRelationFilter
-  Contact?: Prisma.ContactListRelationFilter
+  cardAuthors?: Prisma.CardListRelationFilter
+  cardOwners?: Prisma.CardListRelationFilter
+  contact?: Prisma.ContactListRelationFilter
+  cardMessages?: Prisma.CardMessageListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -216,8 +218,10 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   Authenticator?: Prisma.AuthenticatorOrderByRelationAggregateInput
-  Card?: Prisma.CardOrderByRelationAggregateInput
-  Contact?: Prisma.ContactOrderByRelationAggregateInput
+  cardAuthors?: Prisma.CardOrderByRelationAggregateInput
+  cardOwners?: Prisma.CardOrderByRelationAggregateInput
+  contact?: Prisma.ContactOrderByRelationAggregateInput
+  cardMessages?: Prisma.CardMessageOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -234,8 +238,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   Authenticator?: Prisma.AuthenticatorListRelationFilter
-  Card?: Prisma.CardListRelationFilter
-  Contact?: Prisma.ContactListRelationFilter
+  cardAuthors?: Prisma.CardListRelationFilter
+  cardOwners?: Prisma.CardListRelationFilter
+  contact?: Prisma.ContactListRelationFilter
+  cardMessages?: Prisma.CardMessageListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -275,8 +281,10 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -290,8 +298,10 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUpdateInput = {
@@ -305,8 +315,10 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -320,8 +332,10 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -394,20 +408,36 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type UserCreateNestedOneWithoutCardInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCardInput, Prisma.UserUncheckedCreateWithoutCardInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardInput
+export type UserCreateNestedOneWithoutCardAuthorsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardAuthorsInput, Prisma.UserUncheckedCreateWithoutCardAuthorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardAuthorsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneWithoutCardNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCardInput, Prisma.UserUncheckedCreateWithoutCardInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardInput
-  upsert?: Prisma.UserUpsertWithoutCardInput
+export type UserCreateNestedOneWithoutCardOwnersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardOwnersInput, Prisma.UserUncheckedCreateWithoutCardOwnersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardOwnersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCardAuthorsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardAuthorsInput, Prisma.UserUncheckedCreateWithoutCardAuthorsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardAuthorsInput
+  upsert?: Prisma.UserUpsertWithoutCardAuthorsInput
   disconnect?: Prisma.UserWhereInput | boolean
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardInput, Prisma.UserUpdateWithoutCardInput>, Prisma.UserUncheckedUpdateWithoutCardInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardAuthorsInput, Prisma.UserUpdateWithoutCardAuthorsInput>, Prisma.UserUncheckedUpdateWithoutCardAuthorsInput>
+}
+
+export type UserUpdateOneWithoutCardOwnersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardOwnersInput, Prisma.UserUncheckedCreateWithoutCardOwnersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardOwnersInput
+  upsert?: Prisma.UserUpsertWithoutCardOwnersInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardOwnersInput, Prisma.UserUpdateWithoutCardOwnersInput>, Prisma.UserUncheckedUpdateWithoutCardOwnersInput>
 }
 
 export type UserCreateNestedOneWithoutContactInput = {
@@ -424,8 +454,20 @@ export type UserUpdateOneRequiredWithoutContactNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContactInput, Prisma.UserUpdateWithoutContactInput>, Prisma.UserUncheckedUpdateWithoutContactInput>
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+export type UserCreateNestedOneWithoutCardMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardMessagesInput, Prisma.UserUncheckedCreateWithoutCardMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCardMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCardMessagesInput, Prisma.UserUncheckedCreateWithoutCardMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCardMessagesInput
+  upsert?: Prisma.UserUpsertWithoutCardMessagesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCardMessagesInput, Prisma.UserUpdateWithoutCardMessagesInput>, Prisma.UserUncheckedUpdateWithoutCardMessagesInput>
 }
 
 export type UserCreateNestedOneWithoutAccountsInput = {
@@ -470,7 +512,7 @@ export type UserUpdateOneRequiredWithoutAuthenticatorNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthenticatorInput, Prisma.UserUpdateWithoutAuthenticatorInput>, Prisma.UserUncheckedUpdateWithoutAuthenticatorInput>
 }
 
-export type UserCreateWithoutCardInput = {
+export type UserCreateWithoutCardAuthorsInput = {
   id?: string
   name?: string | null
   email: string
@@ -481,10 +523,12 @@ export type UserCreateWithoutCardInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
-export type UserUncheckedCreateWithoutCardInput = {
+export type UserUncheckedCreateWithoutCardAuthorsInput = {
   id?: string
   name?: string | null
   email: string
@@ -495,26 +539,65 @@ export type UserUncheckedCreateWithoutCardInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
-export type UserCreateOrConnectWithoutCardInput = {
+export type UserCreateOrConnectWithoutCardAuthorsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCardInput, Prisma.UserUncheckedCreateWithoutCardInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardAuthorsInput, Prisma.UserUncheckedCreateWithoutCardAuthorsInput>
 }
 
-export type UserUpsertWithoutCardInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCardInput, Prisma.UserUncheckedUpdateWithoutCardInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCardInput, Prisma.UserUncheckedCreateWithoutCardInput>
+export type UserCreateWithoutCardOwnersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutCardOwnersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutCardOwnersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardOwnersInput, Prisma.UserUncheckedCreateWithoutCardOwnersInput>
+}
+
+export type UserUpsertWithoutCardAuthorsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCardAuthorsInput, Prisma.UserUncheckedUpdateWithoutCardAuthorsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardAuthorsInput, Prisma.UserUncheckedCreateWithoutCardAuthorsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutCardInput = {
+export type UserUpdateToOneWithWhereWithoutCardAuthorsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCardInput, Prisma.UserUncheckedUpdateWithoutCardInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCardAuthorsInput, Prisma.UserUncheckedUpdateWithoutCardAuthorsInput>
 }
 
-export type UserUpdateWithoutCardInput = {
+export type UserUpdateWithoutCardAuthorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -525,10 +608,12 @@ export type UserUpdateWithoutCardInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
-export type UserUncheckedUpdateWithoutCardInput = {
+export type UserUncheckedUpdateWithoutCardAuthorsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -539,7 +624,52 @@ export type UserUncheckedUpdateWithoutCardInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUpsertWithoutCardOwnersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCardOwnersInput, Prisma.UserUncheckedUpdateWithoutCardOwnersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardOwnersInput, Prisma.UserUncheckedCreateWithoutCardOwnersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCardOwnersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCardOwnersInput, Prisma.UserUncheckedUpdateWithoutCardOwnersInput>
+}
+
+export type UserUpdateWithoutCardOwnersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCardOwnersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutContactInput = {
@@ -553,7 +683,9 @@ export type UserCreateWithoutContactInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutContactInput = {
@@ -567,7 +699,9 @@ export type UserUncheckedCreateWithoutContactInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutContactInput = {
@@ -597,7 +731,9 @@ export type UserUpdateWithoutContactInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContactInput = {
@@ -611,7 +747,89 @@ export type UserUncheckedUpdateWithoutContactInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutCardMessagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCardMessagesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCardMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardMessagesInput, Prisma.UserUncheckedCreateWithoutCardMessagesInput>
+}
+
+export type UserUpsertWithoutCardMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCardMessagesInput, Prisma.UserUncheckedUpdateWithoutCardMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCardMessagesInput, Prisma.UserUncheckedCreateWithoutCardMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCardMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCardMessagesInput, Prisma.UserUncheckedUpdateWithoutCardMessagesInput>
+}
+
+export type UserUpdateWithoutCardMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCardMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -624,8 +842,10 @@ export type UserCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -638,8 +858,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -668,8 +890,10 @@ export type UserUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -682,8 +906,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -696,8 +922,10 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -710,8 +938,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -740,8 +970,10 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -754,8 +986,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutAuthenticatorInput = {
@@ -768,8 +1002,10 @@ export type UserCreateWithoutAuthenticatorInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutAuthenticatorInput = {
@@ -782,8 +1018,10 @@ export type UserUncheckedCreateWithoutAuthenticatorInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  Card?: Prisma.CardUncheckedCreateNestedManyWithoutUserInput
-  Contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardAuthors?: Prisma.CardUncheckedCreateNestedManyWithoutAuthorInput
+  cardOwners?: Prisma.CardUncheckedCreateNestedManyWithoutOwnerInput
+  contact?: Prisma.ContactUncheckedCreateNestedManyWithoutUserInput
+  cardMessages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutAuthenticatorInput = {
@@ -812,8 +1050,10 @@ export type UserUpdateWithoutAuthenticatorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthenticatorInput = {
@@ -826,8 +1066,10 @@ export type UserUncheckedUpdateWithoutAuthenticatorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  Card?: Prisma.CardUncheckedUpdateManyWithoutUserNestedInput
-  Contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardAuthors?: Prisma.CardUncheckedUpdateManyWithoutAuthorNestedInput
+  cardOwners?: Prisma.CardUncheckedUpdateManyWithoutOwnerNestedInput
+  contact?: Prisma.ContactUncheckedUpdateManyWithoutUserNestedInput
+  cardMessages?: Prisma.CardMessageUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -839,16 +1081,20 @@ export type UserCountOutputType = {
   accounts: number
   sessions: number
   Authenticator: number
-  Card: number
-  Contact: number
+  cardAuthors: number
+  cardOwners: number
+  contact: number
+  cardMessages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   Authenticator?: boolean | UserCountOutputTypeCountAuthenticatorArgs
-  Card?: boolean | UserCountOutputTypeCountCardArgs
-  Contact?: boolean | UserCountOutputTypeCountContactArgs
+  cardAuthors?: boolean | UserCountOutputTypeCountCardAuthorsArgs
+  cardOwners?: boolean | UserCountOutputTypeCountCardOwnersArgs
+  contact?: boolean | UserCountOutputTypeCountContactArgs
+  cardMessages?: boolean | UserCountOutputTypeCountCardMessagesArgs
 }
 
 /**
@@ -885,7 +1131,14 @@ export type UserCountOutputTypeCountAuthenticatorArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountCardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountCardAuthorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCardOwnersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CardWhereInput
 }
 
@@ -894,6 +1147,13 @@ export type UserCountOutputTypeCountCardArgs<ExtArgs extends runtime.Types.Exten
  */
 export type UserCountOutputTypeCountContactArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ContactWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCardMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardMessageWhereInput
 }
 
 
@@ -908,8 +1168,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   Authenticator?: boolean | Prisma.User$AuthenticatorArgs<ExtArgs>
-  Card?: boolean | Prisma.User$CardArgs<ExtArgs>
-  Contact?: boolean | Prisma.User$ContactArgs<ExtArgs>
+  cardAuthors?: boolean | Prisma.User$cardAuthorsArgs<ExtArgs>
+  cardOwners?: boolean | Prisma.User$cardOwnersArgs<ExtArgs>
+  contact?: boolean | Prisma.User$contactArgs<ExtArgs>
+  cardMessages?: boolean | Prisma.User$cardMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -948,8 +1210,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   Authenticator?: boolean | Prisma.User$AuthenticatorArgs<ExtArgs>
-  Card?: boolean | Prisma.User$CardArgs<ExtArgs>
-  Contact?: boolean | Prisma.User$ContactArgs<ExtArgs>
+  cardAuthors?: boolean | Prisma.User$cardAuthorsArgs<ExtArgs>
+  cardOwners?: boolean | Prisma.User$cardOwnersArgs<ExtArgs>
+  contact?: boolean | Prisma.User$contactArgs<ExtArgs>
+  cardMessages?: boolean | Prisma.User$cardMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -961,8 +1225,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     Authenticator: Prisma.$AuthenticatorPayload<ExtArgs>[]
-    Card: Prisma.$CardPayload<ExtArgs>[]
-    Contact: Prisma.$ContactPayload<ExtArgs>[]
+    cardAuthors: Prisma.$CardPayload<ExtArgs>[]
+    cardOwners: Prisma.$CardPayload<ExtArgs>[]
+    contact: Prisma.$ContactPayload<ExtArgs>[]
+    cardMessages: Prisma.$CardMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1369,8 +1635,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Authenticator<T extends Prisma.User$AuthenticatorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$AuthenticatorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthenticatorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Card<T extends Prisma.User$CardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$CardArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Contact<T extends Prisma.User$ContactArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ContactArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cardAuthors<T extends Prisma.User$cardAuthorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardAuthorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cardOwners<T extends Prisma.User$cardOwnersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardOwnersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contact<T extends Prisma.User$contactArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contactArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cardMessages<T extends Prisma.User$cardMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cardMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1872,9 +2140,9 @@ export type User$AuthenticatorArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * User.Card
+ * User.cardAuthors
  */
-export type User$CardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$cardAuthorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Card
    */
@@ -1896,9 +2164,33 @@ export type User$CardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 
 /**
- * User.Contact
+ * User.cardOwners
  */
-export type User$ContactArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$cardOwnersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
+}
+
+/**
+ * User.contact
+ */
+export type User$contactArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Contact
    */
@@ -1917,6 +2209,30 @@ export type User$ContactArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ContactScalarFieldEnum | Prisma.ContactScalarFieldEnum[]
+}
+
+/**
+ * User.cardMessages
+ */
+export type User$cardMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardMessage
+   */
+  select?: Prisma.CardMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CardMessage
+   */
+  omit?: Prisma.CardMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardMessageInclude<ExtArgs> | null
+  where?: Prisma.CardMessageWhereInput
+  orderBy?: Prisma.CardMessageOrderByWithRelationInput | Prisma.CardMessageOrderByWithRelationInput[]
+  cursor?: Prisma.CardMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardMessageScalarFieldEnum | Prisma.CardMessageScalarFieldEnum[]
 }
 
 /**

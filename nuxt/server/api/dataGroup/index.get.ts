@@ -12,7 +12,10 @@ export default defineEventHandler(async () => {
     const { funnels, ...model } = dataGroup
     result.push({
       ...model,
-      funnelUuids: funnels.map(ff => ff.funnelUuid),
+      funnels: funnels.map(ff => ({
+        uuid: ff.funnelUuid,
+        sort: ff.sort,
+      })),
     } as unknown as FlDataGroup)
   }
   return result

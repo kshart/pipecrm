@@ -12,7 +12,7 @@ const { model, saveModel } = useCardEditor(propsRef.cardUuid, propsRef.funnel)
 /**
  * Сохранить карточку
  */
-const save = async () => {
+async function save() {
   const card = await saveModel()
 
   await router.replace({
@@ -36,12 +36,10 @@ defineExpose({ save })
       v-model="model.columnUuid"
       :funnel="funnel"
     />
-    <TagsEditor
-      v-model="model.tags"
-    />
-    <v-text-field
-      v-model="model.userId"
-      label="userId"
+    <TagsEditor v-model="model.tags" />
+    <UserEditor
+      v-model="model.ownerId"
+      :user="model.owner"
     />
     <ClientOnly>
       <DataGroupViewer

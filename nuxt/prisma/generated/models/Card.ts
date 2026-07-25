@@ -27,7 +27,8 @@ export type AggregateCard = {
 export type CardMinAggregateOutputType = {
   uuid: string | null
   title: string | null
-  userId: string | null
+  authorId: string | null
+  ownerId: string | null
   columnUuid: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -38,7 +39,8 @@ export type CardMinAggregateOutputType = {
 export type CardMaxAggregateOutputType = {
   uuid: string | null
   title: string | null
-  userId: string | null
+  authorId: string | null
+  ownerId: string | null
   columnUuid: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,7 +53,8 @@ export type CardCountAggregateOutputType = {
   title: number
   fields: number
   tags: number
-  userId: number
+  authorId: number
+  ownerId: number
   columnUuid: number
   createdAt: number
   updatedAt: number
@@ -64,7 +67,8 @@ export type CardCountAggregateOutputType = {
 export type CardMinAggregateInputType = {
   uuid?: true
   title?: true
-  userId?: true
+  authorId?: true
+  ownerId?: true
   columnUuid?: true
   createdAt?: true
   updatedAt?: true
@@ -75,7 +79,8 @@ export type CardMinAggregateInputType = {
 export type CardMaxAggregateInputType = {
   uuid?: true
   title?: true
-  userId?: true
+  authorId?: true
+  ownerId?: true
   columnUuid?: true
   createdAt?: true
   updatedAt?: true
@@ -88,7 +93,8 @@ export type CardCountAggregateInputType = {
   title?: true
   fields?: true
   tags?: true
-  userId?: true
+  authorId?: true
+  ownerId?: true
   columnUuid?: true
   createdAt?: true
   updatedAt?: true
@@ -174,7 +180,8 @@ export type CardGroupByOutputType = {
   title: string
   fields: runtime.JsonValue
   tags: string[]
-  userId: string | null
+  authorId: string | null
+  ownerId: string | null
   columnUuid: string
   createdAt: Date
   updatedAt: Date
@@ -208,14 +215,17 @@ export type CardWhereInput = {
   title?: Prisma.StringFilter<"Card"> | string
   fields?: Prisma.JsonFilter<"Card">
   tags?: Prisma.StringNullableListFilter<"Card">
-  userId?: Prisma.StringNullableFilter<"Card"> | string | null
+  authorId?: Prisma.StringNullableFilter<"Card"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Card"> | string | null
   columnUuid?: Prisma.UuidFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   touchedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedUuid?: Prisma.UuidFilter<"Card"> | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   column?: Prisma.XOR<Prisma.FunnelColumnScalarRelationFilter, Prisma.FunnelColumnWhereInput>
+  messages?: Prisma.CardMessageListRelationFilter
 }
 
 export type CardOrderByWithRelationInput = {
@@ -223,14 +233,17 @@ export type CardOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   fields?: Prisma.SortOrder
   tags?: Prisma.SortOrder
-  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  authorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   columnUuid?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   touchedAt?: Prisma.SortOrder
   updatedUuid?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  author?: Prisma.UserOrderByWithRelationInput
+  owner?: Prisma.UserOrderByWithRelationInput
   column?: Prisma.FunnelColumnOrderByWithRelationInput
+  messages?: Prisma.CardMessageOrderByRelationAggregateInput
 }
 
 export type CardWhereUniqueInput = Prisma.AtLeast<{
@@ -241,14 +254,17 @@ export type CardWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Card"> | string
   fields?: Prisma.JsonFilter<"Card">
   tags?: Prisma.StringNullableListFilter<"Card">
-  userId?: Prisma.StringNullableFilter<"Card"> | string | null
+  authorId?: Prisma.StringNullableFilter<"Card"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Card"> | string | null
   columnUuid?: Prisma.UuidFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   touchedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedUuid?: Prisma.UuidFilter<"Card"> | string
-  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   column?: Prisma.XOR<Prisma.FunnelColumnScalarRelationFilter, Prisma.FunnelColumnWhereInput>
+  messages?: Prisma.CardMessageListRelationFilter
 }, "uuid">
 
 export type CardOrderByWithAggregationInput = {
@@ -256,7 +272,8 @@ export type CardOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   fields?: Prisma.SortOrder
   tags?: Prisma.SortOrder
-  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  authorId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   columnUuid?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -275,7 +292,8 @@ export type CardScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Card"> | string
   fields?: Prisma.JsonWithAggregatesFilter<"Card">
   tags?: Prisma.StringNullableListFilter<"Card">
-  userId?: Prisma.StringNullableWithAggregatesFilter<"Card"> | string | null
+  authorId?: Prisma.StringNullableWithAggregatesFilter<"Card"> | string | null
+  ownerId?: Prisma.StringNullableWithAggregatesFilter<"Card"> | string | null
   columnUuid?: Prisma.UuidWithAggregatesFilter<"Card"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Card"> | Date | string
@@ -292,8 +310,10 @@ export type CardCreateInput = {
   updatedAt?: Date | string
   touchedAt?: Date | string
   updatedUuid?: string
-  user?: Prisma.UserCreateNestedOneWithoutCardInput
+  author?: Prisma.UserCreateNestedOneWithoutCardAuthorsInput
+  owner?: Prisma.UserCreateNestedOneWithoutCardOwnersInput
   column: Prisma.FunnelColumnCreateNestedOneWithoutCardsInput
+  messages?: Prisma.CardMessageCreateNestedManyWithoutCardInput
 }
 
 export type CardUncheckedCreateInput = {
@@ -301,12 +321,14 @@ export type CardUncheckedCreateInput = {
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
-  userId?: string | null
+  authorId?: string | null
+  ownerId?: string | null
   columnUuid: string
   createdAt?: Date | string
   updatedAt?: Date | string
   touchedAt?: Date | string
   updatedUuid?: string
+  messages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CardUpdateInput = {
@@ -318,8 +340,10 @@ export type CardUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
-  user?: Prisma.UserUpdateOneWithoutCardNestedInput
+  author?: Prisma.UserUpdateOneWithoutCardAuthorsNestedInput
+  owner?: Prisma.UserUpdateOneWithoutCardOwnersNestedInput
   column?: Prisma.FunnelColumnUpdateOneRequiredWithoutCardsNestedInput
+  messages?: Prisma.CardMessageUpdateManyWithoutCardNestedInput
 }
 
 export type CardUncheckedUpdateInput = {
@@ -327,12 +351,14 @@ export type CardUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  messages?: Prisma.CardMessageUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CardCreateManyInput = {
@@ -340,7 +366,8 @@ export type CardCreateManyInput = {
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
-  userId?: string | null
+  authorId?: string | null
+  ownerId?: string | null
   columnUuid: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -364,7 +391,8 @@ export type CardUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,7 +413,8 @@ export type CardCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   fields?: Prisma.SortOrder
   tags?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   columnUuid?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -396,7 +425,8 @@ export type CardCountOrderByAggregateInput = {
 export type CardMaxOrderByAggregateInput = {
   uuid?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   columnUuid?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -407,7 +437,8 @@ export type CardMaxOrderByAggregateInput = {
 export type CardMinOrderByAggregateInput = {
   uuid?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  authorId?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   columnUuid?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -423,6 +454,11 @@ export type CardListRelationFilter = {
 
 export type CardOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CardScalarRelationFilter = {
+  is?: Prisma.CardWhereInput
+  isNot?: Prisma.CardWhereInput
 }
 
 export type CardCreatetagsInput = {
@@ -488,45 +524,101 @@ export type CardUncheckedUpdateManyWithoutColumnNestedInput = {
   deleteMany?: Prisma.CardScalarWhereInput | Prisma.CardScalarWhereInput[]
 }
 
-export type CardCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput> | Prisma.CardCreateWithoutUserInput[] | Prisma.CardUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.CardCreateOrConnectWithoutUserInput | Prisma.CardCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.CardCreateManyUserInputEnvelope
+export type CardCreateNestedOneWithoutMessagesInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutMessagesInput, Prisma.CardUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutMessagesInput
+  connect?: Prisma.CardWhereUniqueInput
+}
+
+export type CardUpdateOneRequiredWithoutMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutMessagesInput, Prisma.CardUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutMessagesInput
+  upsert?: Prisma.CardUpsertWithoutMessagesInput
+  connect?: Prisma.CardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CardUpdateToOneWithWhereWithoutMessagesInput, Prisma.CardUpdateWithoutMessagesInput>, Prisma.CardUncheckedUpdateWithoutMessagesInput>
+}
+
+export type CardCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput> | Prisma.CardCreateWithoutAuthorInput[] | Prisma.CardUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutAuthorInput | Prisma.CardCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.CardCreateManyAuthorInputEnvelope
   connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
 }
 
-export type CardUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput> | Prisma.CardCreateWithoutUserInput[] | Prisma.CardUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.CardCreateOrConnectWithoutUserInput | Prisma.CardCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.CardCreateManyUserInputEnvelope
+export type CardCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput> | Prisma.CardCreateWithoutOwnerInput[] | Prisma.CardUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutOwnerInput | Prisma.CardCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.CardCreateManyOwnerInputEnvelope
   connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
 }
 
-export type CardUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput> | Prisma.CardCreateWithoutUserInput[] | Prisma.CardUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.CardCreateOrConnectWithoutUserInput | Prisma.CardCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutUserInput | Prisma.CardUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.CardCreateManyUserInputEnvelope
+export type CardUncheckedCreateNestedManyWithoutAuthorInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput> | Prisma.CardCreateWithoutAuthorInput[] | Prisma.CardUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutAuthorInput | Prisma.CardCreateOrConnectWithoutAuthorInput[]
+  createMany?: Prisma.CardCreateManyAuthorInputEnvelope
+  connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+}
+
+export type CardUncheckedCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput> | Prisma.CardCreateWithoutOwnerInput[] | Prisma.CardUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutOwnerInput | Prisma.CardCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.CardCreateManyOwnerInputEnvelope
+  connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+}
+
+export type CardUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput> | Prisma.CardCreateWithoutAuthorInput[] | Prisma.CardUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutAuthorInput | Prisma.CardCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutAuthorInput | Prisma.CardUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.CardCreateManyAuthorInputEnvelope
   set?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   disconnect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   delete?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
-  update?: Prisma.CardUpdateWithWhereUniqueWithoutUserInput | Prisma.CardUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.CardUpdateManyWithWhereWithoutUserInput | Prisma.CardUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.CardUpdateWithWhereUniqueWithoutAuthorInput | Prisma.CardUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.CardUpdateManyWithWhereWithoutAuthorInput | Prisma.CardUpdateManyWithWhereWithoutAuthorInput[]
   deleteMany?: Prisma.CardScalarWhereInput | Prisma.CardScalarWhereInput[]
 }
 
-export type CardUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput> | Prisma.CardCreateWithoutUserInput[] | Prisma.CardUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.CardCreateOrConnectWithoutUserInput | Prisma.CardCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutUserInput | Prisma.CardUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.CardCreateManyUserInputEnvelope
+export type CardUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput> | Prisma.CardCreateWithoutOwnerInput[] | Prisma.CardUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutOwnerInput | Prisma.CardCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutOwnerInput | Prisma.CardUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.CardCreateManyOwnerInputEnvelope
   set?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   disconnect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   delete?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
   connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
-  update?: Prisma.CardUpdateWithWhereUniqueWithoutUserInput | Prisma.CardUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.CardUpdateManyWithWhereWithoutUserInput | Prisma.CardUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.CardUpdateWithWhereUniqueWithoutOwnerInput | Prisma.CardUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.CardUpdateManyWithWhereWithoutOwnerInput | Prisma.CardUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.CardScalarWhereInput | Prisma.CardScalarWhereInput[]
+}
+
+export type CardUncheckedUpdateManyWithoutAuthorNestedInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput> | Prisma.CardCreateWithoutAuthorInput[] | Prisma.CardUncheckedCreateWithoutAuthorInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutAuthorInput | Prisma.CardCreateOrConnectWithoutAuthorInput[]
+  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutAuthorInput | Prisma.CardUpsertWithWhereUniqueWithoutAuthorInput[]
+  createMany?: Prisma.CardCreateManyAuthorInputEnvelope
+  set?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  disconnect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  delete?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  update?: Prisma.CardUpdateWithWhereUniqueWithoutAuthorInput | Prisma.CardUpdateWithWhereUniqueWithoutAuthorInput[]
+  updateMany?: Prisma.CardUpdateManyWithWhereWithoutAuthorInput | Prisma.CardUpdateManyWithWhereWithoutAuthorInput[]
+  deleteMany?: Prisma.CardScalarWhereInput | Prisma.CardScalarWhereInput[]
+}
+
+export type CardUncheckedUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput> | Prisma.CardCreateWithoutOwnerInput[] | Prisma.CardUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.CardCreateOrConnectWithoutOwnerInput | Prisma.CardCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.CardUpsertWithWhereUniqueWithoutOwnerInput | Prisma.CardUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.CardCreateManyOwnerInputEnvelope
+  set?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  disconnect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  delete?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  connect?: Prisma.CardWhereUniqueInput | Prisma.CardWhereUniqueInput[]
+  update?: Prisma.CardUpdateWithWhereUniqueWithoutOwnerInput | Prisma.CardUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.CardUpdateManyWithWhereWithoutOwnerInput | Prisma.CardUpdateManyWithWhereWithoutOwnerInput[]
   deleteMany?: Prisma.CardScalarWhereInput | Prisma.CardScalarWhereInput[]
 }
 
@@ -539,7 +631,9 @@ export type CardCreateWithoutColumnInput = {
   updatedAt?: Date | string
   touchedAt?: Date | string
   updatedUuid?: string
-  user?: Prisma.UserCreateNestedOneWithoutCardInput
+  author?: Prisma.UserCreateNestedOneWithoutCardAuthorsInput
+  owner?: Prisma.UserCreateNestedOneWithoutCardOwnersInput
+  messages?: Prisma.CardMessageCreateNestedManyWithoutCardInput
 }
 
 export type CardUncheckedCreateWithoutColumnInput = {
@@ -547,11 +641,13 @@ export type CardUncheckedCreateWithoutColumnInput = {
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
-  userId?: string | null
+  authorId?: string | null
+  ownerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   touchedAt?: Date | string
   updatedUuid?: string
+  messages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutCardInput
 }
 
 export type CardCreateOrConnectWithoutColumnInput = {
@@ -588,7 +684,8 @@ export type CardScalarWhereInput = {
   title?: Prisma.StringFilter<"Card"> | string
   fields?: Prisma.JsonFilter<"Card">
   tags?: Prisma.StringNullableListFilter<"Card">
-  userId?: Prisma.StringNullableFilter<"Card"> | string | null
+  authorId?: Prisma.StringNullableFilter<"Card"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Card"> | string | null
   columnUuid?: Prisma.UuidFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
@@ -596,7 +693,7 @@ export type CardScalarWhereInput = {
   updatedUuid?: Prisma.UuidFilter<"Card"> | string
 }
 
-export type CardCreateWithoutUserInput = {
+export type CardCreateWithoutMessagesInput = {
   uuid?: string
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -605,14 +702,18 @@ export type CardCreateWithoutUserInput = {
   updatedAt?: Date | string
   touchedAt?: Date | string
   updatedUuid?: string
+  author?: Prisma.UserCreateNestedOneWithoutCardAuthorsInput
+  owner?: Prisma.UserCreateNestedOneWithoutCardOwnersInput
   column: Prisma.FunnelColumnCreateNestedOneWithoutCardsInput
 }
 
-export type CardUncheckedCreateWithoutUserInput = {
+export type CardUncheckedCreateWithoutMessagesInput = {
   uuid?: string
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
+  authorId?: string | null
+  ownerId?: string | null
   columnUuid: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -620,30 +721,156 @@ export type CardUncheckedCreateWithoutUserInput = {
   updatedUuid?: string
 }
 
-export type CardCreateOrConnectWithoutUserInput = {
+export type CardCreateOrConnectWithoutMessagesInput = {
   where: Prisma.CardWhereUniqueInput
-  create: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.CardCreateWithoutMessagesInput, Prisma.CardUncheckedCreateWithoutMessagesInput>
 }
 
-export type CardCreateManyUserInputEnvelope = {
-  data: Prisma.CardCreateManyUserInput | Prisma.CardCreateManyUserInput[]
+export type CardUpsertWithoutMessagesInput = {
+  update: Prisma.XOR<Prisma.CardUpdateWithoutMessagesInput, Prisma.CardUncheckedUpdateWithoutMessagesInput>
+  create: Prisma.XOR<Prisma.CardCreateWithoutMessagesInput, Prisma.CardUncheckedCreateWithoutMessagesInput>
+  where?: Prisma.CardWhereInput
+}
+
+export type CardUpdateToOneWithWhereWithoutMessagesInput = {
+  where?: Prisma.CardWhereInput
+  data: Prisma.XOR<Prisma.CardUpdateWithoutMessagesInput, Prisma.CardUncheckedUpdateWithoutMessagesInput>
+}
+
+export type CardUpdateWithoutMessagesInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.UserUpdateOneWithoutCardAuthorsNestedInput
+  owner?: Prisma.UserUpdateOneWithoutCardOwnersNestedInput
+  column?: Prisma.FunnelColumnUpdateOneRequiredWithoutCardsNestedInput
+}
+
+export type CardUncheckedUpdateWithoutMessagesInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardUpdatetagsInput | string[]
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type CardCreateWithoutAuthorInput = {
+  uuid?: string
+  title: string
+  fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardCreatetagsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  touchedAt?: Date | string
+  updatedUuid?: string
+  owner?: Prisma.UserCreateNestedOneWithoutCardOwnersInput
+  column: Prisma.FunnelColumnCreateNestedOneWithoutCardsInput
+  messages?: Prisma.CardMessageCreateNestedManyWithoutCardInput
+}
+
+export type CardUncheckedCreateWithoutAuthorInput = {
+  uuid?: string
+  title: string
+  fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardCreatetagsInput | string[]
+  ownerId?: string | null
+  columnUuid: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  touchedAt?: Date | string
+  updatedUuid?: string
+  messages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutCardInput
+}
+
+export type CardCreateOrConnectWithoutAuthorInput = {
+  where: Prisma.CardWhereUniqueInput
+  create: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput>
+}
+
+export type CardCreateManyAuthorInputEnvelope = {
+  data: Prisma.CardCreateManyAuthorInput | Prisma.CardCreateManyAuthorInput[]
   skipDuplicates?: boolean
 }
 
-export type CardUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.CardWhereUniqueInput
-  update: Prisma.XOR<Prisma.CardUpdateWithoutUserInput, Prisma.CardUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.CardCreateWithoutUserInput, Prisma.CardUncheckedCreateWithoutUserInput>
+export type CardCreateWithoutOwnerInput = {
+  uuid?: string
+  title: string
+  fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardCreatetagsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  touchedAt?: Date | string
+  updatedUuid?: string
+  author?: Prisma.UserCreateNestedOneWithoutCardAuthorsInput
+  column: Prisma.FunnelColumnCreateNestedOneWithoutCardsInput
+  messages?: Prisma.CardMessageCreateNestedManyWithoutCardInput
 }
 
-export type CardUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.CardWhereUniqueInput
-  data: Prisma.XOR<Prisma.CardUpdateWithoutUserInput, Prisma.CardUncheckedUpdateWithoutUserInput>
+export type CardUncheckedCreateWithoutOwnerInput = {
+  uuid?: string
+  title: string
+  fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardCreatetagsInput | string[]
+  authorId?: string | null
+  columnUuid: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  touchedAt?: Date | string
+  updatedUuid?: string
+  messages?: Prisma.CardMessageUncheckedCreateNestedManyWithoutCardInput
 }
 
-export type CardUpdateManyWithWhereWithoutUserInput = {
+export type CardCreateOrConnectWithoutOwnerInput = {
+  where: Prisma.CardWhereUniqueInput
+  create: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput>
+}
+
+export type CardCreateManyOwnerInputEnvelope = {
+  data: Prisma.CardCreateManyOwnerInput | Prisma.CardCreateManyOwnerInput[]
+  skipDuplicates?: boolean
+}
+
+export type CardUpsertWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.CardWhereUniqueInput
+  update: Prisma.XOR<Prisma.CardUpdateWithoutAuthorInput, Prisma.CardUncheckedUpdateWithoutAuthorInput>
+  create: Prisma.XOR<Prisma.CardCreateWithoutAuthorInput, Prisma.CardUncheckedCreateWithoutAuthorInput>
+}
+
+export type CardUpdateWithWhereUniqueWithoutAuthorInput = {
+  where: Prisma.CardWhereUniqueInput
+  data: Prisma.XOR<Prisma.CardUpdateWithoutAuthorInput, Prisma.CardUncheckedUpdateWithoutAuthorInput>
+}
+
+export type CardUpdateManyWithWhereWithoutAuthorInput = {
   where: Prisma.CardScalarWhereInput
-  data: Prisma.XOR<Prisma.CardUpdateManyMutationInput, Prisma.CardUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.CardUpdateManyMutationInput, Prisma.CardUncheckedUpdateManyWithoutAuthorInput>
+}
+
+export type CardUpsertWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.CardWhereUniqueInput
+  update: Prisma.XOR<Prisma.CardUpdateWithoutOwnerInput, Prisma.CardUncheckedUpdateWithoutOwnerInput>
+  create: Prisma.XOR<Prisma.CardCreateWithoutOwnerInput, Prisma.CardUncheckedCreateWithoutOwnerInput>
+}
+
+export type CardUpdateWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.CardWhereUniqueInput
+  data: Prisma.XOR<Prisma.CardUpdateWithoutOwnerInput, Prisma.CardUncheckedUpdateWithoutOwnerInput>
+}
+
+export type CardUpdateManyWithWhereWithoutOwnerInput = {
+  where: Prisma.CardScalarWhereInput
+  data: Prisma.XOR<Prisma.CardUpdateManyMutationInput, Prisma.CardUncheckedUpdateManyWithoutOwnerInput>
 }
 
 export type CardCreateManyColumnInput = {
@@ -651,7 +878,8 @@ export type CardCreateManyColumnInput = {
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
-  userId?: string | null
+  authorId?: string | null
+  ownerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   touchedAt?: Date | string
@@ -667,7 +895,9 @@ export type CardUpdateWithoutColumnInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
-  user?: Prisma.UserUpdateOneWithoutCardNestedInput
+  author?: Prisma.UserUpdateOneWithoutCardAuthorsNestedInput
+  owner?: Prisma.UserUpdateOneWithoutCardOwnersNestedInput
+  messages?: Prisma.CardMessageUpdateManyWithoutCardNestedInput
 }
 
 export type CardUncheckedUpdateWithoutColumnInput = {
@@ -675,11 +905,13 @@ export type CardUncheckedUpdateWithoutColumnInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  messages?: Prisma.CardMessageUncheckedUpdateManyWithoutCardNestedInput
 }
 
 export type CardUncheckedUpdateManyWithoutColumnInput = {
@@ -687,18 +919,20 @@ export type CardUncheckedUpdateManyWithoutColumnInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type CardCreateManyUserInput = {
+export type CardCreateManyAuthorInput = {
   uuid?: string
   title: string
   fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardCreatetagsInput | string[]
+  ownerId?: string | null
   columnUuid: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -706,7 +940,20 @@ export type CardCreateManyUserInput = {
   updatedUuid?: string
 }
 
-export type CardUpdateWithoutUserInput = {
+export type CardCreateManyOwnerInput = {
+  uuid?: string
+  title: string
+  fields: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardCreatetagsInput | string[]
+  authorId?: string | null
+  columnUuid: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  touchedAt?: Date | string
+  updatedUuid?: string
+}
+
+export type CardUpdateWithoutAuthorInput = {
   uuid?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -715,14 +962,31 @@ export type CardUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  owner?: Prisma.UserUpdateOneWithoutCardOwnersNestedInput
   column?: Prisma.FunnelColumnUpdateOneRequiredWithoutCardsNestedInput
+  messages?: Prisma.CardMessageUpdateManyWithoutCardNestedInput
 }
 
-export type CardUncheckedUpdateWithoutUserInput = {
+export type CardUncheckedUpdateWithoutAuthorInput = {
   uuid?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  messages?: Prisma.CardMessageUncheckedUpdateManyWithoutCardNestedInput
+}
+
+export type CardUncheckedUpdateManyWithoutAuthorInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardUpdatetagsInput | string[]
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -730,11 +994,40 @@ export type CardUncheckedUpdateWithoutUserInput = {
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type CardUncheckedUpdateManyWithoutUserInput = {
+export type CardUpdateWithoutOwnerInput = {
   uuid?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   tags?: Prisma.CardUpdatetagsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.UserUpdateOneWithoutCardAuthorsNestedInput
+  column?: Prisma.FunnelColumnUpdateOneRequiredWithoutCardsNestedInput
+  messages?: Prisma.CardMessageUpdateManyWithoutCardNestedInput
+}
+
+export type CardUncheckedUpdateWithoutOwnerInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardUpdatetagsInput | string[]
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  touchedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
+  messages?: Prisma.CardMessageUncheckedUpdateManyWithoutCardNestedInput
+}
+
+export type CardUncheckedUpdateManyWithoutOwnerInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  fields?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.CardUpdatetagsInput | string[]
+  authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   columnUuid?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -742,6 +1035,35 @@ export type CardUncheckedUpdateManyWithoutUserInput = {
   updatedUuid?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
+
+/**
+ * Count Type CardCountOutputType
+ */
+
+export type CardCountOutputType = {
+  messages: number
+}
+
+export type CardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  messages?: boolean | CardCountOutputTypeCountMessagesArgs
+}
+
+/**
+ * CardCountOutputType without action
+ */
+export type CardCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardCountOutputType
+   */
+  select?: Prisma.CardCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CardCountOutputType without action
+ */
+export type CardCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardMessageWhereInput
+}
 
 
 export type CardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -749,14 +1071,18 @@ export type CardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   title?: boolean
   fields?: boolean
   tags?: boolean
-  userId?: boolean
+  authorId?: boolean
+  ownerId?: boolean
   columnUuid?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   touchedAt?: boolean
   updatedUuid?: boolean
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
+  messages?: boolean | Prisma.Card$messagesArgs<ExtArgs>
+  _count?: boolean | Prisma.CardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
 export type CardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -764,13 +1090,15 @@ export type CardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   fields?: boolean
   tags?: boolean
-  userId?: boolean
+  authorId?: boolean
+  ownerId?: boolean
   columnUuid?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   touchedAt?: boolean
   updatedUuid?: boolean
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
@@ -779,13 +1107,15 @@ export type CardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   fields?: boolean
   tags?: boolean
-  userId?: boolean
+  authorId?: boolean
+  ownerId?: boolean
   columnUuid?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   touchedAt?: boolean
   updatedUuid?: boolean
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
@@ -794,7 +1124,8 @@ export type CardSelectScalar = {
   title?: boolean
   fields?: boolean
   tags?: boolean
-  userId?: boolean
+  authorId?: boolean
+  ownerId?: boolean
   columnUuid?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -802,32 +1133,40 @@ export type CardSelectScalar = {
   updatedUuid?: boolean
 }
 
-export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uuid" | "title" | "fields" | "tags" | "userId" | "columnUuid" | "createdAt" | "updatedAt" | "touchedAt" | "updatedUuid", ExtArgs["result"]["card"]>
+export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"uuid" | "title" | "fields" | "tags" | "authorId" | "ownerId" | "columnUuid" | "createdAt" | "updatedAt" | "touchedAt" | "updatedUuid", ExtArgs["result"]["card"]>
 export type CardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
+  messages?: boolean | Prisma.Card$messagesArgs<ExtArgs>
+  _count?: boolean | Prisma.CardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
 }
 export type CardIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.Card$userArgs<ExtArgs>
+  author?: boolean | Prisma.Card$authorArgs<ExtArgs>
+  owner?: boolean | Prisma.Card$ownerArgs<ExtArgs>
   column?: boolean | Prisma.FunnelColumnDefaultArgs<ExtArgs>
 }
 
 export type $CardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Card"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs> | null
+    author: Prisma.$UserPayload<ExtArgs> | null
+    owner: Prisma.$UserPayload<ExtArgs> | null
     column: Prisma.$FunnelColumnPayload<ExtArgs>
+    messages: Prisma.$CardMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     uuid: string
     title: string
     fields: runtime.JsonValue
     tags: string[]
-    userId: string | null
+    authorId: string | null
+    ownerId: string | null
     columnUuid: string
     createdAt: Date
     updatedAt: Date
@@ -1227,8 +1566,10 @@ readonly fields: CardFieldRefs;
  */
 export interface Prisma__CardClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.Card$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  author<T extends Prisma.Card$authorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$authorArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  owner<T extends Prisma.Card$ownerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$ownerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   column<T extends Prisma.FunnelColumnDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FunnelColumnDefaultArgs<ExtArgs>>): Prisma.Prisma__FunnelColumnClient<runtime.Types.Result.GetResult<Prisma.$FunnelColumnPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  messages<T extends Prisma.Card$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1262,7 +1603,8 @@ export interface CardFieldRefs {
   readonly title: Prisma.FieldRef<"Card", 'String'>
   readonly fields: Prisma.FieldRef<"Card", 'Json'>
   readonly tags: Prisma.FieldRef<"Card", 'String[]'>
-  readonly userId: Prisma.FieldRef<"Card", 'String'>
+  readonly authorId: Prisma.FieldRef<"Card", 'String'>
+  readonly ownerId: Prisma.FieldRef<"Card", 'String'>
   readonly columnUuid: Prisma.FieldRef<"Card", 'String'>
   readonly createdAt: Prisma.FieldRef<"Card", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Card", 'DateTime'>
@@ -1669,9 +2011,9 @@ export type CardDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Card.user
+ * Card.author
  */
-export type Card$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Card$authorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -1685,6 +2027,49 @@ export type Card$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Card.owner
+ */
+export type Card$ownerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * Card.messages
+ */
+export type Card$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardMessage
+   */
+  select?: Prisma.CardMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CardMessage
+   */
+  omit?: Prisma.CardMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardMessageInclude<ExtArgs> | null
+  where?: Prisma.CardMessageWhereInput
+  orderBy?: Prisma.CardMessageOrderByWithRelationInput | Prisma.CardMessageOrderByWithRelationInput[]
+  cursor?: Prisma.CardMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardMessageScalarFieldEnum | Prisma.CardMessageScalarFieldEnum[]
 }
 
 /**

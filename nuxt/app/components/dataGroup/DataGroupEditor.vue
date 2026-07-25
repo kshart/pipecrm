@@ -12,19 +12,25 @@ const tab = ref(dataGroups.value?.[0]?.uuid)
 
 const fieldConf = (type: string) => fieldTypes.find(ft => ft.name === type)
 
-const save = (uuid: string, dataGroup: FlDataGroup) => {
+function save(uuid: string, dataGroup: FlDataGroup) {
   dataGroupService.saveGroup(uuid, dataGroup)
 }
 
 const dataGroupsEditable = ref<typeof dataGroups.value>(
   structuredClone(toRaw(dataGroups.value))
 )
+const dataGroupsEnabled = computed<FlDataGroup[]>(() => {
+  const dataGroups = dataGroupService.groupsForFunnel(toRef(props.funnel.uuid))
+
+  return dataGroups.value.map(dg => dataGroupsEditable.value.find(dge => dge.uuid === dg.uuid)).filter(dg => dg !== undefined)
+})
+const dataGroupsDisabled = computed<FlDataGroup[]>(() => dataGroupsEditable.value.filter(dg => !dataGroupsEnabled.value.includes(dg)))
 
 dataGroupsEditable.value.map((dg) => {
   watch(dg, value => save(dg.uuid, value), { deep: true })
 })
 
-const createField = (dataGroup: FlDataGroup) => {
+function createField(dataGroup: FlDataGroup) {
   const fieldType = fieldTypes[0]!
 
   dataGroup.fields.push({
@@ -35,13 +41,57 @@ const createField = (dataGroup: FlDataGroup) => {
   })
 }
 
-const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
-  const funnelUuidIndex = dataGroup.funnelUuids.indexOf(props.funnel.uuid)
+function dataGroupToggleFunnel(dataGroup: FlDataGroup) {
+  const funnelUuidIndex = dataGroup.funnels.findIndex(ff => ff.uuid === props.funnel.uuid)
   if (funnelUuidIndex >= 0) {
-    dataGroup.funnelUuids.splice(funnelUuidIndex, 1)
+    dataGroup.funnels.splice(funnelUuidIndex, 1)
   } else {
-    dataGroup.funnelUuids.push(props.funnel.uuid)
+    dataGroup.funnels.push({
+      uuid: props.funnel.uuid,
+      sort: dataGroup.funnels.length,
+    })
   }
+}
+
+function moveUp(dataGroup: FlDataGroup) {
+  const funnelUuid = props.funnel.uuid
+  const index = dataGroupsEnabled.value.indexOf(dataGroup)
+  const prevValue = dataGroupsEnabled.value[index - 1]
+
+  if (!prevValue) {
+    return
+  }
+  const ff = dataGroup.funnels.find(ff => ff.uuid === funnelUuid)
+  const prevFF = prevValue.funnels.find(ff => ff.uuid === funnelUuid)
+
+  if (!ff || !prevFF) {
+    throw Error('Это как')
+  }
+
+  const prevFFSort = prevFF.sort
+
+  prevFF.sort = ff.sort
+  ff.sort = prevFFSort
+}
+function moveDown(dataGroup: FlDataGroup) {
+  const funnelUuid = props.funnel.uuid
+  const index = dataGroupsEnabled.value.indexOf(dataGroup)
+  const nextValue = dataGroupsEnabled.value[index + 1]
+
+  if (!nextValue) {
+    return
+  }
+  const ff = dataGroup.funnels.find(ff => ff.uuid === funnelUuid)
+  const nextFF = nextValue.funnels.find(ff => ff.uuid === funnelUuid)
+
+  if (!ff || !nextFF) {
+    throw Error('Это как')
+  }
+
+  const nextFFSort = nextFF.sort
+
+  nextFF.sort = ff.sort
+  ff.sort = nextFFSort
 }
 </script>
 
@@ -56,17 +106,30 @@ const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
         </v-list-item>
         <v-tabs
           v-model="tab"
-          class="pb-7"
+          class="pb-7 tabs-with-sort"
           color="primary"
           direction="vertical"
         >
           <v-tab
-            v-for="dataGroup of dataGroups.filter(dg => dg.funnelUuids.includes(props.funnel.uuid))"
+            v-for="dataGroup of dataGroupsEnabled"
             :key="dataGroup.uuid"
-            :text="dataGroup.title"
             :value="dataGroup.uuid"
+            :text="dataGroup.title"
             size="small"
-          />
+          >
+            <template #append>
+              <v-icon
+                icon="mdi-chevron-up"
+                size="x-large"
+                @click.stop="moveUp(dataGroup)"
+              />
+              <v-icon
+                icon="mdi-chevron-down"
+                size="x-large"
+                @click.stop="moveDown(dataGroup)"
+              />
+            </template>
+          </v-tab>
         </v-tabs>
 
         <v-list-item class="text-h7s">
@@ -78,7 +141,7 @@ const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
           direction="vertical"
         >
           <v-tab
-            v-for="dataGroup of dataGroups.filter(dg => !dg.funnelUuids.includes(props.funnel.uuid))"
+            v-for="dataGroup of dataGroupsDisabled"
             :key="dataGroup.uuid"
             :text="dataGroup.title"
             :value="dataGroup.uuid"
@@ -111,7 +174,7 @@ const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
               variant="solo-filled"
             />
             <v-btn
-              v-if="dataGroup.funnelUuids.includes(props.funnel.uuid)"
+              v-if="dataGroup.funnels.some(ff => ff.uuid === props.funnel.uuid)"
               @click="dataGroupToggleFunnel(dataGroup)"
             >
               hide on funnel
@@ -167,3 +230,14 @@ const dataGroupToggleFunnel = (dataGroup: FlDataGroup) => {
     </div>
   </v-card>
 </template>
+
+<style lang="scss" scoped>
+.tabs-with-sort {
+  :deep(.v-btn) {
+    grid-template-columns: auto auto 1fr;
+  }
+  :deep(.v-btn__append) {
+    justify-content: end;
+  }
+}
+</style>

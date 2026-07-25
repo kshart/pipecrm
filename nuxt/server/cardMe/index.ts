@@ -3,14 +3,17 @@ import type { Prisma } from '@@/shared/types/prisma'
 import tagService from './tagService'
 import { v4 as uuidV4 } from 'uuid'
 
-export type CardCreateData = Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid'> & {
+export type CardCreateData = Pick<Card, 'title' | 'tags' | 'ownerId' | 'columnUuid'> & {
   fields: FlCard['fields']
 }
 export type CardUpdateData = Partial<
-  Pick<Card, 'title' | 'tags' | 'userId' | 'columnUuid'> & {
+  Pick<Card, 'title' | 'tags' | 'ownerId' | 'columnUuid'> & {
     fields: FlCard['fields']
   }
 >
+
+export interface MessageData {
+}
 
 /**
  * Редактор карточек.
@@ -31,11 +34,13 @@ export default {
         title: data.title,
         fields: (data.fields || {}) as Prisma.InputJsonValue,
         tags: data.tags,
-        userId: data.userId || user.id,
+        ownerId: data.ownerId || user.id,
+        authorId: user.id,
         columnUuid,
       },
       include: {
-        user: true,
+        owner: true,
+        author: true,
       },
     }) as FlCard
     await Promise.all(afterSave.map(f => f(card)))
@@ -61,11 +66,7 @@ export default {
       updateData.tags = data.tags
       afterSave.push(newCard => tagService.cardUpdateTags(newCard.tags, card.tags))
     }
-    if (data.userId) {
-      updateData.userId = data.userId
-    } else {
-      updateData.userId = user.id
-    }
+    updateData.ownerId = data.ownerId || user.id
     if (data.columnUuid) {
       updateData.columnUuid = data.columnUuid
     }
@@ -77,7 +78,8 @@ export default {
       data: updateData,
       where: { uuid: card.uuid },
       include: {
-        user: true,
+        owner: true,
+        author: true,
       },
     }) as FlCard
     await Promise.all(afterSave.map(f => f(cardUpdated)))
@@ -86,5 +88,22 @@ export default {
     broadcast.publish('card:u:' + cardUpdated.uuid, cardUpdated)
 
     return cardUpdated
+  },
+  async message(card: Card, message: MessageData, user: User): Promise<boolean> {
+    // const columnUuid = funnel.columns?.[0]?.uuid as string
+    const cardMessage = await prisma.cardMessage.create({
+      data: {
+        cardUuid: card.uuid,
+        authorId: user.id,
+      },
+      include: {
+        author: true,
+      },
+    })
+
+    const broadcast = useBroadcast()
+    broadcast.publish('card:m:' + card.uuid, cardMessage)
+
+    return true
   },
 }

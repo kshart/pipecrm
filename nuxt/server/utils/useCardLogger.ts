@@ -134,8 +134,11 @@ export function useCardLogger() {
       if (oldValues.get('columnUuid') !== card.columnUuid) {
         point.stringField('columnUuid', card.columnUuid)
       }
-      if (oldValues.get('userId') !== card.userId) {
-        point.stringField('userId', card.userId)
+      if (oldValues.get('ownerId') !== card.ownerId) {
+        point.stringField('ownerId', card.ownerId)
+      }
+      if (oldValues.get('authorId') !== card.authorId) {
+        point.stringField('authorId', card.authorId)
       }
 
       for (const fieldUuid in card.fields) {

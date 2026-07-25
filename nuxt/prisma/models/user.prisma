@@ -8,10 +8,12 @@ model User {
   sessions      Session[]
   Authenticator Authenticator[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Card      Card[]
-  Contact   Contact[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  cardAuthors  Card[]    @relation("CardAuthors")
+  cardOwners   Card[]    @relation("CardOwners")
+  contact      Contact[]
+  cardMessages CardMessage[]
 }
 
 model Account {

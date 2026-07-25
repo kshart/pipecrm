@@ -14,7 +14,8 @@ export default defineEventHandler(async (event): Promise<Paginator<FlCard>> => {
       columnUuid: String(query.columnUuid),
     },
     include: {
-      user: true,
+      owner: true,
+      author: true,
     },
     orderBy: {
       updatedAt: 'desc',

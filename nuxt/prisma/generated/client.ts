@@ -77,6 +77,11 @@ export type DataGroup = Prisma.DataGroupModel
  */
 export type DataGroupOnFunnel = Prisma.DataGroupOnFunnelModel
 /**
+ * Model CardMessage
+ * 
+ */
+export type CardMessage = Prisma.CardMessageModel
+/**
  * Model User
  * 
  */
