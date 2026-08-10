@@ -12,7 +12,7 @@ const flCardFullRef = useTemplateRef('flCardFull')
     location="right"
     permanent
     temporary
-    :width="cardUuid === 'new' ? 400 : 800"
+    :width="cardUuid === 'new' ? 400 : 700 + 400"
   >
     <div
       v-if="cardUuid"
@@ -28,9 +28,10 @@ const flCardFullRef = useTemplateRef('flCardFull')
           :cardUuid="cardUuid"
         />
         <div class="panel-left-action">
-          <div style="height: 200px">
-            height: 200px
-          </div>
+          <FlCardSender
+            :funnel="props.funnel"
+            :cardUuid="cardUuid"
+          />
         </div>
       </div>
       <div class="panel-card">
@@ -66,13 +67,12 @@ const flCardFullRef = useTemplateRef('flCardFull')
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    width: 400px;
+    width: 700px;
     .panel-left-history {
       z-index: 1;
     }
     .panel-left-action {
       z-index: 2;
-      background: #0ff;
     }
   }
   .panel-card {

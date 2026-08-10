@@ -36,6 +36,6 @@ const props = defineProps<{
   display: inline-block;
   font-size: 10px;
   padding-left: 5px;
-  color: #777;
+  color: #555;
 }
 </style>

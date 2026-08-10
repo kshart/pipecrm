@@ -26,7 +26,23 @@ export default async () => {
       return dataGroups
     },
     groupsForFunnel(uuid: Ref<string>): Ref<FlDataGroup[]> {
-      return computed(() => dataGroups.value.filter(dg => dg.funnelUuids.includes(uuid.value)))
+      return computed(() => {
+        const relations = []
+
+        for (const dataGroup of dataGroups.value) {
+          const relation = dataGroup.funnels.find(ff => ff.uuid === uuid.value)
+
+          if (relation) {
+            relations.push({
+              dataGroup,
+              sort: relation.sort,
+            })
+          }
+        }
+        relations.sort((a, b) => a.sort - b.sort)
+
+        return relations.map(r => r.dataGroup)
+      })
     },
     async saveGroup(uuid: string, dataGroup: FlDataGroup) {
       return $fetch(`/api/dataGroup/${uuid}`, {

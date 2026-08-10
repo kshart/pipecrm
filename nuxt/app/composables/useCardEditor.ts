@@ -1,4 +1,4 @@
-type FlCardEditable = Pick<FlCard, 'uuid' | 'title' | 'fields' | 'tags' | 'userId' | 'columnUuid'>
+type FlCardEditable = Pick<FlCard, 'uuid' | 'title' | 'fields' | 'tags' | 'ownerId' | 'owner' | 'columnUuid'>
 
 /**
  * Редактор карточки, новой или существующей
@@ -12,7 +12,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
     title: 'New card',
     fields: {},
     tags: [] as string[],
-    userId: null,
+    owner: null,
+    ownerId: null,
     columnUuid: '',
   })
 
@@ -25,7 +26,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
       model.value.title = 'New card'
       model.value.fields = {}
       model.value.tags = []
-      model.value.userId = null
+      model.value.owner = null
+      model.value.ownerId = null
       model.value.columnUuid = ''
     } else {
       isLoading.value = true
@@ -37,7 +39,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
       model.value.title = card.title
       model.value.fields = card.fields as FlCardEditable['fields']
       model.value.tags = card.tags
-      model.value.userId = card.userId
+      model.value.owner = card.owner
+      model.value.ownerId = card.ownerId
       model.value.columnUuid = card.columnUuid
     }
 
@@ -57,7 +60,8 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
     }
 
     model.value.fields = card.fields
-    model.value.userId = card.userId
+    model.value.owner = card.owner
+    model.value.ownerId = card.ownerId
     model.value.columnUuid = card.columnUuid
 
     originalModel = structuredClone(toRaw(model.value))
@@ -78,7 +82,7 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
             title: model.value.title,
             fields: model.value.fields,
             tags: model.value.tags,
-            userId: model.value.userId,
+            ownerId: model.value.ownerId,
             columnUuid: model.value.columnUuid,
           },
         })
@@ -93,7 +97,7 @@ export default function useCardEditor(cardUuid: Ref<string>, funnel: Ref<Funnel>
           title: model.value.title,
           fields: model.value.fields,
           tags: model.value.tags,
-          userId: model.value.userId,
+          ownerId: model.value.ownerId,
           columnUuid: model.value.columnUuid,
         },
         body: model.value,

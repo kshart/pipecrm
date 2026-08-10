@@ -2,7 +2,7 @@ import { InfluxDB, Point, HttpError } from '@influxdata/influxdb-client'
 
 export interface ReadResultRecord {
   field: string
-  updatedBy: string
+  authorId: string
   time: string
   value: string
 }
@@ -64,7 +64,12 @@ export function useCardLogger() {
 
         queryApi.queryRows(fluxQuery, {
           next: (row, tableMeta) => {
-            const { table, result, ...fields } = tableMeta.toObject(row)
+            const {
+              table,
+              result,
+              updatedBy,
+              ...fields
+            } = tableMeta.toObject(row)
 
             if (fields.error) {
               return
@@ -77,7 +82,7 @@ export function useCardLogger() {
             } else {
               data.push({
                 field: fields._field,
-                updatedBy: fields.updatedBy || null,
+                authorId: updatedBy || null,
                 time: fields._time,
                 value: fields._value,
               })

@@ -16,7 +16,7 @@ export default withNuxt({
   })
   .override('nuxt/typescript/rules', {
     rules: {
-      '@typescript-eslint/no-empty-object-type': ['error', 'never'],
+      '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/unified-signatures': ['error', { ignoreDifferentlyNamedParameters: true }],
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',

@@ -12,8 +12,18 @@ export type CardUpdateData = Partial<
   }
 >
 
-export interface MessageData {
+export interface MessageDataText {
+  text: string
 }
+
+export interface MessageDataFile {
+  file: string
+  filename: string
+  contentType: string
+  contentLength: number
+}
+
+export type MessageData = MessageDataText | MessageDataFile
 
 /**
  * Редактор карточек.
@@ -90,14 +100,11 @@ export default {
     return cardUpdated
   },
   async message(card: Card, message: MessageData, user: User): Promise<boolean> {
-    // const columnUuid = funnel.columns?.[0]?.uuid as string
     const cardMessage = await prisma.cardMessage.create({
       data: {
         cardUuid: card.uuid,
         authorId: user.id,
-      },
-      include: {
-        author: true,
+        message: message as unknown as Prisma.JsonObject,
       },
     })
 

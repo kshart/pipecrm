@@ -9,9 +9,6 @@ export default defineEventHandler(async (event): Promise<Paginator<FlUserShort>>
   const page = Number(query.page || 0)
 
   const data = await prisma.user.findMany({
-    // where: {
-    //   columnUuid: String(query.columnUuid),
-    // },
     orderBy: {
       createdAt: 'desc',
     },
@@ -23,16 +20,18 @@ export default defineEventHandler(async (event): Promise<Paginator<FlUserShort>>
     },
     skip: page * perPage,
     take: perPage,
-  }) as FlUserShort[]
+  })
+
+  const formattedDate = data.map(user => ({
+    ...user,
+    createdAt: String(user.createdAt),
+  })) as FlUserShort[]
 
   const total = await prisma.user.count({
-    // where: {
-    //   columnUuid: String(query.columnUuid),
-    // },
   })
 
   return {
-    data,
+    data: formattedDate,
     total,
     page,
     totalPages: Math.ceil(total / perPage),

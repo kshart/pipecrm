@@ -26,7 +26,7 @@ export default defineNuxtConfig({
       endpoint: process.env.S3_ENDPOINT,
       accessKeyId: process.env.S3_ACCESS_KEY_ID,
       secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    }
+    },
   },
   build: {
     analyze: true,
@@ -34,6 +34,13 @@ export default defineNuxtConfig({
       'vuetify',
       'v-phone-input',
     ],
+  },
+  routeRules: {
+    '/**': {
+      headers: {
+        'Accept-CH': 'DPR, Width, Viewport-Width',
+      },
+    },
   },
   compatibilityDate: '2024-04-03',
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { FlCardHistoryDefault, FlCardHistoryField } from '#components'
+import { FlCardHistoryDefault, FlCardHistoryField, FlCardHistoryMessage } from '#components'
 import type { VInfiniteScroll } from 'vuetify/components'
 import type { ReadResultRecord } from '@@/server/utils/useCardLogger'
 
@@ -14,6 +14,7 @@ let timeStopISO: string | undefined
 let historyFirstTimeISO: string | undefined
 let historyLastTimeISO: string | undefined
 const historyRecords = shallowRef<ReadResultRecord[]>([])
+const authors = ref(new Map<string, FlUserShort>())
 
 watch(() => props.cardUuid, () => {
   timeStopISO = undefined
@@ -40,6 +41,11 @@ interface HistoryRecordItem {
 interface HistoryRecordGroup {
   groupId: string
   groupTitle: string
+  subGroups: HistoryRecordSubGroup[]
+}
+
+interface HistoryRecordSubGroup {
+  user: FlUserShort
   records: HistoryRecordItem[]
 }
 
@@ -72,19 +78,40 @@ const historyFormatted = computed<HistoryRecordGroup[]>(() => {
     const timeFormatted = timeFormatter.format(time)
     const groupId = groupIdFormatter.format(time)
     const groupTitle = groupTitleFormatter.format(time)
+    const isCardMessage = record.message !== undefined
 
     let group = result.get(groupId)
     if (!group) {
       group = {
         groupId,
         groupTitle,
-        records: [],
+        subGroups: [],
       }
       result.set(groupId, group)
     }
 
-    if (fieldConfig) {
-      group.records.push({
+    if (group?.subGroups[0]?.user?.id !== record.authorId) {
+      group?.subGroups.unshift({
+        user: authors.value.get(record.authorId),
+        records: [],
+      })
+    }
+
+    const subGroups = group?.subGroups[0]
+
+    let newRecord = undefined
+
+    if (isCardMessage) {
+      newRecord = {
+        component: FlCardHistoryMessage,
+        props: {
+          record,
+          time,
+          timeFormatted,
+        },
+      }
+    } else if (fieldConfig) {
+      newRecord = {
         component: FlCardHistoryField,
         props: {
           fieldConfig,
@@ -92,19 +119,20 @@ const historyFormatted = computed<HistoryRecordGroup[]>(() => {
           time,
           timeFormatted,
         },
-      })
-      continue
+      }
+    } else {
+      newRecord = {
+        component: FlCardHistoryDefault,
+        props: {
+          propName: record.field,
+          value: record.value,
+          time,
+          timeFormatted,
+        },
+      }
     }
 
-    group.records.push({
-      component: FlCardHistoryDefault,
-      props: {
-        propName: record.field,
-        value: record.value,
-        time,
-        timeFormatted,
-      },
-    })
+    subGroups.records.push(newRecord)
   }
 
   return Array.from(result.values())
@@ -128,6 +156,10 @@ async function loadRecords({ done }: Parameters<NonNullable<VInfiniteScroll['onL
       timeStop: timeStopISO,
     },
   })
+
+  for (const author of result.authors) {
+    authors.value.set(author.id, author)
+  }
 
   if (result.data.length) {
     historyRecords.value = historyRecords.value.concat(result.data)
@@ -161,6 +193,10 @@ async function pullRecords() {
     },
   })
 
+  for (const author of result.authors) {
+    authors.value.set(author.id, author)
+  }
+
   if (result.data.length) {
     historyRecords.value = result.data.concat(historyRecords.value)
   }
@@ -179,7 +215,10 @@ async function pullRecords() {
   }
 }
 
-const events = computed(() => ['card:u:' + props.cardUuid])
+const events = computed(() => [
+  'card:u:' + props.cardUuid,
+  'card:m:' + props.cardUuid,
+])
 useSocketSubscribe(events, () => pullRecords())
 </script>
 
@@ -192,20 +231,43 @@ useSocketSubscribe(events, () => pullRecords())
   >
     <div class="history-records">
       <div
-        v-for="{ groupId, groupTitle, records } of historyFormatted"
+        v-for="{ groupId, groupTitle, subGroups } of historyFormatted"
         :key="groupId"
-        class="history-records-group"
+        class="history-group"
       >
-        <component
-          :is="historyRecord.component"
-          v-for="(historyRecord, key) of records"
-          :key="key"
-          v-bind="historyRecord.props"
-          :funnel="funnel"
-        />
-        <div class="history-records-group__title">
+        <div class="history-subgroup-records__title">
           <div class="title-badge">
             {{ groupTitle }}
+          </div>
+        </div>
+        <div
+          v-for="{ user, records }, key of subGroups"
+          :key="key"
+          class="history-subgroup"
+        >
+          <div
+            class="history-subgroup-prepend"
+            :title="user.id"
+          >
+            <v-avatar
+              v-if="user"
+              size="24"
+            >
+              <v-img
+                :alt="user.name || undefined"
+                :src="user.image || undefined"
+              />
+            </v-avatar>
+          </div>
+
+          <div class="history-subgroup-records">
+            <component
+              :is="historyRecord.component"
+              v-for="(historyRecord, historyRecordKey) of records"
+              :key="historyRecordKey"
+              v-bind="historyRecord.props"
+              :funnel="funnel"
+            />
           </div>
         </div>
       </div>
@@ -221,11 +283,27 @@ useSocketSubscribe(events, () => pullRecords())
   display: flex;
   flex-direction: column-reverse;
 }
-.history-records-group {
+
+.history-group {
+
+}
+
+.history-subgroup {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.history-subgroup-prepend {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+}
+.history-subgroup-records {
   display: flex;
   flex-direction: column-reverse;
+  gap: 5px;
 }
-.history-records-group__title {
+.history-subgroup-records__title {
   position: sticky;
   top: 0;
   font-size: 12px;

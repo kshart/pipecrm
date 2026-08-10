@@ -41,11 +41,9 @@ defineExpose({ save })
       v-model="model.ownerId"
       :user="model.owner"
     />
-    <ClientOnly>
-      <DataGroupViewer
-        :funnel="funnel"
-        :card="model"
-      />
-    </ClientOnly>
+    <DataGroupViewer
+      :funnel="funnel"
+      :card="model"
+    />
   </div>
 </template>

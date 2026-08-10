@@ -56,7 +56,7 @@ export function groupableGet<ArgT, AccumT, ModelT, FetchResultT>(
 export function groupablePost<ArgT, AccumT, ModelT, FetchResultT>(
   url: string,
   requestsReduce: (accumulator: AccumT | null, arg: ArgT) => AccumT,
-  argumentsToBody: (accumulator: AccumT) => any,
+  argumentsToBody: (accumulator: AccumT) => object,
   returnModels: (data: FetchResultT, arg: ArgT) => ModelT[],
   timeout = 100
 ) {
