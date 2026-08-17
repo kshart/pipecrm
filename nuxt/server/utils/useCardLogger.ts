@@ -160,9 +160,6 @@ export function useCardLogger() {
         // writeApi.close()
       } catch (e) {
         console.error(e)
-        if (e instanceof HttpError && e.statusCode === 401) {
-          console.log('Run ./onboarding.js to setup a new InfluxDB database.')
-        }
       }
     },
   }

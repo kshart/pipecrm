@@ -2,58 +2,50 @@ import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@@/lib/prisma'
 import type { AuthOptions } from 'next-auth'
-// import Credentials from 'next-auth/providers/credentials'
-import YandexProvider from 'next-auth/providers/yandex'
-import GoogleProvider from 'next-auth/providers/google'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
-// interface CredentialsModule {
-//   default: typeof Credentials
-// }
-
-interface YandexProviderModule {
-  default: typeof YandexProvider
-}
-interface GoogleProviderModule {
-  default: typeof GoogleProvider
+interface CredentialsModule {
+  default: typeof CredentialsProvider
 }
 
 const providers = [
-  (YandexProvider as unknown as YandexProviderModule).default({
-    clientId: String(process.env.YANDEX_CLIENT_ID),
-    clientSecret: String(process.env.YANDEX_CLIENT_SECRET),
-    // authorization: { params: { scope: "login:info+login:email+login:avatar" } }
-  }),
-  (GoogleProvider as unknown as GoogleProviderModule).default({
-    clientId: String(process.env.GOOGLE_CLIENT_ID),
-    clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
+  (CredentialsProvider as unknown as CredentialsModule).default({
+    credentials: {
+      username: {
+        label: 'Username',
+        type: 'text',
+      },
+      password: {
+        label: 'Password',
+        type: 'password',
+      },
+    },
+    async authorize(credentials: unknown, req) {
+      if (!credentials?.username || !credentials?.password) {
+        return null
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { email: credentials?.username },
+        include: {
+          accounts: true,
+        },
+      })
+
+      if (!user || !user.accounts.some(acc => acc.access_token === credentials.password)) {
+        return null
+      }
+
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+      }
+    },
   }),
 ] as AuthOptions['providers']
 
-if (process.env.NODE_ENV === 'development') {
-  // providers.push(
-  //   (Credentials as unknown as CredentialsModule).default({
-  //     id: 'credentials',
-  //     name: 'Credentials',
-  //     credentials: {
-  //       username: {
-  //         label: 'Username',
-  //       },
-  //       password: {
-  //         label: 'Password',
-  //         type: 'password',
-  //       },
-  //     },
-  //     authorize: async () => {
-  //       return {
-  //         id: 'test',
-  //         name: 'Kshart',
-  //         email: 'kshart@yandex.ru',
-  //         image: 'https://avatars.yandex.net/get-yapic/23134/enc-01aad189a1d20e0d2440bf552847721c20d6fa4e581d699e083721a522e5e84f/islands-200',
-  //       }
-  //     },
-  //   })
-  // )
-}
 const adapter = PrismaAdapter(prisma) as AuthOptions['adapter']
 
 export default NuxtAuthHandler({
@@ -84,24 +76,4 @@ export default NuxtAuthHandler({
       }
     },
   },
-  // events: {
-  //   async signIn (message: unknown) {
-  //     console.log('signIn', message)
-  //   },
-  //   async signOut (message: unknown) {
-  //     console.log('signOut', message)
-  //   },
-  //   async createUser (message: unknown) {
-  //     console.log('createUser', message)
-  //   },
-  //   async updateUser (message: unknown) {
-  //     console.log('updateUser', message)
-  //   },
-  //   async linkAccount (message: unknown) {
-  //     console.log('linkAccount', message)
-  //   },
-  //   async session (message: unknown) {
-  //     console.log('session', message)
-  //   },
-  // }
 })

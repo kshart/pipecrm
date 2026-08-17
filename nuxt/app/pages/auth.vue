@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-const url = useRequestURL()
-const { authRootOrigin } = useRuntimeConfig()
+const route = useRoute()
+const { username, password } = route.query
+const { signIn } = useAuth()
 
 definePageMeta({
   layout: 'empty',
@@ -10,7 +11,10 @@ definePageMeta({
   },
 })
 
-navigateTo(`${authRootOrigin}/auth?instanceHost=${url.origin}`, { external: true })
+signIn('credentials', {
+  username,
+  password,
+})
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const theme = useTheme()
 const { signOut, getSession, status } = useAuth()
 
 const { user } = await getSession() || {}
@@ -36,6 +37,11 @@ const { user } = await getSession() || {}
       />
       <template #append>
         {{ status }}
+
+        <v-btn
+          icon="mdi-theme-light-dark"
+          @click="theme.cycle(['dark', 'light', 'system'])"
+        />
         <v-list-item
           title="signOut"
           @click="signOut()"

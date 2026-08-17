@@ -9,11 +9,13 @@ export default defineNuxtConfig({
     '@/plugins/VPhoneInput',
   ],
   devtools: { enabled: true },
+  css: ['@/assets/scss/main.scss'],
   runtimeConfig: {
-    authSecret: '123',
+    authSecret: process.env.AUTH_SECRET,
+    authRootOrigin: process.env.AUTH_ROOT_ORIGIN,
     redis: {
-      host: '127.0.0.1',
-      port: 6379,
+      host: process.env.REDIS_DB_HOST,
+      port: Number(process.env.REDIS_DB_PORT),
     },
     influxDB: {
       url: process.env.INFLUX_DB_URL,
@@ -35,13 +37,6 @@ export default defineNuxtConfig({
       'v-phone-input',
     ],
   },
-  routeRules: {
-    '/**': {
-      headers: {
-        'Accept-CH': 'DPR, Width, Viewport-Width',
-      },
-    },
-  },
   compatibilityDate: '2024-04-03',
 
   nitro: {
@@ -50,6 +45,9 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    server: {
+      allowedHosts: ['pipecrm.ru', '.pipecrm.ru'],
+    },
     build: {
       rollupOptions: {
         output: {
@@ -104,6 +102,36 @@ export default defineNuxtConfig({
       },
       theme: {
         defaultTheme: 'dark',
+        themes: {
+          light: {
+            dark: false,
+            colors: {
+              primary: '#FF5300',
+              secondary: '#4e4746',
+
+              background: '#fff',
+              surface: '#efeae8',
+              success: '#00AB6F',
+              warning: '#FF9700',
+              error: '#f00',
+              info: '#6ba2fd',
+            },
+          },
+          dark: {
+            dark: true,
+            colors: {
+              primary: '#FF5300',
+              secondary: '#bab3b3',
+
+              background: '#131010',
+              surface: '#2c2827',
+              success: '#00AB6F',
+              warning: '#FF9700',
+              error: '#f00',
+              info: '#6ba2fd',
+            },
+          },
+        },
       },
       icons: {
         defaultSet: 'mdi',
